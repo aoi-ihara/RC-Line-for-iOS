@@ -1,0 +1,179 @@
+"camera_access_denied" = "No se permite el acceso a la cámara.";
+"from_clipboard" = "Desde el portapapeles";
+"clipboard_is_empty" = "El portapapeles está vacío";
+"close" = "Cerrar";
+"from_camera_roll" = "Desde Fotos";
+"settings" = "Ajustes";
+"highlight" = "Resaltar";
+"fonts" = "Fuentes";
+"colors" = "Colores";
+"features" = "Funciones";
+"advanced_features" = "Avanzado";
+"info" = "Información";
+"summarize" = "Resumir";
+"summarize_explanation" = "Muestra un resumen en la parte superior.";
+"word_separation" = "Separación de palabras (japonés)";
+"word_separation_explanation" = "Inserta espacios entre palabras.";
+"separator" = "Separador";
+"half_width_space" = "Espacio de medio ancho";
+"full_width_space" = "Espacio de ancho completo";
+
+"slash" = "Barra";
+"hyphen" = "Guión";
+"space_slash" = "Espacio + barra";
+"space_hyphen" = "Espacio + guión";
+"unit" = "Unidad";
+"word" = "Palabra";
+"phrase" = "Frase";
+"font_family_reading" = "Familia de fuente";
+"system_sans" = "Sistema - Sans";
+"system_serif" = "Sistema - Serif";
+"weight" = "Grosor";
+"ultra_light" = "Ultraligera";
+"thin" = "Fina";
+"light" = "Ligera";
+"regular" = "Regular";
+"medium" = "Media";
+"semibold" = "Seminegrita";
+"bold" = "Negrita";
+"heavy" = "Gruesa";
+"black" = "Negra";
+
+"font_size" = "Tamaño de fuente";
+"line_width" = "Ancho de línea";
+"line_spacing" = "Espaciado entre líneas";
+"section_spacing" = "Espaciado entre secciones";
+"letter_spacing" = "Espaciado entre letras";
+"background_opacity" = "Opacidad del fondo";
+"border_opacity" = "Opacidad del borde";
+"fade_distance" = "Distancia de desvanecimiento";
+
+"animations" = "Animaciones";
+"scale_effect" = "Efecto de escala";
+"background_color" = "Fondo";
+"text_color" = "Texto";
+"highlight_color" = "Resaltado";
+"haptics" = "Hápticos";
+"haptic_feedback" = "Respuesta háptica";
+"preferred_camera" = "Cámara preferida";
+"rear" = "Trasera";
+"front" = "Frontal";
+"high_precision" = "Alta precisión";
+"high_speed" = "Rápido";
+"ocr_accuracy" = "Precisión del OCR";
+"speed_mode_not_japanese" = "El modo de alta velocidad no admite japonés.";
+"save_to_photos" = "Guardar en Fotos";
+"add_captured_image" = "Guarda las imágenes capturadas en Fotos.";
+"load_image" = "Cargar imagen";
+"reader" = "Lector";
+"auto_scroll" = "Desplazamiento automático";
+"scroll_to_highlight" = "Se desplaza automáticamente a la línea resaltada.";
+"line_break" = "Salto de línea";
+"section" = "Sección";
+"split_by_symbol" = "Divide el texto en secciones usando el símbolo seleccionado.";
+"show_tutorial" = "Mostrar tutorial";
+"version_info" = "Versión";
+"links" = "Enlaces";
+
+"swipe_left_to_camera" = "Desliza hacia la izquierda para abrir la cámara";
+
+"stop_speaking" = "Detener lectura";
+"start_speaking" = "Iniciar lectura";
+
+"generating_explanation" = "Generando explicación…";
+
+"enable_apple_intelligence" = "Por favor, activa Apple Intelligence en Ajustes.";
+"device_not_supported" = "Este dispositivo no es compatible con Apple Intelligence.";
+"model_initializing" = "Preparando el modelo. Por favor, inténtalo de nuevo en breve.";
+"model_unavailable" = "Modelo no disponible: ";
+
+"unknown_error" = "Error desconocido";
+
+"generating_summary" = "Generando resumen…";
+
+"read_aloud_feature" = "Leer en voz alta";
+"pause_duration" = "Pausa entre oraciones";
+"language" = "Idioma";
+
+"camera_not_allowed" = "Acceso a la cámara denegado";
+"camera_not_allowed_message" = "Permite el acceso a la cámara para extraer texto de las fotos.";
+"open_settings" = "Abrir Ajustes";
+
+"close_sidebar" = "Cerrar barra lateral";
+"prompt" = "Indicación";
+"explanation" = "Explicación";
+
+// VoiceOver
+"pasted_from_clipboard" = "Texto pegado desde el portapapeles";
+"photo_picker_opened" = "Selector de fotos abierto";
+"image_selected" = "Imagen seleccionada";
+"image_processing_complete" = "Procesamiento de imagen completado";
+"settings_opened" = "Ajustes abiertos";
+"close_settings" = "Cerrar ajustes";
+"paste_text_from_clipboard" = "Pegar texto desde el portapapeles";
+"select_image_from_library" = "Seleccionar imagen de la biblioteca";
+
+"summarize_enabled" = "Resumen activado";
+"summarize_disabled" = "Resumen desactivado";
+"word_separation_enabled" = "Separación de palabras activada";
+"word_separation_disabled" = "Separación de palabras desactivada";
+
+"opens_tutorial" = "Abre el tutorial";
+"tutorial_opened" = "Tutorial abierto";
+"tutorial_closed" = "Tutorial cerrado";
+
+"open_sidebar" = "Abrir barra lateral";
+"open_camera" = "Abrir cámara";
+
+"welcome_view_0_title" = "Bienvenido a RC Line";
+"welcome_view_0_explanation" = "Una nueva forma de leer.";
+"welcome_view_1_title" = "Abre la cámara";
+"welcome_view_1_explanation" = "Desliza hacia la izquierda en la pantalla.";
+"welcome_view_2_title" = "Resalta la línea tocada";
+"welcome_view_2_explanation" = "Toca el lado izquierdo de la pantalla.";
+"welcome_view_3_title" = "Mueve el resaltado";
+"welcome_view_3_explanation" = "Toca el lado derecho de la pantalla.";
+"welcome_view_3.5_title" = "Ver todo el texto";
+"welcome_view_3.5_explanation" = "Desplaza la pantalla.";
+"welcome_view_3.5_media_explanation" = "Desplázate para ver todo el texto.";
+"welcome_view_4_title" = "Parpadea para mover";
+"welcome_view_4_explanation" = "Parpadea para mover el resaltado hacia abajo.";
+"welcome_view_5_title" = "Más funciones";
+"welcome_view_5_explanation" = "Desliza hacia la derecha para acceder.";
+"welcome_view_6_title" = "Personaliza";
+"welcome_view_6_explanation" = "Ajusta tu entorno de lectura en Ajustes.";
+
+"continue" = "Continuar";
+"back" = "Atrás";
+"done" = "Listo";
+
+"blink_to_move_row" = "Parpadear para mover línea";
+"blink_to_move_row_explanation" = "Avanza a la siguiente línea parpadeando.";
+"blink_to_move_row_enabled" = "Detección de parpadeo activada";
+"blink_to_move_row_disabled" = "Detección de parpadeo desactivada";
+
+"welcome_view_0_media_explanation" = "RC Line te ayuda a leer dividiendo el texto en secciones y resaltando una línea a la vez.";
+"welcome_view_1_media_explanation" = "Toma una foto del texto con la cámara, y el texto se extraerá y mostrará.";
+"welcome_view_2_media_explanation" = "Toca el borde izquierdo de la pantalla para resaltar una línea.";
+"welcome_view_3_media_explanation" = "Toca el lado derecho de la pantalla para mover la línea resaltada uno a uno.";
+"welcome_view_5_media_explanation" = "Desliza hacia la derecha para abrir el menú, donde puedes pegar desde el portapapeles, cargar desde Fotos o abrir Ajustes.";
+"welcome_view_6_media_explanation" = "Puedes ajustar el tamaño de fuente, color de fondo, color de resaltado, estilo de fuente y espaciado entre líneas.";
+
+"stop_eye_tracking" = "Detener parpadeo para mover";
+"start_eye_tracking" = "Parpadear para mover";
+
+"welcome_view_4.5_explanation" = "Mantén presionada una línea y luego selecciona Leer en voz alta.";
+"welcome_view_4.5_media_explanation" = "Mantener presionada una línea abre un menú. Seleccionar Leer en voz alta inicia la reproducción de voz, y aparece un botón de detener en la parte inferior de la pantalla. VoiceOver no es compatible.";
+
+"not_supported" = "Este dispositivo no es compatible con esta función.";
+
+"appearance" = "Apariencia";
+"theme" = "Tema";
+"auto" = "Automático";
+"theme_light" = "Claro";
+"dark" = "Oscuro";
+
+"light_mode" = "Modo claro";
+"dark_mode" = "Modo oscuro";
+
+"do_not_show_again" = "No volver a mostrar";

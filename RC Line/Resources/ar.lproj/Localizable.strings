@@ -1,0 +1,179 @@
+"camera_access_denied" = "الوصول إلى الكاميرا غير مسموح به.";
+"from_clipboard" = "من الحافظة";
+"clipboard_is_empty" = "الحافظة فارغة";
+"close" = "إغلاق";
+"from_camera_roll" = "من الصور";
+"settings" = "الإعدادات";
+"highlight" = "تمييز";
+"fonts" = "الخطوط";
+"colors" = "الألوان";
+"features" = "الميزات";
+"advanced_features" = "متقدم";
+"info" = "معلومات";
+"summarize" = "تلخيص";
+"summarize_explanation" = "يعرض ملخصاً في الأعلى.";
+"word_separation" = "فصل الكلمات (ياباني)";
+"word_separation_explanation" = "يدرج مسافات بين الكلمات.";
+"separator" = "الفاصل";
+"half_width_space" = "مسافة نصف عرض";
+"full_width_space" = "مسافة عرض كامل";
+
+"slash" = "شرطة مائلة";
+"hyphen" = "شرطة";
+"space_slash" = "مسافة + شرطة مائلة";
+"space_hyphen" = "مسافة + شرطة";
+"unit" = "وحدة";
+"word" = "كلمة";
+"phrase" = "عبارة";
+"font_family_reading" = "عائلة الخط";
+"system_sans" = "النظام - بدون سيريف";
+"system_serif" = "النظام - سيريف";
+"weight" = "الوزن";
+"ultra_light" = "خفيف جداً";
+"thin" = "رفيع";
+"light" = "خفيف";
+"regular" = "عادي";
+"medium" = "متوسط";
+"semibold" = "نصف عريض";
+"bold" = "عريض";
+"heavy" = "ثقيل";
+"black" = "أسود";
+
+"font_size" = "حجم الخط";
+"line_width" = "عرض السطر";
+"line_spacing" = "تباعد الأسطر";
+"section_spacing" = "تباعد الأقسام";
+"letter_spacing" = "تباعد الأحرف";
+"background_opacity" = "شفافية الخلفية";
+"border_opacity" = "شفافية الحدود";
+"fade_distance" = "مسافة التلاشي";
+
+"animations" = "الرسوم المتحركة";
+"scale_effect" = "تأثير التحجيم";
+"background_color" = "الخلفية";
+"text_color" = "النص";
+"highlight_color" = "التمييز";
+"haptics" = "اللمس الحسي";
+"haptic_feedback" = "ملاحظات لمسية";
+"preferred_camera" = "الكاميرا المفضلة";
+"rear" = "خلفية";
+"front" = "أمامية";
+"high_precision" = "دقة عالية";
+"high_speed" = "سريع";
+"ocr_accuracy" = "دقة OCR";
+"speed_mode_not_japanese" = "الوضع السريع لا يدعم اللغة اليابانية.";
+"save_to_photos" = "حفظ في الصور";
+"add_captured_image" = "حفظ الصور الملتقطة في الصور.";
+"load_image" = "تحميل صورة";
+"reader" = "القارئ";
+"auto_scroll" = "التمرير التلقائي";
+"scroll_to_highlight" = "يتمرر تلقائياً إلى السطر المميز.";
+"line_break" = "فاصل الأسطر";
+"section" = "قسم";
+"split_by_symbol" = "يقسم النص إلى أقسام باستخدام الرمز المحدد.";
+"show_tutorial" = "عرض البرنامج التعليمي";
+"version_info" = "الإصدار";
+"links" = "الروابط";
+
+"swipe_left_to_camera" = "اسحب لليمين لفتح الكاميرا";
+
+"stop_speaking" = "إيقاف القراءة";
+"start_speaking" = "بدء القراءة";
+
+"generating_explanation" = "جاري إنشاء الشرح…";
+
+"enable_apple_intelligence" = "يرجى تفعيل Apple Intelligence في الإعدادات.";
+"device_not_supported" = "هذا الجهاز لا يدعم Apple Intelligence.";
+"model_initializing" = "جاري تحضير النموذج. يرجى المحاولة مرة أخرى قريباً.";
+"model_unavailable" = "النموذج غير متاح: ";
+
+"unknown_error" = "خطأ غير معروف";
+
+"generating_summary" = "جاري إنشاء الملخص…";
+
+"read_aloud_feature" = "القراءة بصوت عالٍ";
+"pause_duration" = "المدة بين الجمل";
+"language" = "اللغة";
+
+"camera_not_allowed" = "تم رفض الوصول إلى الكاميرا";
+"camera_not_allowed_message" = "السماح بالوصول إلى الكاميرا لاستخراج النص من الصور.";
+"open_settings" = "فتح الإعدادات";
+
+"close_sidebar" = "إغلاق الشريط الجانبي";
+"prompt" = "الأمر";
+"explanation" = "الشرح";
+
+// VoiceOver
+"pasted_from_clipboard" = "تم لصق النص من الحافظة";
+"photo_picker_opened" = "تم فتح منتقي الصور";
+"image_selected" = "تم تحديد الصورة";
+"image_processing_complete" = "اكتملت معالجة الصورة";
+"settings_opened" = "تم فتح الإعدادات";
+"close_settings" = "إغلاق الإعدادات";
+"paste_text_from_clipboard" = "لصق النص من الحافظة";
+"select_image_from_library" = "تحديد صورة من المكتبة";
+
+"summarize_enabled" = "تم تفعيل التلخيص";
+"summarize_disabled" = "تم تعطيل التلخيص";
+"word_separation_enabled" = "تم تفعيل فصل الكلمات";
+"word_separation_disabled" = "تم تعطيل فصل الكلمات";
+
+"opens_tutorial" = "يفتح البرنامج التعليمي";
+"tutorial_opened" = "تم فتح البرنامج التعليمي";
+"tutorial_closed" = "تم إغلاق البرنامج التعليمي";
+
+"open_sidebar" = "فتح الشريط الجانبي";
+"open_camera" = "فتح الكاميرا";
+
+"welcome_view_0_title" = "مرحباً بك في RC Line";
+"welcome_view_0_explanation" = "طريقة جديدة للقراءة.";
+"welcome_view_1_title" = "افتح الكاميرا";
+"welcome_view_1_explanation" = "اسحب لليسار على الشاشة.";
+"welcome_view_2_title" = "ميّز السطر المنقور";
+"welcome_view_2_explanation" = "انقر على الجانب الأيمن من الشاشة.";
+"welcome_view_3_title" = "حرّك التمييز";
+"welcome_view_3_explanation" = "انقر على الجانب الأيسر من الشاشة.";
+"welcome_view_3.5_title" = "اعرض كل النص";
+"welcome_view_3.5_explanation" = "قم بالتمرير على الشاشة.";
+"welcome_view_3.5_media_explanation" = "قم بالتمرير لعرض النص بالكامل.";
+"welcome_view_4_title" = "ارمش للتحرك";
+"welcome_view_4_explanation" = "ارمش لتحريك التمييز للأسفل.";
+"welcome_view_5_title" = "المزيد من الميزات";
+"welcome_view_5_explanation" = "اسحب لليسار للوصول.";
+"welcome_view_6_title" = "التخصيص";
+"welcome_view_6_explanation" = "اضبط بيئة القراءة الخاصة بك في الإعدادات.";
+
+"continue" = "متابعة";
+"back" = "رجوع";
+"done" = "تم";
+
+"blink_to_move_row" = "الرمش لتحريك السطر";
+"blink_to_move_row_explanation" = "انتقل إلى السطر التالي بالرمش.";
+"blink_to_move_row_enabled" = "تم تفعيل كشف الرمش";
+"blink_to_move_row_disabled" = "تم تعطيل كشف الرمش";
+
+"welcome_view_0_media_explanation" = "يساعدك RC Line على القراءة من خلال تقسيم النص إلى أقسام وتمييز سطر واحد في كل مرة.";
+"welcome_view_1_media_explanation" = "التقط صورة للنص بالكاميرا، وسيتم استخراج النص وعرضه.";
+"welcome_view_2_media_explanation" = "انقر على الحافة اليمنى للشاشة لتمييز سطر.";
+"welcome_view_3_media_explanation" = "انقر على الجانب الأيسر من الشاشة لتحريك السطر المميز بمقدار واحد.";
+"welcome_view_5_media_explanation" = "اسحب لليسار لفتح القائمة، حيث يمكنك اللصق من الحافظة أو التحميل من الصور أو فتح الإعدادات.";
+"welcome_view_6_media_explanation" = "يمكنك ضبط حجم الخط ولون الخلفية ولون التمييز ونمط الخط وتباعد الأسطر.";
+
+"stop_eye_tracking" = "إيقاف الرمش للتحرك";
+"start_eye_tracking" = "الرمش للتحرك";
+
+"welcome_view_4.5_explanation" = "المس سطراً واستمر، ثم اختر القراءة بصوت عالٍ.";
+"welcome_view_4.5_media_explanation" = "اللمس المستمر لسطر يفتح قائمة. اختيار القراءة بصوت عالٍ يبدأ التشغيل الصوتي، ويظهر زر الإيقاف في أسفل الشاشة. VoiceOver غير مدعوم.";
+
+"not_supported" = "هذا الجهاز لا يدعم هذه الميزة.";
+
+"appearance" = "المظهر";
+"theme" = "السمة";
+"auto" = "تلقائي";
+"theme_light" = "فاتح";
+"dark" = "داكن";
+
+"light_mode" = "الوضع الفاتح";
+"dark_mode" = "الوضع الداكن";
+
+"do_not_show_again" = "لا تُعرض مرة أخرى";

@@ -1,0 +1,179 @@
+"camera_access_denied" = "不允許存取相機。";
+"from_clipboard" = "從剪貼簿";
+"clipboard_is_empty" = "剪貼簿是空的";
+"close" = "關閉";
+"from_camera_roll" = "從相片";
+"settings" = "設定";
+"highlight" = "醒目提示";
+"fonts" = "字型";
+"colors" = "顏色";
+"features" = "功能";
+"advanced_features" = "進階";
+"info" = "資訊";
+"summarize" = "摘要";
+"summarize_explanation" = "在頂部顯示摘要。";
+"word_separation" = "分詞（日文）";
+"word_separation_explanation" = "在單詞之間插入空格。";
+"separator" = "分隔符";
+"half_width_space" = "半形空格";
+"full_width_space" = "全形空格";
+
+"slash" = "斜線";
+"hyphen" = "連字號";
+"space_slash" = "空格 + 斜線";
+"space_hyphen" = "空格 + 連字號";
+"unit" = "單位";
+"word" = "單詞";
+"phrase" = "詞組";
+"font_family_reading" = "字型系列";
+"system_sans" = "系統 - 黑體";
+"system_serif" = "系統 - 明體";
+"weight" = "粗幼";
+"ultra_light" = "超幼";
+"thin" = "極幼";
+"light" = "幼";
+"regular" = "標準";
+"medium" = "中";
+"semibold" = "半粗";
+"bold" = "粗體";
+"heavy" = "特粗";
+"black" = "超粗";
+
+"font_size" = "字型大小";
+"line_width" = "行寬";
+"line_spacing" = "行距";
+"section_spacing" = "段落間距";
+"letter_spacing" = "字距";
+"background_opacity" = "背景不透明度";
+"border_opacity" = "邊框不透明度";
+"fade_distance" = "淡出距離";
+
+"animations" = "動畫";
+"scale_effect" = "縮放效果";
+"background_color" = "背景";
+"text_color" = "文字";
+"highlight_color" = "醒目提示";
+"haptics" = "觸覺回饋";
+"haptic_feedback" = "觸覺回饋";
+"preferred_camera" = "偏好相機";
+"rear" = "後置";
+"front" = "前置";
+"high_precision" = "高準確度";
+"high_speed" = "快速";
+"ocr_accuracy" = "OCR 準確度";
+"speed_mode_not_japanese" = "高速模式不支援日文。";
+"save_to_photos" = "儲存到相片";
+"add_captured_image" = "將拍攝的圖像儲存到相片。";
+"load_image" = "載入圖像";
+"reader" = "閱讀器";
+"auto_scroll" = "自動捲動";
+"scroll_to_highlight" = "自動捲動到醒目提示的行。";
+"line_break" = "換行";
+"section" = "段落";
+"split_by_symbol" = "使用所選符號將文字分割成段落。";
+"show_tutorial" = "顯示教學";
+"version_info" = "版本";
+"links" = "連結";
+
+"swipe_left_to_camera" = "向左掃開啟相機";
+
+"stop_speaking" = "停止朗讀";
+"start_speaking" = "開始朗讀";
+
+"generating_explanation" = "正在生成說明…";
+
+"enable_apple_intelligence" = "請在「設定」中啟用 Apple Intelligence。";
+"device_not_supported" = "此裝置不支援 Apple Intelligence。";
+"model_initializing" = "正在準備模型。請稍後再試。";
+"model_unavailable" = "模型無法使用：";
+
+"unknown_error" = "未知錯誤";
+
+"generating_summary" = "正在生成摘要…";
+
+"read_aloud_feature" = "朗讀";
+"pause_duration" = "句子之間的停頓";
+"language" = "語言";
+
+"camera_not_allowed" = "拒絕存取相機";
+"camera_not_allowed_message" = "請允許存取相機以從相片中提取文字。";
+"open_settings" = "開啟設定";
+
+"close_sidebar" = "關閉側邊欄";
+"prompt" = "提示";
+"explanation" = "說明";
+
+// VoiceOver
+"pasted_from_clipboard" = "已從剪貼簿貼上文字";
+"photo_picker_opened" = "已開啟相片選擇器";
+"image_selected" = "已選擇圖像";
+"image_processing_complete" = "圖像處理完成";
+"settings_opened" = "已開啟設定";
+"close_settings" = "關閉設定";
+"paste_text_from_clipboard" = "從剪貼簿貼上文字";
+"select_image_from_library" = "從圖庫中選擇圖像";
+
+"summarize_enabled" = "已啟用摘要";
+"summarize_disabled" = "已停用摘要";
+"word_separation_enabled" = "已啟用分詞";
+"word_separation_disabled" = "已停用分詞";
+
+"opens_tutorial" = "開啟教學";
+"tutorial_opened" = "已開啟教學";
+"tutorial_closed" = "已關閉教學";
+
+"open_sidebar" = "開啟側邊欄";
+"open_camera" = "開啟相機";
+
+"welcome_view_0_title" = "歡迎使用 RC Line";
+"welcome_view_0_explanation" = "全新的閱讀方式。";
+"welcome_view_1_title" = "開啟相機";
+"welcome_view_1_explanation" = "在螢幕上向左掃。";
+"welcome_view_2_title" = "醒目提示點按的行";
+"welcome_view_2_explanation" = "點按螢幕左側。";
+"welcome_view_3_title" = "移動醒目提示";
+"welcome_view_3_explanation" = "點按螢幕右側。";
+"welcome_view_3.5_title" = "查看所有文字";
+"welcome_view_3.5_explanation" = "捲動螢幕。";
+"welcome_view_3.5_media_explanation" = "捲動以查看整個文字。";
+"welcome_view_4_title" = "眨眼移動";
+"welcome_view_4_explanation" = "眨眼以向下移動醒目提示。";
+"welcome_view_5_title" = "更多功能";
+"welcome_view_5_explanation" = "向右掃以存取。";
+"welcome_view_6_title" = "個人化";
+"welcome_view_6_explanation" = "在「設定」中調整你的閱讀環境。";
+
+"continue" = "繼續";
+"back" = "返回";
+"done" = "完成";
+
+"blink_to_move_row" = "眨眼移動行";
+"blink_to_move_row_explanation" = "眨眼以前進到下一行。";
+"blink_to_move_row_enabled" = "已啟用眨眼偵測";
+"blink_to_move_row_disabled" = "已停用眨眼偵測";
+
+"welcome_view_0_media_explanation" = "RC Line 透過將文字分割成段落並一次醒目提示一行來幫助你閱讀。";
+"welcome_view_1_media_explanation" = "使用相機拍攝文字照片，文字將被提取並顯示。";
+"welcome_view_2_media_explanation" = "點按螢幕左邊緣以醒目提示一行。";
+"welcome_view_3_media_explanation" = "點按螢幕右側以將醒目提示的行移動一個位置。";
+"welcome_view_5_media_explanation" = "向右掃開啟選單，你可以從剪貼簿貼上、從相片載入或開啟設定。";
+"welcome_view_6_media_explanation" = "你可以調整字型大小、背景顏色、醒目提示顏色、字型樣式和行距。";
+
+"start_eye_tracking" = "眨眼移動";
+"stop_eye_tracking"  = "停止眨眼移動";
+
+"welcome_view_4.5_explanation" = "長按一行並選擇朗讀。";
+"welcome_view_4.5_media_explanation" = "長按一行會顯示選單。選擇朗讀即可開始語音播放，畫面下方會顯示停止按鈕。不支援 VoiceOver。";
+
+"not_supported" = "此裝置不支援此功能。";
+
+"appearance" = "外觀";
+"theme" = "主題";
+"auto" = "自動";
+"theme_light" = "淺色";
+"dark" = "深色";
+
+"light_mode" = "淺色模式";
+"dark_mode" = "深色模式";
+
+"do_not_show_again" = "不再顯示";

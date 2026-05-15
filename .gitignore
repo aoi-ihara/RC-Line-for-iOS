@@ -8,10 +8,6 @@ xcuserdata/
 ## Obj-C/Swift specific
 *.hmap
 .DS_Store
-*.ipa
-*.dSYM.zip
-*.dSYM
-*.xcuserstate
 
 ## App packaging
 *.ipa
@@ -65,3 +61,10 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+
+# Xcode build artifacts
+DerivedData/
+build/
+
+# SPM（Xcode統合利用時）
+.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata

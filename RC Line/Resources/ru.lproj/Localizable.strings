@@ -1,0 +1,179 @@
+"camera_access_denied" = "Доступ к камере не разрешён.";
+"from_clipboard" = "Из буфера обмена";
+"clipboard_is_empty" = "Буфер обмена пуст";
+"close" = "Закрыть";
+"from_camera_roll" = "Из Фото";
+"settings" = "Настройки";
+"highlight" = "Подсветка";
+"fonts" = "Шрифты";
+"colors" = "Цвета";
+"features" = "Функции";
+"advanced_features" = "Расширенные";
+"info" = "Информация";
+"summarize" = "Краткое содержание";
+"summarize_explanation" = "Показывать краткое содержание в верхней части экрана.";
+"word_separation" = "Разделение слов (японский)";
+"word_separation_explanation" = "Вставляет пробелы между словами.";
+"separator" = "Разделитель";
+"half_width_space" = "Обычный пробел";
+"full_width_space" = "Широкий пробел";
+
+"slash" = "Слэш";
+"hyphen" = "Дефис";
+"space_slash" = "Пробел + слэш";
+"space_hyphen" = "Пробел + дефис";
+"unit" = "Единица";
+"word" = "Слово";
+"phrase" = "Фраза";
+"font_family_reading" = "Гарнитура шрифта";
+"system_sans" = "Системный — без засечек";
+"system_serif" = "Системный — с засечками";
+"weight" = "Начертание";
+"ultra_light" = "Ультратонкий";
+"thin" = "Тонкий";
+"light" = "Лёгкий";
+"regular" = "Обычный";
+"medium" = "Средний";
+"semibold" = "Полужирный";
+"bold" = "Жирный";
+"heavy" = "Очень жирный";
+"black" = "Максимально жирный";
+
+"font_size" = "Размер шрифта";
+"line_width" = "Ширина строки";
+"line_spacing" = "Межстрочный интервал";
+"section_spacing" = "Интервал между секциями";
+"letter_spacing" = "Интервал между буквами";
+"background_opacity" = "Непрозрачность фона";
+"border_opacity" = "Непрозрачность рамки";
+"fade_distance" = "Дистанция затемнения";
+
+"animations" = "Анимация";
+"scale_effect" = "Эффект увеличения";
+"background_color" = "Фон";
+"text_color" = "Текст";
+"highlight_color" = "Подсветка";
+"haptics" = "Тактильная отдача";
+"haptic_feedback" = "Тактильная отдача";
+"preferred_camera" = "Предпочитаемая камера";
+"rear" = "Задняя";
+"front" = "Фронтальная";
+"high_precision" = "Высокая точность";
+"high_speed" = "Высокая скорость";
+"ocr_accuracy" = "Точность распознавания текста";
+"speed_mode_not_japanese" = "Режим высокой скорости недоступен для японского языка.";
+"save_to_photos" = "Сохранить в Фото";
+"add_captured_image" = "Сохранять снятые изображения в Фото.";
+"load_image" = "Загрузить изображение";
+"reader" = "Ридер";
+"auto_scroll" = "Автопрокрутка";
+"scroll_to_highlight" = "Автоматически прокручивать до подсвеченной строки.";
+"line_break" = "Перенос строки";
+"section" = "Секция";
+"split_by_symbol" = "Разделять текст на секции выбранным символом.";
+"show_tutorial" = "Показать обучение";
+"version_info" = "Версия";
+"links" = "Ссылки";
+
+"swipe_left_to_camera" = "Проведите влево, чтобы открыть камеру";
+
+"stop_speaking" = "Остановить озвучку";
+"start_speaking" = "Включить озвучку";
+
+"generating_explanation" = "Создаётся описание…";
+
+"enable_apple_intelligence" = "Включите Apple Intelligence в настройках.";
+"device_not_supported" = "Это устройство не поддерживает Apple Intelligence.";
+"model_initializing" = "Идёт подготовка модели. Попробуйте ещё раз чуть позже.";
+"model_unavailable" = "Модель недоступна: ";
+
+"unknown_error" = "Неизвестная ошибка";
+
+"generating_summary" = "Создаётся краткое содержание…";
+
+"read_aloud_feature" = "Озвучка";
+"pause_duration" = "Пауза между предложениями";
+"language" = "Язык";
+
+"camera_not_allowed" = "Доступ к камере запрещён";
+"camera_not_allowed_message" = "Разрешите доступ к камере, чтобы извлекать текст из фотографий.";
+"open_settings" = "Открыть настройки";
+
+"close_sidebar" = "Закрыть боковую панель";
+"prompt" = "Запрос";
+"explanation" = "Описание";
+
+// VoiceOver
+"pasted_from_clipboard" = "Текст вставлен из буфера обмена";
+"photo_picker_opened" = "Открыт выбор Фото";
+"image_selected" = "Изображение выбрано";
+"image_processing_complete" = "Обработка изображения завершена";
+"settings_opened" = "Настройки открыты";
+"close_settings" = "Закрыть настройки";
+"paste_text_from_clipboard" = "Вставить текст из буфера обмена";
+"select_image_from_library" = "Выбрать изображение из библиотеки";
+
+"summarize_enabled" = "Краткое содержание включено";
+"summarize_disabled" = "Краткое содержание выключено";
+"word_separation_enabled" = "Разделение слов включено";
+"word_separation_disabled" = "Разделение слов выключено";
+
+"opens_tutorial" = "Открывает обучение";
+"tutorial_opened" = "Обучение открыто";
+"tutorial_closed" = "Обучение закрыто";
+
+"open_sidebar" = "Открыть боковую панель";
+"open_camera" = "Открыть камеру";
+
+"welcome_view_0_title" = "Добро пожаловать в RC Line";
+"welcome_view_0_explanation" = "Новый способ чтения.";
+"welcome_view_1_title" = "Откройте камеру";
+"welcome_view_1_explanation" = "Проведите по экрану влево.";
+"welcome_view_2_title" = "Подсветка выбранной строки";
+"welcome_view_2_explanation" = "Коснитесь левой части экрана.";
+"welcome_view_3_title" = "Перемещение подсветки";
+"welcome_view_3_explanation" = "Коснитесь правой части экрана.";
+"welcome_view_3.5_title" = "Просмотр всего текста";
+"welcome_view_3.5_explanation" = "Прокрутите экран.";
+"welcome_view_3.5_media_explanation" = "Прокрутите, чтобы увидеть весь текст.";
+"welcome_view_4_title" = "Перемещение морганием";
+"welcome_view_4_explanation" = "Моргните, чтобы опустить подсветку ниже.";
+"welcome_view_5_title" = "Дополнительные функции";
+"welcome_view_5_explanation" = "Проведите вправо для доступа.";
+"welcome_view_6_title" = "Персонализация";
+"welcome_view_6_explanation" = "Настройте окружение для чтения в разделе «Настройки».";
+
+"continue" = "Далее";
+"back" = "Назад";
+"done" = "Готово";
+
+"blink_to_move_row" = "Морганием — к следующей строке";
+"blink_to_move_row_explanation" = "Переходите к следующей строке с помощью моргания.";
+"blink_to_move_row_enabled" = "Обнаружение моргания включено";
+"blink_to_move_row_disabled" = "Обнаружение моргания выключено";
+
+"welcome_view_0_media_explanation" = "RC Line помогает читать, разбивая текст на секции и подсвечивая по одной строке.";
+"welcome_view_1_media_explanation" = "Сделайте фото текста камерой — он будет распознан и отображён.";
+"welcome_view_2_media_explanation" = "Коснитесь левого края экрана, чтобы подсветить строку.";
+"welcome_view_3_media_explanation" = "Коснитесь правой части экрана, чтобы сдвинуть подсвеченную строку на одну вниз.";
+"welcome_view_5_media_explanation" = "Проведите вправо, чтобы открыть меню: вставка из буфера, загрузка из Фото и открытие настроек.";
+"welcome_view_6_media_explanation" = "Вы можете настроить размер шрифта, цвет фона, цвет подсветки, стиль шрифта и межстрочный интервал.";
+
+"start_eye_tracking" = "Моргнуть, чтобы переместить";
+"stop_eye_tracking"  = "Остановить моргание для перемещения";
+
+"welcome_view_4.5_explanation" = "Нажмите и удерживайте строку, затем выберите Чтение вслух.";
+"welcome_view_4.5_media_explanation" = "При длительном нажатии на строку появляется меню. Выбор Чтение вслух запускает озвучивание, и внизу экрана появляется кнопка остановки. VoiceOver не поддерживается.";
+
+"not_supported" = "Это устройство не поддерживает эту функцию.";
+
+"appearance" = "Внешний вид";
+"theme" = "Тема";
+"auto" = "Автоматически";
+"theme_light" = "Светлый";
+"dark" = "Тёмный";
+
+"light_mode" = "Светлый режим";
+"dark_mode" = "Тёмный режим";
+
+"do_not_show_again" = "Больше не показывать";

@@ -1,0 +1,179 @@
+"camera_access_denied" = "कैमरा एक्सेस की अनुमति नहीं है।";
+"from_clipboard" = "क्लिपबोर्ड से";
+"clipboard_is_empty" = "क्लिपबोर्ड खाली है";
+"close" = "बंद करें";
+"from_camera_roll" = "फ़ोटो से";
+"settings" = "सेटिंग्स";
+"highlight" = "हाइलाइट";
+"fonts" = "फ़ॉन्ट";
+"colors" = "रंग";
+"features" = "फीचर्स";
+"advanced_features" = "एडवांस्ड";
+"info" = "जानकारी";
+"summarize" = "सारांश";
+"summarize_explanation" = "शीर्ष पर सारांश प्रदर्शित करता है।";
+"word_separation" = "शब्द विभाजन (जापानी)";
+"word_separation_explanation" = "शब्दों के बीच स्पेस डालता है।";
+"separator" = "विभाजक";
+"half_width_space" = "आधी चौड़ाई स्पेस";
+"full_width_space" = "पूरी चौड़ाई स्पेस";
+
+"slash" = "स्लैश";
+"hyphen" = "हाइफ़न";
+"space_slash" = "स्पेस + स्लैश";
+"space_hyphen" = "स्पेस + हाइफ़न";
+"unit" = "इकाई";
+"word" = "शब्द";
+"phrase" = "वाक्यांश";
+"font_family_reading" = "फ़ॉन्ट फ़ैमिली";
+"system_sans" = "सिस्टम - सैन्स";
+"system_serif" = "सिस्टम - सेरिफ़";
+"weight" = "वेट";
+"ultra_light" = "अल्ट्रालाइट";
+"thin" = "पतला";
+"light" = "लाइट";
+"regular" = "रेगुलर";
+"medium" = "मीडियम";
+"semibold" = "सेमीबोल्ड";
+"bold" = "बोल्ड";
+"heavy" = "हेवी";
+"black" = "ब्लैक";
+
+"font_size" = "फ़ॉन्ट साइज़";
+"line_width" = "लाइन की चौड़ाई";
+"line_spacing" = "लाइन स्पेसिंग";
+"section_spacing" = "सेक्शन स्पेसिंग";
+"letter_spacing" = "लेटर स्पेसिंग";
+"background_opacity" = "बैकग्राउंड अपारदर्शिता";
+"border_opacity" = "बॉर्डर अपारदर्शिता";
+"fade_distance" = "फ़ेड दूरी";
+
+"animations" = "एनिमेशन";
+"scale_effect" = "स्केल इफ़ेक्ट";
+"background_color" = "बैकग्राउंड";
+"text_color" = "टेक्स्ट";
+"highlight_color" = "हाइलाइट";
+"haptics" = "हैप्टिक्स";
+"haptic_feedback" = "हैप्टिक फ़ीडबैक";
+"preferred_camera" = "पसंदीदा कैमरा";
+"rear" = "पीछे";
+"front" = "सामने";
+"high_precision" = "उच्च सटीकता";
+"high_speed" = "तेज़";
+"ocr_accuracy" = "OCR सटीकता";
+"speed_mode_not_japanese" = "हाई स्पीड मोड जापानी को सपोर्ट नहीं करता है।";
+"save_to_photos" = "फ़ोटो में सेव करें";
+"add_captured_image" = "कैप्चर की गई इमेज को फ़ोटो में सेव करें।";
+"load_image" = "इमेज लोड करें";
+"reader" = "रीडर";
+"auto_scroll" = "ऑटो स्क्रॉल";
+"scroll_to_highlight" = "हाइलाइट की गई लाइन तक अपने आप स्क्रॉल करता है।";
+"line_break" = "लाइन ब्रेक";
+"section" = "सेक्शन";
+"split_by_symbol" = "चयनित प्रतीक का उपयोग करके टेक्स्ट को सेक्शन में विभाजित करता है।";
+"show_tutorial" = "ट्यूटोरियल दिखाएं";
+"version_info" = "वर्ज़न";
+"links" = "लिंक्स";
+
+"swipe_left_to_camera" = "कैमरा खोलने के लिए बाएं स्वाइप करें";
+
+"stop_speaking" = "बोलना बंद करें";
+"start_speaking" = "बोलना शुरू करें";
+
+"generating_explanation" = "व्याख्या जेनरेट हो रही है…";
+
+"enable_apple_intelligence" = "कृपया सेटिंग्स में Apple Intelligence को सक्षम करें।";
+"device_not_supported" = "यह डिवाइस Apple Intelligence को सपोर्ट नहीं करता है।";
+"model_initializing" = "मॉडल तैयार हो रहा है। कृपया थोड़ी देर बाद पुनः प्रयास करें।";
+"model_unavailable" = "मॉडल उपलब्ध नहीं है: ";
+
+"unknown_error" = "अज्ञात त्रुटि";
+
+"generating_summary" = "सारांश जेनरेट हो रहा है…";
+
+"read_aloud_feature" = "ज़ोर से पढ़ें";
+"pause_duration" = "वाक्यों के बीच विराम";
+"language" = "भाषा";
+
+"camera_not_allowed" = "कैमरा एक्सेस अस्वीकृत";
+"camera_not_allowed_message" = "फ़ोटो से टेक्स्ट निकालने के लिए कैमरा एक्सेस की अनुमति दें।";
+"open_settings" = "सेटिंग्स खोलें";
+
+"close_sidebar" = "साइडबार बंद करें";
+"prompt" = "प्रॉम्प्ट";
+"explanation" = "व्याख्या";
+
+// VoiceOver
+"pasted_from_clipboard" = "क्लिपबोर्ड से टेक्स्ट पेस्ट किया गया";
+"photo_picker_opened" = "फ़ोटो पिकर खोला गया";
+"image_selected" = "इमेज चयनित";
+"image_processing_complete" = "इमेज प्रोसेसिंग पूर्ण";
+"settings_opened" = "सेटिंग्स खोली गई";
+"close_settings" = "सेटिंग्स बंद करें";
+"paste_text_from_clipboard" = "क्लिपबोर्ड से टेक्स्ट पेस्ट करें";
+"select_image_from_library" = "लाइब्रेरी से इमेज चुनें";
+
+"summarize_enabled" = "सारांश सक्षम किया गया";
+"summarize_disabled" = "सारांश अक्षम किया गया";
+"word_separation_enabled" = "शब्द विभाजन सक्षम किया गया";
+"word_separation_disabled" = "शब्द विभाजन अक्षम किया गया";
+
+"opens_tutorial" = "ट्यूटोरियल खोलता है";
+"tutorial_opened" = "ट्यूटोरियल खोला गया";
+"tutorial_closed" = "ट्यूटोरियल बंद किया गया";
+
+"open_sidebar" = "साइडबार खोलें";
+"open_camera" = "कैमरा खोलें";
+
+"welcome_view_0_title" = "RC Line में आपका स्वागत है";
+"welcome_view_0_explanation" = "पढ़ने का एक नया तरीका।";
+"welcome_view_1_title" = "कैमरा खोलें";
+"welcome_view_1_explanation" = "स्क्रीन पर बाएं स्वाइप करें।";
+"welcome_view_2_title" = "टैप की गई लाइन को हाइलाइट करें";
+"welcome_view_2_explanation" = "स्क्रीन के बाएं तरफ़ टैप करें।";
+"welcome_view_3_title" = "हाइलाइट मूव करें";
+"welcome_view_3_explanation" = "स्क्रीन के दाएं तरफ़ टैप करें।";
+"welcome_view_3.5_title" = "सभी टेक्स्ट देखें";
+"welcome_view_3.5_explanation" = "स्क्रीन स्क्रॉल करें।";
+"welcome_view_3.5_media_explanation" = "संपूर्ण टेक्स्ट देखने के लिए स्क्रॉल करें।";
+"welcome_view_4_title" = "पलक झपकाकर मूव करें";
+"welcome_view_4_explanation" = "हाइलाइट को नीचे मूव करने के लिए पलक झपकाएं।";
+"welcome_view_5_title" = "और फीचर्स";
+"welcome_view_5_explanation" = "एक्सेस करने के लिए दाएं स्वाइप करें।";
+"welcome_view_6_title" = "पर्सनलाइज़ करें";
+"welcome_view_6_explanation" = "सेटिंग्स में अपने रीडिंग एन्वायरनमेंट को एडजस्ट करें।";
+
+"continue" = "जारी रखें";
+"back" = "वापस";
+"done" = "हो गया";
+
+"blink_to_move_row" = "लाइन मूव करने के लिए पलक झपकाएं";
+"blink_to_move_row_explanation" = "पलक झपकाकर अगली लाइन पर जाएं।";
+"blink_to_move_row_enabled" = "पलक झपकाने की पहचान सक्षम की गई";
+"blink_to_move_row_disabled" = "पलक झपकाने की पहचान अक्षम की गई";
+
+"welcome_view_0_media_explanation" = "RC Line टेक्स्ट को सेक्शन में विभाजित करके और एक बार में एक लाइन को हाइलाइट करके पढ़ने में मदद करता है।";
+"welcome_view_1_media_explanation" = "कैमरे से टेक्स्ट की फ़ोटो लें, और टेक्स्ट निकाला और प्रदर्शित किया जाएगा।";
+"welcome_view_2_media_explanation" = "एक लाइन को हाइलाइट करने के लिए स्क्रीन के बाएं किनारे पर टैप करें।";
+"welcome_view_3_media_explanation" = "हाइलाइट की गई लाइन को एक से मूव करने के लिए स्क्रीन के दाएं तरफ़ टैप करें।";
+"welcome_view_5_media_explanation" = "मेनू खोलने के लिए दाएं स्वाइप करें, जहां आप क्लिपबोर्ड से पेस्ट कर सकते हैं, फ़ोटो से लोड कर सकते हैं, या सेटिंग्स खोल सकते हैं।";
+"welcome_view_6_media_explanation" = "आप फ़ॉन्ट साइज़, बैकग्राउंड रंग, हाइलाइट रंग, फ़ॉन्ट स्टाइल, और लाइन स्पेसिंग को एडजस्ट कर सकते हैं।";
+
+"start_eye_tracking" = "हिलाने के लिए पलक झपकाएं";
+"stop_eye_tracking"  = "हिलाने के लिए पलक झपकाना बंद करें";
+
+"welcome_view_4.5_explanation" = "किसी पंक्ति को देर तक दबाएँ और जोर से पढ़ें चुनें।";
+"welcome_view_4.5_media_explanation" = "किसी पंक्ति को देर तक दबाने पर एक मेनू दिखाई देगा। जोर से पढ़ें चुनने पर आवाज़ में पढ़ना शुरू हो जाएगा और स्क्रीन के नीचे एक रोकें बटन दिखाई देगा। VoiceOver समर्थित नहीं है।";
+
+"not_supported" = "यह डिवाइस इस सुविधा का समर्थन नहीं करता है।";
+
+"appearance" = "दिखावट";
+"theme" = "थीम";
+"auto" = "स्वचालित";
+"theme_light" = "हल्का";
+"dark" = "डार्क";
+
+"light_mode" = "लाइट मोड";
+"dark_mode" = "डार्क मोड";
+
+"do_not_show_again" = "दोबारा न दिखाएँ";

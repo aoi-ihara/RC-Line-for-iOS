@@ -1,0 +1,176 @@
+"camera_access_denied" = "カメラへのアクセスが許可されていません。";
+"from_clipboard" = "クリップボードから";
+"clipboard_is_empty" = "クリップボードが空です";
+"close" = "閉じる";
+"from_camera_roll" = "写真から";
+"settings" = "設定";
+"highlight" = "ハイライト";
+"fonts" = "フォント";
+"colors" = "カラー";
+"features" = "機能";
+"advanced_features" = "詳細機能";
+"info" = "情報";
+"summarize" = "要約";
+"summarize_explanation" = "画面上部に要約を表示します。";
+"word_separation" = "分かち書き(日本語)";
+"word_separation_explanation" = "単語間にスペースを挿入します。";
+"separator" = "区切り文字";
+"half_width_space" = "半角スペース";
+"full_width_space" = "全角スペース";
+
+"slash" = "スラッシュ";
+"hyphen" = "ハイフン";
+"space_slash" = "スペース + スラッシュ";
+"space_hyphen" = "スペース + ハイフン";
+"unit" = "単位";
+"word" = "単語";
+"phrase" = "文節";
+"font_family_reading" = "フォントファミリー";
+"system_sans" = "システム - ゴシック";
+"system_serif" = "システム - 明朝";
+"weight" = "太さ";
+"ultra_light" = "超極細";
+"thin" = "極細";
+"light" = "細字";
+"regular" = "標準";
+"medium" = "中字";
+"semibold" = "準太字";
+"bold" = "太字";
+"heavy" = "極太";
+"black" = "超極太";
+
+"font_size" = "フォントサイズ";
+"line_width" = "行の幅";
+"line_spacing" = "行間";
+"section_spacing" = "セクション間隔";
+"letter_spacing" = "文字間隔";
+"background_opacity" = "背景の不透明度";
+"border_opacity" = "枠線の不透明度";
+"fade_distance" = "フェード距離";
+
+"animations" = "アニメーション";
+"scale_effect" = "拡大エフェクト";
+"background_color" = "背景";
+"text_color" = "テキスト";
+"highlight_color" = "ハイライト";
+"haptics" = "触覚フィードバック";
+"haptic_feedback" = "触覚フィードバック";
+"preferred_camera" = "優先カメラ";
+"rear" = "背面";
+"front" = "前面";
+"high_precision" = "高精度";
+"high_speed" = "高速";
+"ocr_accuracy" = "OCR精度";
+"speed_mode_not_japanese" = "高速モードは日本語に対応していません。";
+"save_to_photos" = "写真に保存";
+"add_captured_image" = "撮影した画像を写真に保存します。";
+"load_image" = "画像を読み込む";
+"reader" = "リーダー";
+"auto_scroll" = "自動スクロール";
+"scroll_to_highlight" = "ハイライトされた行まで自動的にスクロールします。";
+"line_break" = "改行";
+"section" = "セクション";
+"split_by_symbol" = "選択した記号を使用してテキストをセクションに分割します。";
+"show_tutorial" = "チュートリアルを表示";
+"version_info" = "バージョン";
+"links" = "リンク";
+
+"swipe_left_to_camera" = "左にスワイプしてカメラを開く";
+
+"stop_speaking" = "読み上げを停止";
+"start_speaking" = "読み上げ";
+
+"generating_explanation" = "説明を生成中…";
+
+"enable_apple_intelligence" = "設定でApple Intelligenceを有効にしてください。";
+"device_not_supported" = "このデバイスはApple Intelligenceに対応していません。";
+"model_initializing" = "モデルを準備しています。しばらくしてからもう一度お試しください。";
+"model_unavailable" = "モデルが利用できません: ";
+
+"unknown_error" = "不明なエラー";
+
+"generating_summary" = "要約を生成中…";
+
+"read_aloud_feature" = "読み上げ";
+"pause_duration" = "文の間の間隔";
+"language" = "言語";
+
+"camera_not_allowed" = "カメラアクセスが拒否されました";
+"camera_not_allowed_message" = "写真からテキストを抽出するには、カメラへのアクセスを許可してください。";
+"open_settings" = "設定を開く";
+
+"close_sidebar" = "サイドバーを閉じる";
+"prompt" = "プロンプト";
+"explanation" = "説明";
+
+// VoiceOver
+"pasted_from_clipboard" = "クリップボードからテキストを貼り付けました";
+"photo_picker_opened" = "写真ピッカーを開きました";
+"image_selected" = "画像を選択しました";
+"image_processing_complete" = "画像処理が完了しました";
+"settings_opened" = "設定を開きました";
+"close_settings" = "設定を閉じる";
+"paste_text_from_clipboard" = "クリップボードからテキストを貼り付け";
+"select_image_from_library" = "ライブラリから画像を選択";
+
+"summarize_enabled" = "要約が有効になりました";
+"summarize_disabled" = "要約が無効になりました";
+"word_separation_enabled" = "分かち書きが有効になりました";
+"word_separation_disabled" = "分かち書きが無効になりました";
+
+"opens_tutorial" = "チュートリアルを開く";
+"tutorial_opened" = "チュートリアルを開きました";
+"tutorial_closed" = "チュートリアルを閉じました";
+
+"open_sidebar" = "サイドバーを開く";
+"open_camera" = "カメラを開く";
+
+"welcome_view_0_title" = "RC Lineへようこそ";
+"welcome_view_0_explanation" = "新しい読書体験。";
+"welcome_view_1_title" = "カメラを開く";
+"welcome_view_1_explanation" = "画面を左にスワイプ。";
+"welcome_view_2_title" = "タップした行をハイライト";
+"welcome_view_2_explanation" = "画面の左側をタップ。";
+"welcome_view_3_title" = "ハイライトを移動";
+"welcome_view_3_explanation" = "画面の右側をタップ。";
+"welcome_view_3.5_title" = "全文を表示";
+"welcome_view_3.5_explanation" = "画面をスクロール。";
+"welcome_view_3.5_media_explanation" = "スクロールして全文を表示します。";
+"welcome_view_4_title" = "まばたきで移動";
+"welcome_view_4_explanation" = "まばたきでハイライトを下に移動します。";
+"welcome_view_5_title" = "その他の機能";
+"welcome_view_5_explanation" = "右にスワイプしてアクセス。";
+"welcome_view_6_title" = "カスタマイズ";
+"welcome_view_6_explanation" = "設定で読書環境を調整できます。";
+
+"continue" = "続ける";
+"back" = "戻る";
+"done" = "完了";
+
+"blink_to_move_row" = "まばたきで行を移動";
+"blink_to_move_row_explanation" = "まばたきで次の行に進みます。";
+"blink_to_move_row_enabled" = "まばたき検出が有効になりました";
+"blink_to_move_row_disabled" = "まばたき検出が無効になりました";
+
+"welcome_view_0_media_explanation" = "RC Lineは、テキストをセクションに分割し、一度に1行ずつハイライト表示することで読書をサポートします。";
+"welcome_view_1_media_explanation" = "カメラでテキストを撮影すると、テキストが抽出されて表示されます。";
+"welcome_view_2_media_explanation" = "画面の左端をタップして行をハイライト表示します。";
+"welcome_view_3_media_explanation" = "画面の右側をタップして、ハイライトされた行を1つ移動します。";
+"welcome_view_5_media_explanation" = "右にスワイプしてメニューを開き、クリップボードから貼り付け、写真から読み込み、または設定を開くことができます。";
+"welcome_view_6_media_explanation" = "フォントサイズ、背景色、ハイライト色、フォントスタイル、行間を調整できます。";
+
+"stop_eye_tracking" = "まばたきで移動を停止";
+"start_eye_tracking" = "まばたきで移動";
+
+"welcome_view_4.5_explanation" = "行を長押しし、読み上げを選択。";
+"welcome_view_4.5_media_explanation" = "行を長押しするとプルダウンメニューが出ます。音声読み上げを選択すると音声読み上げを開始し、画面の下側に停止ボタンが表示されます。Voice Overには非対応です。";
+
+"not_supported" = "ご使用のデバイスはこの機能に対応していません。";
+
+"appearance" = "外観";
+"theme" = "テーマ";
+"auto" = "自動";
+"theme_light" = "ライト";
+"dark" = "ダーク";
+
+"do_not_show_again" = "次回から表示しない";
