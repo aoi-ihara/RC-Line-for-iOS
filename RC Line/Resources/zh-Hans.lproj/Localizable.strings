@@ -1,0 +1,179 @@
+"camera_access_denied" = "不允许访问相机。";
+"from_clipboard" = "从剪贴板";
+"clipboard_is_empty" = "剪贴板为空";
+"close" = "关闭";
+"from_camera_roll" = "从照片";
+"settings" = "设置";
+"highlight" = "高亮";
+"fonts" = "字体";
+"colors" = "颜色";
+"features" = "功能";
+"advanced_features" = "高级";
+"info" = "信息";
+"summarize" = "摘要";
+"summarize_explanation" = "在顶部显示摘要。";
+"word_separation" = "分词(日语)";
+"word_separation_explanation" = "在单词之间插入空格。";
+"separator" = "分隔符";
+"half_width_space" = "半角空格";
+"full_width_space" = "全角空格";
+
+"slash" = "斜杠";
+"hyphen" = "连字符";
+"space_slash" = "空格 + 斜杠";
+"space_hyphen" = "空格 + 连字符";
+"unit" = "单位";
+"word" = "单词";
+"phrase" = "短语";
+"font_family_reading" = "字体系列";
+"system_sans" = "系统 - 无衬线";
+"system_serif" = "系统 - 衬线";
+"weight" = "字重";
+"ultra_light" = "超细";
+"thin" = "纤细";
+"light" = "细";
+"regular" = "常规";
+"medium" = "中等";
+"semibold" = "半粗";
+"bold" = "粗体";
+"heavy" = "特粗";
+"black" = "浓黑";
+
+"font_size" = "字体大小";
+"line_width" = "行宽";
+"line_spacing" = "行间距";
+"section_spacing" = "段落间距";
+"letter_spacing" = "字间距";
+"background_opacity" = "背景不透明度";
+"border_opacity" = "边框不透明度";
+"fade_distance" = "淡出距离";
+
+"animations" = "动画";
+"scale_effect" = "缩放效果";
+"background_color" = "背景";
+"text_color" = "文本";
+"highlight_color" = "高亮";
+"haptics" = "触觉反馈";
+"haptic_feedback" = "触觉反馈";
+"preferred_camera" = "首选相机";
+"rear" = "后置";
+"front" = "前置";
+"high_precision" = "高精度";
+"high_speed" = "快速";
+"ocr_accuracy" = "OCR精度";
+"speed_mode_not_japanese" = "快速模式不支持日语。";
+"save_to_photos" = "保存到照片";
+"add_captured_image" = "将拍摄的图像保存到照片。";
+"load_image" = "加载图像";
+"reader" = "阅读器";
+"auto_scroll" = "自动滚动";
+"scroll_to_highlight" = "自动滚动到高亮行。";
+"line_break" = "换行";
+"section" = "段落";
+"split_by_symbol" = "使用所选符号将文本分割为段落。";
+"show_tutorial" = "显示教程";
+"version_info" = "版本";
+"links" = "链接";
+
+"swipe_left_to_camera" = "向左滑动打开相机";
+
+"stop_speaking" = "停止朗读";
+"start_speaking" = "开始朗读";
+
+"generating_explanation" = "正在生成解释…";
+
+"enable_apple_intelligence" = "请在设置中启用 Apple Intelligence。";
+"device_not_supported" = "此设备不支持 Apple Intelligence。";
+"model_initializing" = "正在准备模型。请稍后重试。";
+"model_unavailable" = "模型不可用: ";
+
+"unknown_error" = "未知错误";
+
+"generating_summary" = "正在生成摘要…";
+
+"read_aloud_feature" = "朗读";
+"pause_duration" = "句子之间的停顿";
+"language" = "语言";
+
+"camera_not_allowed" = "相机访问被拒绝";
+"camera_not_allowed_message" = "允许相机访问以从照片中提取文本。";
+"open_settings" = "打开设置";
+
+"close_sidebar" = "关闭侧边栏";
+"prompt" = "提示";
+"explanation" = "解释";
+
+// VoiceOver
+"pasted_from_clipboard" = "已从剪贴板粘贴文本";
+"photo_picker_opened" = "已打开照片选择器";
+"image_selected" = "已选择图像";
+"image_processing_complete" = "图像处理完成";
+"settings_opened" = "已打开设置";
+"close_settings" = "关闭设置";
+"paste_text_from_clipboard" = "从剪贴板粘贴文本";
+"select_image_from_library" = "从图库选择图像";
+
+"summarize_enabled" = "已启用摘要";
+"summarize_disabled" = "已禁用摘要";
+"word_separation_enabled" = "已启用分词";
+"word_separation_disabled" = "已禁用分词";
+
+"opens_tutorial" = "打开教程";
+"tutorial_opened" = "已打开教程";
+"tutorial_closed" = "已关闭教程";
+
+"open_sidebar" = "打开侧边栏";
+"open_camera" = "打开相机";
+
+"welcome_view_0_title" = "欢迎使用 RC Line";
+"welcome_view_0_explanation" = "全新的阅读方式。";
+"welcome_view_1_title" = "打开相机";
+"welcome_view_1_explanation" = "在屏幕上向左滑动。";
+"welcome_view_2_title" = "高亮点击的行";
+"welcome_view_2_explanation" = "点击屏幕左侧。";
+"welcome_view_3_title" = "移动高亮";
+"welcome_view_3_explanation" = "点击屏幕右侧。";
+"welcome_view_3.5_title" = "查看全部文本";
+"welcome_view_3.5_explanation" = "滚动屏幕。";
+"welcome_view_3.5_media_explanation" = "滚动以查看整个文本。";
+"welcome_view_4_title" = "眨眼移动";
+"welcome_view_4_explanation" = "眨眼以向下移动高亮。";
+"welcome_view_5_title" = "更多功能";
+"welcome_view_5_explanation" = "向右滑动访问。";
+"welcome_view_6_title" = "个性化";
+"welcome_view_6_explanation" = "在设置中调整您的阅读环境。";
+
+"continue" = "继续";
+"back" = "返回";
+"done" = "完成";
+
+"blink_to_move_row" = "眨眼移动行";
+"blink_to_move_row_explanation" = "通过眨眼前进到下一行。";
+"blink_to_move_row_enabled" = "已启用眨眼检测";
+"blink_to_move_row_disabled" = "已禁用眨眼检测";
+
+"welcome_view_0_media_explanation" = "RC Line 通过将文本分割为段落并一次高亮一行来帮助您阅读。";
+"welcome_view_1_media_explanation" = "使用相机拍摄文本照片,文本将被提取并显示。";
+"welcome_view_2_media_explanation" = "点击屏幕左边缘以高亮一行。";
+"welcome_view_3_media_explanation" = "点击屏幕右侧以将高亮行移动一行。";
+"welcome_view_5_media_explanation" = "向右滑动打开菜单,您可以从剪贴板粘贴、从照片加载或打开设置。";
+"welcome_view_6_media_explanation" = "您可以调整字体大小、背景颜色、高亮颜色、字体样式和行间距。";
+
+"start_eye_tracking" = "眨眼移动";
+"stop_eye_tracking"  = "停止眨眼移动";
+
+"welcome_view_4.5_explanation" = "长按一行并选择朗读。";
+"welcome_view_4.5_media_explanation" = "长按一行会显示菜单。选择朗读即可开始语音播放，屏幕底部会显示停止按钮。不支持 VoiceOver。";
+
+"not_supported" = "此设备不支持此功能。";
+
+"appearance" = "外观";
+"theme" = "主题";
+"auto" = "自动";
+"theme_light" = "浅色";
+"dark" = "深色";
+
+"light_mode" = "浅色模式";
+"dark_mode" = "深色模式";
+
+"do_not_show_again" = "不再显示";

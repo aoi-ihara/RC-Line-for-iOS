@@ -1,0 +1,179 @@
+"camera_access_denied" = "ไม่อนญาตให้เข้าถงกลอง";
+"from_clipboard" = "จากคลปบอร์ด";
+"clipboard_is_empty" = "คลิปบอร์ดว่างเปล่า";
+"close" = "ปด";
+"from_camera_roll" = "จากรูปภาพ";
+"settings" = "การตั้งค่า";
+"highlight" = "ไฮไลต์";
+"fonts" = "ฟอนต์";
+"colors" = "สี";
+"features" = "ฟีเจอร์";
+"advanced_features" = "ฟีเจอร์ขั้นสูง";
+"info" = "ข้อมูล";
+"summarize" = "สรุป";
+"summarize_explanation" = "แสดงสรุปไว้ด้านบนของหน้าจอ";
+"word_separation" = "เว้นวรรคคำ (ภาษาญี่ปุ่น)";
+"word_separation_explanation" = "แทรกช่องว่างระหว่างคำ";
+"separator" = "ตัวแบ่ง";
+"half_width_space" = "ช่องว่างครงความกว้าง";
+"full_width_space" = "ช่องว่างเต็มความกว้าง";
+
+"slash" = "เครื่องหมายสแลช";
+"hyphen" = "ยติภงค์";
+"space_slash" = "ช่องว่าง + สแลช";
+"space_hyphen" = "ช่องวาง + ยัติภังค์";
+"unit" = "หน่วย";
+"word" = "คำ";
+"phrase" = "วลี";
+"font_family_reading" = "ตระกูลฟอนต์";
+"system_sans" = "ระบบ - Sans";
+"system_serif" = "ระบบ - Serif";
+"weight" = "น้ำหนักเส้น";
+"ultra_light" = "บางมาก";
+"thin" = "บาง";
+"light" = "เบา";
+"regular" = "ปกติ";
+"medium" = "ปานกลาง";
+"semibold" = "กงหนา";
+"bold" = "หนา";
+"heavy" = "หนามาก";
+"black" = "หนาพิเศษ";
+
+"font_size" = "ขนาดฟอนต์";
+"line_width" = "ความกว้างบรรทด";
+"line_spacing" = "ระยะห่างบรรทัด";
+"section_spacing" = "ระยะห่างระหว่างเซกชัน";
+"letter_spacing" = "ระยะห่างตัวอักษร";
+"background_opacity" = "ความทึบพื้นหลัง";
+"border_opacity" = "ความทึบเส้นขอบ";
+"fade_distance" = "ระยะเฟด";
+
+"animations" = "แอนิเมชัน";
+"scale_effect" = "เอฟเฟกต์ขยาย";
+"background_color" = "พื้นหลัง";
+"text_color" = "ข้อความ";
+"highlight_color" = "สีไฮไลต์";
+"haptics" = "การตอบสนองแบบสั่น";
+"haptic_feedback" = "การตอบสนองแบบสั่น";
+"preferred_camera" = "กล้องที่ใช้เป็นหลัก";
+"rear" = "กล้องหลัง";
+"front" = "กล้องหน้า";
+"high_precision" = "ความแม่นยำสูง";
+"high_speed" = "โหมดเร็ว";
+"ocr_accuracy" = "ความแมนยำ OCR";
+"speed_mode_not_japanese" = "โหมดเร็วไม่รองรับภาษาญี่ปุ่น";
+"save_to_photos" = "บันทึกไปยังรูปภาพ";
+"add_captured_image" = "บันทึกรูปที่ถ่ายลงในรูปภาพ";
+"load_image" = "โหลดรูปภาพ";
+"reader" = "ตัวอ่าน";
+"auto_scroll" = "เลื่อนอัตโนมัติ";
+"scroll_to_highlight" = "เลื่อนไปยังบรรทัดที่ถูกไฮไลต์โดยอัตโนมัติ";
+"line_break" = "ขึ้นบรรทัดใหม่";
+"section" = "เซกชัน";
+"split_by_symbol" = "แบ่งข้อความเป็นเซกชันด้วยสัญลักษณ์ที่เลือก";
+"show_tutorial" = "แสดงคู่มือ";
+"version_info" = "เวอร์ชน";
+"links" = "ลิงก์";
+
+"swipe_left_to_camera" = "ปัดไปทางซ้ายเพื่อเปิดกล้อง";
+
+"stop_speaking" = "หยุดการอ่านออกเสียง";
+"start_speaking" = "เริ่มอ่านออกเสียง";
+
+"generating_explanation" = "กำลังสร้างคำอธิบาย…";
+
+"enable_apple_intelligence" = "โปรดเปิดใช้ Apple Intelligence ในการตั้งค่า";
+"device_not_supported" = "อุปกรณ์นี้ไม่รองรับ Apple Intelligence";
+"model_initializing" = "กำลังเตรียมโมเดล กรุณาลองใหม่ในอีกสักครู่";
+"model_unavailable" = "ไม่สามารถใช้โมเดลได้: ";
+
+"unknown_error" = "ข้อผิดพลาดที่ไม่ทราบสาเหตุ";
+
+"generating_summary" = "กำลังสร้างสรุป…";
+
+"read_aloud_feature" = "อ่านออกเสียง";
+"pause_duration" = "ช่วงพักระหว่างประโยค";
+"language" = "ภาษา";
+
+"camera_not_allowed" = "การเข้าถึงกล้องถูกปฏิเสธ";
+"camera_not_allowed_message" = "โปรดอนญาตให้เข้าถึงกล้องเพื่อดึงข้อความจากรูปภาพ";
+"open_settings" = "เปิดการตั้งค่า";
+
+"close_sidebar" = "ปิดแถบด้านข้าง";
+"prompt" = "พรอมต์";
+"explanation" = "คำอธิบาย";
+
+/// VoiceOver
+"pasted_from_clipboard" = "วางข้อความจากคลิปบอร์ดแล้ว";
+"photo_picker_opened" = "เปิดตัวเลือกภาพแล้ว";
+"image_selected" = "เลือกรูปภาพแล้ว";
+"image_processing_complete" = "ประมวลผลรูปภาพเสร็จสิ้น";
+"settings_opened" = "เปิดการตั้งค่าแล้ว";
+"close_settings" = "ปิดการตั้งค่าแล้ว";
+"paste_text_from_clipboard" = "วางข้อความจากคลิปบอร์ด";
+"select_image_from_library" = "เลือกภาพจากคลังรูปภาพ";
+
+"summarize_enabled" = "เปิดใช้งานการสรุปแล้ว";
+"summarize_disabled" = "ปิดใช้งานการสรุปแล้ว";
+"word_separation_enabled" = "เปิดใช้งานการเว้นวรรคคำแล้ว";
+"word_separation_disabled" = "ปิดใช้งานการเว้นวรรคคำแล้ว";
+
+"opens_tutorial" = "เปิดคู่มือ";
+"tutorial_opened" = "เปิดคู่มือแล้ว";
+"tutorial_closed" = "ปดคู่มือแล้ว";
+
+"open_sidebar" = "เปิดแถบด้านข้าง";
+"open_camera" = "เปิดกล้อง";
+
+"welcome_view_0_title" = "ยินดีต้อนรับสู่ RC Line";
+"welcome_view_0_explanation" = "ประสบการณ์การอ่านรูปแบบใหม่";
+"welcome_view_1_title" = "เปิดกล้อง";
+"welcome_view_1_explanation" = "ปัดหน้าจอไปทางซ้าย";
+"welcome_view_2_title" = "ไฮไลต์บรรทัดที่แตะ";
+"welcome_view_2_explanation" = "แตะด้านซ้ายของหน้าจอ";
+"welcome_view_3_title" = "ย้ายไฮไลต์";
+"welcome_view_3_explanation" = "แตะด้านขวาของหน้าจอ";
+"welcome_view_3.5_title" = "แสดงข้อความทั้งหมด";
+"welcome_view_3.5_explanation" = "เลื่อนหน้าจอ";
+"welcome_view_3.5_media_explanation" = "เลื่อนเพื่อดูข้อความทั้งหมด";
+"welcome_view_4_title" = "ขยับด้วยการกระพริบตา";
+"welcome_view_4_explanation" = "กระพริบตาเพื่อเลอนไฮไลต์ลงด้านล่าง";
+"welcome_view_5_title" = "ฟีเจอร์อื่น ๆ";
+"welcome_view_5_explanation" = "ปัดไปทางขวาเพื่อเข้าถึง";
+"welcome_view_6_title" = "ปรับแต่ง";
+"welcome_view_6_explanation" = "ปรับสภาพแวดล้อมการอ่านได้ในการตั้งค่า";
+
+"continue" = "ถัดไป";
+"back" = "ย้อนกลับ";
+"done" = "เสร็จสิ้น";
+
+"blink_to_move_row" = "เลื่อนบรรทัดด้วยการกระพริบตา";
+"blink_to_move_row_explanation" = "กระพริบตาเพื่อไปยังบรรทัดถัดไป";
+"blink_to_move_row_enabled" = "เปิดใช้งานการตรวจจับการกระพริบตาแล้ว";
+"blink_to_move_row_disabled" = "ปิดใช้งานการตรวจจับการกระพริบตาแล้ว";
+
+"welcome_view_0_media_explanation" = "RC Line ช่วยการอ่านโดยแบ่งข้อความเป็นเซกชันและไฮไลต์ทีละบรรทัด";
+"welcome_view_1_media_explanation" = "ถ่ายข้อความด้วยกล้อง แล้วระบบจะดึงและแสดงข้อความให้";
+"welcome_view_2_media_explanation" = "แตะขอบด้านซ้ายของหน้าจอเพื่อไฮไลต์บรรทัด";
+"welcome_view_3_media_explanation" = "แตะด้านขวาของหน้าจอเพื่อเลื่อนบรรทัดที่ไฮไลต์ลงหนึ่งบรรทัด";
+"welcome_view_5_media_explanation" = "ปัดไปทางขวาเพื่อเปิดเมนู วางจากคลิปบอร์ด อ่านจากรูปภาพ หรือเปิดการตั้งค่า";
+"welcome_view_6_media_explanation" = "ปรับขนาดฟอนต์ สีพื้นหลัง สีไฮไลต์ สไตล์ฟอนต์ และระยะห่างบรรทัดได้";
+
+"start_eye_tracking" = "กะพริบตาเพื่อเลื่อน";
+"stop_eye_tracking"  = "หยุดกะพริบตาเพื่อเลื่อน";
+
+"welcome_view_4.5_explanation" = "กดค้างที่บรรทัดแล้วเลือก อ่านออกเสียง";
+"welcome_view_4.5_media_explanation" = "เมื่อกดค้างที่บรรทัด จะมีเมนูปรากฏขึ้น เลือก อ่านออกเสียง เพื่อเริ่มการอ่าน และจะมีปุ่มหยุดแสดงที่ด้านล่างของหน้าจอ VoiceOver ไม่รองรับ";
+
+"not_supported" = "อุปกรณ์นี้ไม่รองรับฟีเจอร์นี้";
+
+"appearance" = "ลักษณะ";
+"theme" = "ธีม";
+"auto" = "อัตโนมัติ";
+"theme_light" = "สว่าง";
+"dark" = "มืด";
+
+"light_mode" = "โหมดสว่าง";
+"dark_mode" = "โหมดมืด";
+
+"do_not_show_again" = "ไม่ต้องแสดงอีก";

@@ -1,0 +1,179 @@
+"camera_access_denied" = "Kamera erişimine izin verilmedi.";
+"from_clipboard" = "Panodan";
+"clipboard_is_empty" = "Pano boş";
+"close" = "Kapat";
+"from_camera_roll" = "Fotoğraflardan";
+"settings" = "Ayarlar";
+"highlight" = "Vurgula";
+"fonts" = "Yazı Tipleri";
+"colors" = "Renkler";
+"features" = "Özellikler";
+"advanced_features" = "Gelişmiş";
+"info" = "Bilgi";
+"summarize" = "Özetle";
+"summarize_explanation" = "Üstte bir özet görüntüler.";
+"word_separation" = "Kelime Ayırma (Japonca)";
+"word_separation_explanation" = "Kelimeler arasına boşluk ekler.";
+"separator" = "Ayırıcı";
+"half_width_space" = "Yarım Genişlik Boşluk";
+"full_width_space" = "Tam Genişlik Boşluk";
+
+"slash" = "Eğik Çizgi";
+"hyphen" = "Tire";
+"space_slash" = "Boşluk + Eğik Çizgi";
+"space_hyphen" = "Boşluk + Tire";
+"unit" = "Birim";
+"word" = "Kelime";
+"phrase" = "İfade";
+"font_family_reading" = "Yazı Tipi Ailesi";
+"system_sans" = "Sistem - Sans";
+"system_serif" = "Sistem - Serif";
+"weight" = "Kalınlık";
+"ultra_light" = "Ultra İnce";
+"thin" = "İnce";
+"light" = "Hafif";
+"regular" = "Normal";
+"medium" = "Orta";
+"semibold" = "Yarı Kalın";
+"bold" = "Kalın";
+"heavy" = "Ağır";
+"black" = "Siyah";
+
+"font_size" = "Yazı Boyutu";
+"line_width" = "Satır Genişliği";
+"line_spacing" = "Satır Aralığı";
+"section_spacing" = "Bölüm Aralığı";
+"letter_spacing" = "Harf Aralığı";
+"background_opacity" = "Arka Plan Opaklığı";
+"border_opacity" = "Kenarlık Opaklığı";
+"fade_distance" = "Solma Mesafesi";
+
+"animations" = "Animasyonlar";
+"scale_effect" = "Ölçek Efekti";
+"background_color" = "Arka Plan";
+"text_color" = "Metin";
+"highlight_color" = "Vurgu";
+"haptics" = "Haptik";
+"haptic_feedback" = "Haptik Geri Bildirim";
+"preferred_camera" = "Tercih Edilen Kamera";
+"rear" = "Arka";
+"front" = "Ön";
+"high_precision" = "Yüksek Doğruluk";
+"high_speed" = "Hızlı";
+"ocr_accuracy" = "OCR Doğruluğu";
+"speed_mode_not_japanese" = "Yüksek Hız modu Japonca'yı desteklemez.";
+"save_to_photos" = "Fotoğraflara Kaydet";
+"add_captured_image" = "Çekilen görüntüleri Fotoğraflara kaydet.";
+"load_image" = "Görüntü Yükle";
+"reader" = "Okuyucu";
+"auto_scroll" = "Otomatik Kaydırma";
+"scroll_to_highlight" = "Vurgulanan satıra otomatik olarak kaydırır.";
+"line_break" = "Satır Sonu";
+"section" = "Bölüm";
+"split_by_symbol" = "Seçilen sembolü kullanarak metni bölümlere ayırır.";
+"show_tutorial" = "Öğreticiyi Göster";
+"version_info" = "Sürüm";
+"links" = "Bağlantılar";
+
+"swipe_left_to_camera" = "Kamerayı açmak için sola kaydırın";
+
+"stop_speaking" = "Okumayı Durdur";
+"start_speaking" = "Okumaya Başla";
+
+"generating_explanation" = "Açıklama oluşturuluyor…";
+
+"enable_apple_intelligence" = "Lütfen Ayarlar'da Apple Intelligence'ı etkinleştirin.";
+"device_not_supported" = "Bu cihaz Apple Intelligence'ı desteklemiyor.";
+"model_initializing" = "Model hazırlanıyor. Lütfen kısa süre sonra tekrar deneyin.";
+"model_unavailable" = "Model kullanılamıyor: ";
+
+"unknown_error" = "Bilinmeyen hata";
+
+"generating_summary" = "Özet oluşturuluyor…";
+
+"read_aloud_feature" = "Sesli Oku";
+"pause_duration" = "Cümleler Arası Duraklama";
+"language" = "Dil";
+
+"camera_not_allowed" = "Kamera Erişimi Reddedildi";
+"camera_not_allowed_message" = "Fotoğraflardan metin çıkarmak için kamera erişimine izin verin.";
+"open_settings" = "Ayarları Aç";
+
+"close_sidebar" = "Kenar Çubuğunu Kapat";
+"prompt" = "İstem";
+"explanation" = "Açıklama";
+
+// VoiceOver
+"pasted_from_clipboard" = "Panodan metin yapıştırıldı";
+"photo_picker_opened" = "Fotoğraf seçici açıldı";
+"image_selected" = "Görüntü seçildi";
+"image_processing_complete" = "Görüntü işleme tamamlandı";
+"settings_opened" = "Ayarlar açıldı";
+"close_settings" = "Ayarları kapat";
+"paste_text_from_clipboard" = "Panodan metin yapıştır";
+"select_image_from_library" = "Kitaplıktan görüntü seç";
+
+"summarize_enabled" = "Özetleme etkinleştirildi";
+"summarize_disabled" = "Özetleme devre dışı bırakıldı";
+"word_separation_enabled" = "Kelime ayırma etkinleştirildi";
+"word_separation_disabled" = "Kelime ayırma devre dışı bırakıldı";
+
+"opens_tutorial" = "Öğreticiyi açar";
+"tutorial_opened" = "Öğretici açıldı";
+"tutorial_closed" = "Öğretici kapatıldı";
+
+"open_sidebar" = "Kenar Çubuğunu Aç";
+"open_camera" = "Kamerayı Aç";
+
+"welcome_view_0_title" = "RC Line'a Hoş Geldiniz";
+"welcome_view_0_explanation" = "Okumak için yeni bir yol.";
+"welcome_view_1_title" = "Kamerayı Açın";
+"welcome_view_1_explanation" = "Ekranda sola kaydırın.";
+"welcome_view_2_title" = "Dokunulan Satırı Vurgulayın";
+"welcome_view_2_explanation" = "Ekranın sol tarafına dokunun.";
+"welcome_view_3_title" = "Vurguyu Taşıyın";
+"welcome_view_3_explanation" = "Ekranın sağ tarafına dokunun.";
+"welcome_view_3.5_title" = "Tüm Metni Görün";
+"welcome_view_3.5_explanation" = "Ekranı kaydırın.";
+"welcome_view_3.5_media_explanation" = "Metnin tamamını görüntülemek için kaydırın.";
+"welcome_view_4_title" = "Göz Kırparak Hareket Edin";
+"welcome_view_4_explanation" = "Vurguyu aşağı taşımak için göz kırpın.";
+"welcome_view_5_title" = "Daha Fazla Özellik";
+"welcome_view_5_explanation" = "Erişmek için sağa kaydırın.";
+"welcome_view_6_title" = "Kişiselleştirin";
+"welcome_view_6_explanation" = "Ayarlar'da okuma ortamınızı ayarlayın.";
+
+"continue" = "Devam";
+"back" = "Geri";
+"done" = "Bitti";
+
+"blink_to_move_row" = "Göz Kırparak Satır Taşı";
+"blink_to_move_row_explanation" = "Göz kırparak bir sonraki satıra geçin.";
+"blink_to_move_row_enabled" = "Göz kırpma algılama etkinleştirildi";
+"blink_to_move_row_disabled" = "Göz kırpma algılama devre dışı bırakıldı";
+
+"welcome_view_0_media_explanation" = "RC Line, metni bölümlere ayırarak ve her seferinde bir satırı vurgulayarak okumanıza yardımcı olur.";
+"welcome_view_1_media_explanation" = "Kamera ile metnin fotoğrafını çekin, metin çıkarılacak ve görüntülenecektir.";
+"welcome_view_2_media_explanation" = "Bir satırı vurgulamak için ekranın sol kenarına dokunun.";
+"welcome_view_3_media_explanation" = "Vurgulanan satırı bir taşımak için ekranın sağ tarafına dokunun.";
+"welcome_view_5_media_explanation" = "Menüyü açmak için sağa kaydırın; panodan yapıştırabilir, Fotoğraflar'dan yükleyebilir veya Ayarlar'ı açabilirsiniz.";
+"welcome_view_6_media_explanation" = "Yazı boyutunu, arka plan rengini, vurgu rengini, yazı tipi stilini ve satır aralığını ayarlayabilirsiniz.";
+
+"stop_eye_tracking" = "Göz Kırparak Hareket Etmeyi Durdur";
+"start_eye_tracking" = "Göz Kırparak Hareket Et";
+
+"welcome_view_4.5_explanation" = "Bir satıra dokunup basılı tutun, ardından Sesli Oku'yu seçin.";
+"welcome_view_4.5_media_explanation" = "Bir satıra dokunup basılı tutmak bir menü açar. Sesli Oku'yu seçmek sesli oynatmayı başlatır ve ekranın alt kısmında bir durdur düğmesi görünür. VoiceOver desteklenmez.";
+
+"not_supported" = "Bu cihaz bu özelliği desteklemiyor.";
+
+"appearance" = "Görünüm";
+"theme" = "Tema";
+"auto" = "Otomatik";
+"theme_light" = "Açık";
+"dark" = "Koyu";
+
+"light_mode" = "Açık Mod";
+"dark_mode" = "Koyu Mod";
+
+"do_not_show_again" = "Bir daha gösterme";

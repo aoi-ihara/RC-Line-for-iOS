@@ -1,0 +1,179 @@
+"camera_access_denied" = "L’accès à la caméra n’est pas autorisé.";
+"from_clipboard" = "Depuis le presse-papiers";
+"clipboard_is_empty" = "Le presse-papiers est vide";
+"close" = "Fermer";
+"from_camera_roll" = "Depuis Photos";
+"settings" = "Réglages";
+"highlight" = "Surlignage";
+"fonts" = "Polices";
+"colors" = "Couleurs";
+"features" = "Fonctions";
+"advanced_features" = "Options avancées";
+"info" = "Infos";
+"summarize" = "Résumé";
+"summarize_explanation" = "Affiche un résumé en haut de l’écran.";
+"word_separation" = "Séparation des mots (japonais)";
+"word_separation_explanation" = "Insère des espaces entre les mots.";
+"separator" = "Séparateur";
+"half_width_space" = "Espace demi-chasse";
+"full_width_space" = "Espace pleine chasse";
+
+"slash" = "Barre oblique";
+"hyphen" = "Tiret";
+"space_slash" = "Espace + barre oblique";
+"space_hyphen" = "Espace + tiret";
+"unit" = "Unité";
+"word" = "Mot";
+"phrase" = "Expression";
+"font_family_reading" = "Famille de police";
+"system_sans" = "Système - Sans";
+"system_serif" = "Système - Serif";
+"weight" = "Graisse";
+"ultra_light" = "Ultra light";
+"thin" = "Thin";
+"light" = "Light";
+"regular" = "Regular";
+"medium" = "Medium";
+"semibold" = "Semibold";
+"bold" = "Bold";
+"heavy" = "Heavy";
+"black" = "Black";
+
+"font_size" = "Taille de police";
+"line_width" = "Largeur de ligne";
+"line_spacing" = "Interligne";
+"section_spacing" = "Espacement des sections";
+"letter_spacing" = "Espacement des lettres";
+"background_opacity" = "Opacité de l’arrière-plan";
+"border_opacity" = "Opacité du bord";
+"fade_distance" = "Distance de fondu";
+
+"animations" = "Animations";
+"scale_effect" = "Effet d’agrandissement";
+"background_color" = "Arrière-plan";
+"text_color" = "Texte";
+"highlight_color" = "Surlignage";
+"haptics" = "Retour haptique";
+"haptic_feedback" = "Retour haptique";
+"preferred_camera" = "Caméra préférée";
+"rear" = "Arrière";
+"front" = "Avant";
+"high_precision" = "Haute précision";
+"high_speed" = "Rapide";
+"ocr_accuracy" = "Précision de l’OCR";
+"speed_mode_not_japanese" = "Le mode rapide ne prend pas en charge le japonais.";
+"save_to_photos" = "Enregistrer dans Photos";
+"add_captured_image" = "Enregistrer les images capturées dans Photos.";
+"load_image" = "Charger une image";
+"reader" = "Lecteur";
+"auto_scroll" = "Défilement automatique";
+"scroll_to_highlight" = "Fait défiler automatiquement jusqu’à la ligne surlignée.";
+"line_break" = "Saut de ligne";
+"section" = "Section";
+"split_by_symbol" = "Divise le texte en sections à l’aide du symbole sélectionné.";
+"show_tutorial" = "Afficher le tutoriel";
+"version_info" = "Version";
+"links" = "Liens";
+
+"swipe_left_to_camera" = "Balayez vers la gauche pour ouvrir la caméra";
+
+"stop_speaking" = "Arrêter la lecture";
+"start_speaking" = "Commencer la lecture";
+
+"generating_explanation" = "Génération de l’explication…";
+
+"enable_apple_intelligence" = "Activez Apple Intelligence dans Réglages.";
+"device_not_supported" = "Cet appareil ne prend pas en charge Apple Intelligence.";
+"model_initializing" = "Préparation du modèle. Réessayez dans un instant.";
+"model_unavailable" = "Modèle indisponible : ";
+
+"unknown_error" = "Erreur inconnue";
+
+"generating_summary" = "Génération du résumé…";
+
+"read_aloud_feature" = "Lecture à voix haute";
+"pause_duration" = "Pause entre les phrases";
+"language" = "Langue";
+
+"camera_not_allowed" = "Accès à la caméra refusé";
+"camera_not_allowed_message" = "Autorisez l’accès à la caméra pour extraire le texte des photos.";
+"open_settings" = "Ouvrir Réglages";
+
+"close_sidebar" = "Fermer la barre latérale";
+"prompt" = "Invite";
+"explanation" = "Explication";
+
+// VoiceOver
+"pasted_from_clipboard" = "Texte collé depuis le presse-papiers";
+"photo_picker_opened" = "Sélecteur de photos ouvert";
+"image_selected" = "Image sélectionnée";
+"image_processing_complete" = "Traitement de l’image terminé";
+"settings_opened" = "Réglages ouverts";
+"close_settings" = "Fermer les réglages";
+"paste_text_from_clipboard" = "Coller le texte depuis le presse-papiers";
+"select_image_from_library" = "Sélectionner une image depuis la photothèque";
+
+"summarize_enabled" = "Résumé activé";
+"summarize_disabled" = "Résumé désactivé";
+"word_separation_enabled" = "Séparation des mots activée";
+"word_separation_disabled" = "Séparation des mots désactivée";
+
+"opens_tutorial" = "Ouvre le tutoriel";
+"tutorial_opened" = "Tutoriel ouvert";
+"tutorial_closed" = "Tutoriel fermé";
+
+"open_sidebar" = "Ouvrir la barre latérale";
+"open_camera" = "Ouvrir la caméra";
+
+"welcome_view_0_title" = "Bienvenue dans RC Line";
+"welcome_view_0_explanation" = "Une nouvelle façon de lire.";
+"welcome_view_1_title" = "Ouvrir la caméra";
+"welcome_view_1_explanation" = "Balayez vers la gauche sur l’écran.";
+"welcome_view_2_title" = "Surligner la ligne touchée";
+"welcome_view_2_explanation" = "Touchez le côté gauche de l’écran.";
+"welcome_view_3_title" = "Déplacer le surlignage";
+"welcome_view_3_explanation" = "Touchez le côté droit de l’écran.";
+"welcome_view_3.5_title" = "Afficher tout le texte";
+"welcome_view_3.5_explanation" = "Faites défiler l’écran.";
+"welcome_view_3.5_media_explanation" = "Faites défiler pour afficher tout le texte.";
+"welcome_view_4_title" = "Cligner pour avancer";
+"welcome_view_4_explanation" = "Clignez des yeux pour déplacer le surlignage vers le bas.";
+"welcome_view_5_title" = "Plus de fonctions";
+"welcome_view_5_explanation" = "Balayez vers la droite pour y accéder.";
+"welcome_view_6_title" = "Personnaliser";
+"welcome_view_6_explanation" = "Ajustez votre environnement de lecture dans Réglages.";
+
+"continue" = "Continuer";
+"back" = "Retour";
+"done" = "Terminé";
+
+"blink_to_move_row" = "Cligner pour changer de ligne";
+"blink_to_move_row_explanation" = "Passe à la ligne suivante en clignant des yeux.";
+"blink_to_move_row_enabled" = "Détection de clignement activée";
+"blink_to_move_row_disabled" = "Détection de clignement désactivée";
+
+"welcome_view_0_media_explanation" = "RC Line vous aide à lire en divisant le texte en sections et en surlignant une ligne à la fois.";
+"welcome_view_1_media_explanation" = "Prenez une photo de texte avec la caméra : le texte sera extrait et affiché.";
+"welcome_view_2_media_explanation" = "Touchez le bord gauche de l’écran pour surligner une ligne.";
+"welcome_view_3_media_explanation" = "Touchez le côté droit de l’écran pour déplacer la ligne surlignée d’un cran.";
+"welcome_view_5_media_explanation" = "Balayez vers la droite pour ouvrir le menu, coller depuis le presse-papiers, charger depuis Photos ou ouvrir Réglages.";
+"welcome_view_6_media_explanation" = "Vous pouvez ajuster la taille de police, la couleur d’arrière-plan, la couleur de surlignage, le style de police et l’interligne.";
+
+"start_eye_tracking" = "Cligner pour déplacer";
+"stop_eye_tracking"  = "Arrêter le clignement pour déplacer";
+
+"welcome_view_4.5_explanation" = "Appuyez longuement sur une ligne et sélectionnez Lecture à voix haute.";
+"welcome_view_4.5_media_explanation" = "Un appui long sur une ligne affiche un menu. Sélectionnez Lecture à voix haute pour démarrer la lecture, et un bouton d’arrêt apparaît en bas de l’écran. VoiceOver n’est pas pris en charge.";
+
+"not_supported" = "Cet appareil ne prend pas en charge cette fonctionnalité.";
+
+"appearance" = "Apparence";
+"theme" = "Thème";
+"auto" = "Automatique";
+"theme_light" = "Clair";
+"dark" = "Sombre";
+
+"light_mode" = "Mode clair";
+"dark_mode" = "Mode sombre";
+
+"do_not_show_again" = "Ne plus afficher";

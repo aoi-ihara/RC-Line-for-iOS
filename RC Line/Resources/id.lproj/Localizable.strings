@@ -1,0 +1,179 @@
+"camera_access_denied" = "Akses kamera tidak diizinkan.";
+"from_clipboard" = "Dari Clipboard";
+"clipboard_is_empty" = "Clipboard kosong";
+"close" = "Tutup";
+"from_camera_roll" = "Dari Foto";
+"settings" = "Pengaturan";
+"highlight" = "Sorot";
+"fonts" = "Font";
+"colors" = "Warna";
+"features" = "Fitur";
+"advanced_features" = "Lanjutan";
+"info" = "Info";
+"summarize" = "Ringkasan";
+"summarize_explanation" = "Menampilkan ringkasan di bagian atas.";
+"word_separation" = "Pemisahan Kata (Jepang)";
+"word_separation_explanation" = "Menyisipkan spasi di antara kata.";
+"separator" = "Pemisah";
+"half_width_space" = "Spasi Setengah Lebar";
+"full_width_space" = "Spasi Lebar Penuh";
+
+"slash" = "Garis Miring";
+"hyphen" = "Tanda Hubung";
+"space_slash" = "Spasi + Garis Miring";
+"space_hyphen" = "Spasi + Tanda Hubung";
+"unit" = "Unit";
+"word" = "Kata";
+"phrase" = "Frasa";
+"font_family_reading" = "Jenis Font";
+"system_sans" = "Sistem - Sans";
+"system_serif" = "Sistem - Serif";
+"weight" = "Ketebalan";
+"ultra_light" = "Sangat Tipis";
+"thin" = "Tipis";
+"light" = "Ringan";
+"regular" = "Reguler";
+"medium" = "Sedang";
+"semibold" = "Agak Tebal";
+"bold" = "Tebal";
+"heavy" = "Sangat Tebal";
+"black" = "Hitam";
+
+"font_size" = "Ukuran Font";
+"line_width" = "Lebar Baris";
+"line_spacing" = "Jarak Baris";
+"section_spacing" = "Jarak Bagian";
+"letter_spacing" = "Jarak Huruf";
+"background_opacity" = "Opacity Latar Belakang";
+"border_opacity" = "Opacity Garis Tepi";
+"fade_distance" = "Jarak Memudar";
+
+"animations" = "Animasi";
+"scale_effect" = "Efek Skala";
+"background_color" = "Latar Belakang";
+"text_color" = "Teks";
+"highlight_color" = "Sorotan";
+"haptics" = "Haptik";
+"haptic_feedback" = "Umpan Balik Haptik";
+"preferred_camera" = "Kamera Pilihan";
+"rear" = "Belakang";
+"front" = "Depan";
+"high_precision" = "Akurasi Tinggi";
+"high_speed" = "Cepat";
+"ocr_accuracy" = "Akurasi OCR";
+"speed_mode_not_japanese" = "Mode Kecepatan Tinggi tidak mendukung bahasa Jepang.";
+"save_to_photos" = "Simpan ke Foto";
+"add_captured_image" = "Simpan gambar yang diambil ke Foto.";
+"load_image" = "Muat Gambar";
+"reader" = "Pembaca";
+"auto_scroll" = "Gulir Otomatis";
+"scroll_to_highlight" = "Otomatis menggulir ke baris yang disorot.";
+"line_break" = "Pemisah Baris";
+"section" = "Bagian";
+"split_by_symbol" = "Membagi teks menjadi bagian menggunakan simbol yang dipilih.";
+"show_tutorial" = "Tampilkan Tutorial";
+"version_info" = "Versi";
+"links" = "Tautan";
+
+"swipe_left_to_camera" = "Geser ke kiri untuk membuka kamera";
+
+"stop_speaking" = "Hentikan Bacaan";
+"start_speaking" = "Mulai Bacaan";
+
+"generating_explanation" = "Membuat penjelasan…";
+
+"enable_apple_intelligence" = "Silakan aktifkan Apple Intelligence di Pengaturan.";
+"device_not_supported" = "Perangkat ini tidak mendukung Apple Intelligence.";
+"model_initializing" = "Menyiapkan model. Silakan coba lagi sebentar.";
+"model_unavailable" = "Model tidak tersedia: ";
+
+"unknown_error" = "Kesalahan tidak diketahui";
+
+"generating_summary" = "Membuat ringkasan…";
+
+"read_aloud_feature" = "Baca Keras";
+"pause_duration" = "Jeda Antar Kalimat";
+"language" = "Bahasa";
+
+"camera_not_allowed" = "Akses Kamera Ditolak";
+"camera_not_allowed_message" = "Izinkan akses kamera untuk mengekstrak teks dari foto.";
+"open_settings" = "Buka Pengaturan";
+
+"close_sidebar" = "Tutup Sidebar";
+"prompt" = "Prompt";
+"explanation" = "Penjelasan";
+
+// VoiceOver
+"pasted_from_clipboard" = "Teks ditempel dari clipboard";
+"photo_picker_opened" = "Pemilih foto dibuka";
+"image_selected" = "Gambar dipilih";
+"image_processing_complete" = "Pemrosesan gambar selesai";
+"settings_opened" = "Pengaturan dibuka";
+"close_settings" = "Tutup pengaturan";
+"paste_text_from_clipboard" = "Tempel teks dari clipboard";
+"select_image_from_library" = "Pilih gambar dari galeri";
+
+"summarize_enabled" = "Ringkasan diaktifkan";
+"summarize_disabled" = "Ringkasan dinonaktifkan";
+"word_separation_enabled" = "Pemisahan kata diaktifkan";
+"word_separation_disabled" = "Pemisahan kata dinonaktifkan";
+
+"opens_tutorial" = "Membuka tutorial";
+"tutorial_opened" = "Tutorial dibuka";
+"tutorial_closed" = "Tutorial ditutup";
+
+"open_sidebar" = "Buka Sidebar";
+"open_camera" = "Buka Kamera";
+
+"welcome_view_0_title" = "Selamat Datang di RC Line";
+"welcome_view_0_explanation" = "Cara baru untuk membaca.";
+"welcome_view_1_title" = "Buka Kamera";
+"welcome_view_1_explanation" = "Geser ke kiri pada layar.";
+"welcome_view_2_title" = "Sorot Baris yang Diketuk";
+"welcome_view_2_explanation" = "Ketuk sisi kiri layar.";
+"welcome_view_3_title" = "Pindahkan Sorotan";
+"welcome_view_3_explanation" = "Ketuk sisi kanan layar.";
+"welcome_view_3.5_title" = "Lihat Semua Teks";
+"welcome_view_3.5_explanation" = "Gulir layar.";
+"welcome_view_3.5_media_explanation" = "Gulir untuk melihat seluruh teks.";
+"welcome_view_4_title" = "Kedip untuk Pindah";
+"welcome_view_4_explanation" = "Kedipkan mata untuk memindahkan sorotan ke bawah.";
+"welcome_view_5_title" = "Fitur Lainnya";
+"welcome_view_5_explanation" = "Geser ke kanan untuk mengakses.";
+"welcome_view_6_title" = "Personalisasi";
+"welcome_view_6_explanation" = "Sesuaikan lingkungan membaca Anda di Pengaturan.";
+
+"continue" = "Lanjutkan";
+"back" = "Kembali";
+"done" = "Selesai";
+
+"blink_to_move_row" = "Kedip untuk Pindah Baris";
+"blink_to_move_row_explanation" = "Lanjut ke baris berikutnya dengan mengedipkan mata.";
+"blink_to_move_row_enabled" = "Deteksi kedip diaktifkan";
+"blink_to_move_row_disabled" = "Deteksi kedip dinonaktifkan";
+
+"welcome_view_0_media_explanation" = "RC Line membantu Anda membaca dengan membagi teks menjadi bagian dan menyorot satu baris pada satu waktu.";
+"welcome_view_1_media_explanation" = "Ambil foto teks dengan kamera, dan teks akan diekstrak dan ditampilkan.";
+"welcome_view_2_media_explanation" = "Ketuk tepi kiri layar untuk menyorot satu baris.";
+"welcome_view_3_media_explanation" = "Ketuk sisi kanan layar untuk memindahkan baris yang disorot satu per satu.";
+"welcome_view_5_media_explanation" = "Geser ke kanan untuk membuka menu, di mana Anda dapat menempel dari clipboard, memuat dari Foto, atau membuka Pengaturan.";
+"welcome_view_6_media_explanation" = "Anda dapat menyesuaikan ukuran font, warna latar belakang, warna sorotan, gaya font, dan jarak baris.";
+
+"start_eye_tracking" = "Kedip untuk Menggerakkan";
+"stop_eye_tracking"  = "Hentikan Kedip untuk Menggerakkan";
+
+"welcome_view_4.5_explanation" = "Tekan lama baris dan pilih Baca Keras.";
+"welcome_view_4.5_media_explanation" = "Menekan lama baris akan menampilkan menu. Memilih Baca Keras akan memulai pembacaan suara, dan tombol berhenti akan muncul di bagian bawah layar. VoiceOver tidak didukung.";
+
+"not_supported" = "Perangkat ini tidak mendukung fitur ini.";
+
+"appearance" = "Tampilan";
+"theme" = "Tema";
+"auto" = "Otomatis";
+"theme_light" = "Terang";
+"dark" = "Gelap";
+
+"light_mode" = "Mode Terang";
+"dark_mode" = "Mode Gelap";
+
+"do_not_show_again" = "Jangan tampilkan lagi";

@@ -1,0 +1,179 @@
+"camera_access_denied" = "Camera access is not allowed.";
+"from_clipboard" = "From Clipboard";
+"clipboard_is_empty" = "Clipboard is empty";
+"close" = "Close";
+"from_camera_roll" = "From Photos";
+"settings" = "Settings";
+"highlight" = "Highlight";
+"fonts" = "Fonts";
+"colors" = "Colours";
+"features" = "Features";
+"advanced_features" = "Advanced";
+"info" = "Info";
+"summarise" = "Summarise";
+"summarise_explanation" = "Displays a summary at the top.";
+"word_separation" = "Word Separation (Japanese)";
+"word_separation_explanation" = "Inserts spaces between words.";
+"separator" = "Separator";
+"half_width_space" = "Half-width Space";
+"full_width_space" = "Full-width Space";
+
+"slash" = "Slash";
+"hyphen" = "Hyphen";
+"space_slash" = "Space + Slash";
+"space_hyphen" = "Space + Hyphen";
+"unit" = "Unit";
+"word" = "Word";
+"phrase" = "Phrase";
+"font_family_reading" = "Font Family";
+"system_sans" = "System - Sans";
+"system_serif" = "System - Serif";
+"weight" = "Weight";
+"ultra_light" = "Ultralight";
+"thin" = "Thin";
+"light" = "Light";
+"regular" = "Regular";
+"medium" = "Medium";
+"semibold" = "Semibold";
+"bold" = "Bold";
+"heavy" = "Heavy";
+"black" = "Black";
+
+"font_size" = "Font Size";
+"line_width" = "Line Width";
+"line_spacing" = "Line Spacing";
+"section_spacing" = "Section Spacing";
+"letter_spacing" = "Letter Spacing";
+"background_opacity" = "Background Opacity";
+"border_opacity" = "Border Opacity";
+"fade_distance" = "Fade Distance";
+
+"animations" = "Animations";
+"scale_effect" = "Scale Effect";
+"background_color" = "Background";
+"text_color" = "Text";
+"highlight_color" = "Highlight";
+"haptics" = "Haptics";
+"haptic_feedback" = "Haptic Feedback";
+"preferred_camera" = "Preferred Camera";
+"rear" = "Rear";
+"front" = "Front";
+"high_precision" = "High Accuracy";
+"high_speed" = "Fast";
+"ocr_accuracy" = "OCR Accuracy";
+"speed_mode_not_japanese" = "High Speed mode does not support Japanese.";
+"save_to_photos" = "Save to Photos";
+"add_captured_image" = "Save captured images to Photos.";
+"load_image" = "Load Image";
+"reader" = "Reader";
+"auto_scroll" = "Auto Scroll";
+"scroll_to_highlight" = "Automatically scrolls to the highlighted line.";
+"line_break" = "Line Break";
+"section" = "Section";
+"split_by_symbol" = "Splits text into sections using the selected symbol.";
+"show_tutorial" = "Show Tutorial";
+"version_info" = "Version";
+"links" = "Links";
+
+"swipe_left_to_camera" = "Swipe left to open the camera";
+
+"stop_speaking" = "Stop Speaking";
+"start_speaking" = "Start Speaking";
+
+"generating_explanation" = "Generating explanation…";
+
+"enable_apple_intelligence" = "Please enable Apple Intelligence in Settings.";
+"device_not_supported" = "This device does not support Apple Intelligence.";
+"model_initialising" = "Preparing the model. Please try again shortly.";
+"model_unavailable" = "Model unavailable: ";
+
+"unknown_error" = "Unknown error";
+
+"generating_summary" = "Generating summary…";
+
+"read_aloud_feature" = "Read Aloud";
+"pause_duration" = "Pause Between Sentences";
+"language" = "Language";
+
+"camera_not_allowed" = "Camera Access Denied";
+"camera_not_allowed_message" = "Allow camera access to extract text from photos.";
+"open_settings" = "Open Settings";
+
+"close_sidebar" = "Close Sidebar";
+"prompt" = "Prompt";
+"explanation" = "Explanation";
+
+// VoiceOver
+"pasted_from_clipboard" = "Text pasted from clipboard";
+"photo_picker_opened" = "Photo picker opened";
+"image_selected" = "Image selected";
+"image_processing_complete" = "Image processing complete";
+"settings_opened" = "Settings opened";
+"close_settings" = "Close settings";
+"paste_text_from_clipboard" = "Paste text from clipboard";
+"select_image_from_library" = "Select image from library";
+
+"summarise_enabled" = "Summarisation enabled";
+"summarise_disabled" = "Summarisation disabled";
+"word_separation_enabled" = "Word separation enabled";
+"word_separation_disabled" = "Word separation disabled";
+
+"opens_tutorial" = "Opens tutorial";
+"tutorial_opened" = "Tutorial opened";
+"tutorial_closed" = "Tutorial closed";
+
+"open_sidebar" = "Open Sidebar";
+"open_camera" = "Open Camera";
+
+"welcome_view_0_title" = "Welcome to RC Line";
+"welcome_view_0_explanation" = "A new way to read.";
+"welcome_view_1_title" = "Open the Camera";
+"welcome_view_1_explanation" = "Swipe left on the screen.";
+"welcome_view_2_title" = "Highlight the Tapped Line";
+"welcome_view_2_explanation" = "Tap the left side of the screen.";
+"welcome_view_3_title" = "Move the Highlight";
+"welcome_view_3_explanation" = "Tap the right side of the screen.";
+"welcome_view_3.5_title" = "See All Text";
+"welcome_view_3.5_explanation" = "Scroll the screen.";
+"welcome_view_3.5_media_explanation" = "Scroll to view the entire text.";
+"welcome_view_4_title" = "Blink to Move";
+"welcome_view_4_explanation" = "Blink to move the highlight down.";
+"welcome_view_5_title" = "More Features";
+"welcome_view_5_explanation" = "Swipe right to access.";
+"welcome_view_6_title" = "Personalise";
+"welcome_view_6_explanation" = "Adjust your reading environment in Settings.";
+
+"continue" = "Continue";
+"back" = "Back";
+"done" = "Done";
+
+"blink_to_move_row" = "Blink to Move Line";
+"blink_to_move_row_explanation" = "Advance to the next line by blinking.";
+"blink_to_move_row_enabled" = "Blink detection enabled";
+"blink_to_move_row_disabled" = "Blink detection disabled";
+
+"welcome_view_0_media_explanation" = "RC Line helps you read by splitting text into sections and highlighting one line at a time.";
+"welcome_view_1_media_explanation" = "Take a photo of text with the camera, and the text will be extracted and displayed.";
+"welcome_view_2_media_explanation" = "Tap the left edge of the screen to highlight a line.";
+"welcome_view_3_media_explanation" = "Tap the right side of the screen to move the highlighted line by one.";
+"welcome_view_5_media_explanation" = "Swipe right to open the menu, where you can paste from clipboard, load from Photos, or open Settings.";
+"welcome_view_6_media_explanation" = "You can adjust font size, background colour, highlight colour, font style, and line spacing.";
+
+"start_eye_tracking" = "Blink to Move";
+"stop_eye_tracking"  = "Stop Blink to Move";
+
+"welcome_view_4.5_explanation" = "Touch and hold a line, then select Read Aloud.";
+"welcome_view_4.5_media_explanation" = "Touching and holding a line opens a menu. Selecting Read Aloud starts voice playback, and a stop button appears at the bottom of the screen. VoiceOver is not supported.";
+
+"not_supported" = "This device does not support this feature.";
+
+"appearance" = "Appearance";
+"theme" = "Theme";
+"auto" = "Automatic";
+"theme_light" = "Light";
+"dark" = "Dark";
+
+"light_mode" = "Light Mode";
+"dark_mode" = "Dark Mode";
+
+"do_not_show_again" = "Don’t Show This Again";

@@ -1,0 +1,179 @@
+"camera_access_denied" = "Không được phép truy cập máy ảnh.";
+"from_clipboard" = "Từ Bảng Nhớ Tạm";
+"clipboard_is_empty" = "Bảng nhớ tạm trống";
+"close" = "Đóng";
+"from_camera_roll" = "Từ Ảnh";
+"settings" = "Cài Đặt";
+"highlight" = "Làm Nổi Bật";
+"fonts" = "Phông Chữ";
+"colors" = "Màu Sắc";
+"features" = "Tính Năng";
+"advanced_features" = "Nâng Cao";
+"info" = "Thông Tin";
+"summarize" = "Tóm Tắt";
+"summarize_explanation" = "Hiển thị bản tóm tắt ở trên cùng.";
+"word_separation" = "Phân Tách Từ (Tiếng Nhật)";
+"word_separation_explanation" = "Chèn khoảng trắng giữa các từ.";
+"separator" = "Ký Tự Phân Tách";
+"half_width_space" = "Khoảng Trắng Nửa Độ Rộng";
+"full_width_space" = "Khoảng Trắng Toàn Độ Rộng";
+
+"slash" = "Gạch Chéo";
+"hyphen" = "Gạch Ngang";
+"space_slash" = "Khoảng Trắng + Gạch Chéo";
+"space_hyphen" = "Khoảng Trắng + Gạch Ngang";
+"unit" = "Đơn Vị";
+"word" = "Từ";
+"phrase" = "Cụm Từ";
+"font_family_reading" = "Họ Phông Chữ";
+"system_sans" = "Hệ Thống - Sans";
+"system_serif" = "Hệ Thống - Serif";
+"weight" = "Độ Đậm";
+"ultra_light" = "Siêu Nhẹ";
+"thin" = "Mỏng";
+"light" = "Nhẹ";
+"regular" = "Thông Thường";
+"medium" = "Trung Bình";
+"semibold" = "Nửa Đậm";
+"bold" = "Đậm";
+"heavy" = "Nặng";
+"black" = "Đen";
+
+"font_size" = "Kích Thước Phông Chữ";
+"line_width" = "Độ Rộng Dòng";
+"line_spacing" = "Khoảng Cách Dòng";
+"section_spacing" = "Khoảng Cách Phần";
+"letter_spacing" = "Khoảng Cách Chữ";
+"background_opacity" = "Độ Mờ Nền";
+"border_opacity" = "Độ Mờ Viền";
+"fade_distance" = "Khoảng Cách Mờ Dần";
+
+"animations" = "Hiệu Ứng";
+"scale_effect" = "Hiệu Ứng Phóng To";
+"background_color" = "Nền";
+"text_color" = "Văn Bản";
+"highlight_color" = "Làm Nổi Bật";
+"haptics" = "Xúc Giác";
+"haptic_feedback" = "Phản Hồi Xúc Giác";
+"preferred_camera" = "Máy Ảnh Ưu Tiên";
+"rear" = "Sau";
+"front" = "Trước";
+"high_precision" = "Độ Chính Xác Cao";
+"high_speed" = "Nhanh";
+"ocr_accuracy" = "Độ Chính Xác OCR";
+"speed_mode_not_japanese" = "Chế độ tốc độ cao không hỗ trợ tiếng Nhật.";
+"save_to_photos" = "Lưu Vào Ảnh";
+"add_captured_image" = "Lưu hình ảnh đã chụp vào Ảnh.";
+"load_image" = "Tải Hình Ảnh";
+"reader" = "Trình Đọc";
+"auto_scroll" = "Tự Động Cuộn";
+"scroll_to_highlight" = "Tự động cuộn đến dòng được làm nổi bật.";
+"line_break" = "Ngắt Dòng";
+"section" = "Phần";
+"split_by_symbol" = "Chia văn bản thành các phần bằng ký hiệu được chọn.";
+"show_tutorial" = "Hiển Thị Hướng Dẫn";
+"version_info" = "Phiên Bản";
+"links" = "Liên Kết";
+
+"swipe_left_to_camera" = "Vuốt sang trái để mở máy ảnh";
+
+"stop_speaking" = "Dừng Đọc";
+"start_speaking" = "Bắt Đầu Đọc";
+
+"generating_explanation" = "Đang tạo giải thích…";
+
+"enable_apple_intelligence" = "Vui lòng bật Apple Intelligence trong Cài Đặt.";
+"device_not_supported" = "Thiết bị này không hỗ trợ Apple Intelligence.";
+"model_initializing" = "Đang chuẩn bị mô hình. Vui lòng thử lại sau.";
+"model_unavailable" = "Mô hình không khả dụng: ";
+
+"unknown_error" = "Lỗi không xác định";
+
+"generating_summary" = "Đang tạo bản tóm tắt…";
+
+"read_aloud_feature" = "Đọc To";
+"pause_duration" = "Tạm Dừng Giữa Các Câu";
+"language" = "Ngôn Ngữ";
+
+"camera_not_allowed" = "Quyền Truy Cập Máy Ảnh Bị Từ Chối";
+"camera_not_allowed_message" = "Cho phép truy cập máy ảnh để trích xuất văn bản từ ảnh.";
+"open_settings" = "Mở Cài Đặt";
+
+"close_sidebar" = "Đóng Thanh Bên";
+"prompt" = "Lời Nhắc";
+"explanation" = "Giải Thích";
+
+// VoiceOver
+"pasted_from_clipboard" = "Đã dán văn bản từ bảng nhớ tạm";
+"photo_picker_opened" = "Đã mở trình chọn ảnh";
+"image_selected" = "Đã chọn hình ảnh";
+"image_processing_complete" = "Hoàn tất xử lý hình ảnh";
+"settings_opened" = "Đã mở cài đặt";
+"close_settings" = "Đóng cài đặt";
+"paste_text_from_clipboard" = "Dán văn bản từ bảng nhớ tạm";
+"select_image_from_library" = "Chọn hình ảnh từ thư viện";
+
+"summarize_enabled" = "Đã bật tính năng tóm tắt";
+"summarize_disabled" = "Đã tắt tính năng tóm tắt";
+"word_separation_enabled" = "Đã bật phân tách từ";
+"word_separation_disabled" = "Đã tắt phân tách từ";
+
+"opens_tutorial" = "Mở hướng dẫn";
+"tutorial_opened" = "Đã mở hướng dẫn";
+"tutorial_closed" = "Đã đóng hướng dẫn";
+
+"open_sidebar" = "Mở Thanh Bên";
+"open_camera" = "Mở Máy Ảnh";
+
+"welcome_view_0_title" = "Chào Mừng Đến Với RC Line";
+"welcome_view_0_explanation" = "Một cách đọc mới.";
+"welcome_view_1_title" = "Mở Máy Ảnh";
+"welcome_view_1_explanation" = "Vuốt sang trái trên màn hình.";
+"welcome_view_2_title" = "Làm Nổi Bật Dòng Được Chạm";
+"welcome_view_2_explanation" = "Chạm vào phía bên trái màn hình.";
+"welcome_view_3_title" = "Di Chuyển Phần Làm Nổi Bật";
+"welcome_view_3_explanation" = "Chạm vào phía bên phải màn hình.";
+"welcome_view_3.5_title" = "Xem Toàn Bộ Văn Bản";
+"welcome_view_3.5_explanation" = "Cuộn màn hình.";
+"welcome_view_3.5_media_explanation" = "Cuộn để xem toàn bộ văn bản.";
+"welcome_view_4_title" = "Nháy Mắt Để Di Chuyển";
+"welcome_view_4_explanation" = "Nháy mắt để di chuyển phần làm nổi bật xuống dưới.";
+"welcome_view_5_title" = "Thêm Tính Năng";
+"welcome_view_5_explanation" = "Vuốt sang phải để truy cập.";
+"welcome_view_6_title" = "Cá Nhân Hóa";
+"welcome_view_6_explanation" = "Điều chỉnh môi trường đọc của bạn trong Cài Đặt.";
+
+"continue" = "Tiếp Tục";
+"back" = "Quay Lại";
+"done" = "Xong";
+
+"blink_to_move_row" = "Nháy Mắt Để Di Chuyển Dòng";
+"blink_to_move_row_explanation" = "Chuyển đến dòng tiếp theo bằng cách nháy mắt.";
+"blink_to_move_row_enabled" = "Đã bật phát hiện nháy mắt";
+"blink_to_move_row_disabled" = "Đã tắt phát hiện nháy mắt";
+
+"welcome_view_0_media_explanation" = "RC Line giúp bạn đọc bằng cách chia văn bản thành các phần và làm nổi bật một dòng mỗi lần.";
+"welcome_view_1_media_explanation" = "Chụp ảnh văn bản bằng máy ảnh, văn bản sẽ được trích xuất và hiển thị.";
+"welcome_view_2_media_explanation" = "Chạm vào cạnh trái của màn hình để làm nổi bật một dòng.";
+"welcome_view_3_media_explanation" = "Chạm vào phía bên phải màn hình để di chuyển dòng được làm nổi bật lên một.";
+"welcome_view_5_media_explanation" = "Vuốt sang phải để mở menu, nơi bạn có thể dán từ bảng nhớ tạm, tải từ Ảnh hoặc mở Cài Đặt.";
+"welcome_view_6_media_explanation" = "Bạn có thể điều chỉnh kích thước phông chữ, màu nền, màu làm nổi bật, kiểu phông chữ và khoảng cách dòng.";
+
+"stop_eye_tracking" = "Dừng Nháy Mắt Để Di Chuyển";
+"start_eye_tracking" = "Nháy Mắt Để Di Chuyển";
+
+"welcome_view_4.5_explanation" = "Chạm và giữ một dòng, sau đó chọn Đọc To.";
+"welcome_view_4.5_media_explanation" = "Chạm và giữ một dòng sẽ mở menu. Chọn Đọc To sẽ bắt đầu phát giọng nói và nút dừng xuất hiện ở cuối màn hình. Không hỗ trợ VoiceOver.";
+
+"not_supported" = "Thiết bị này không hỗ trợ tính năng này.";
+
+"appearance" = "Giao diện";
+"theme" = "Chủ đề";
+"auto" = "Tự động";
+"theme_light" = "Sáng";
+"dark" = "Tối";
+
+"light_mode" = "Chế độ sáng";
+"dark_mode" = "Chế độ tối";
+
+"do_not_show_again" = "Không hiển thị lại";
