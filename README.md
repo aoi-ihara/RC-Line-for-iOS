@@ -18,21 +18,29 @@ By combining on-device OCR with intelligent line-by-line highlighting and a full
 - Leverages Apple's Vision Framework for fast, real-time text recognition.
 - Processes everything entirely on-device, ensuring user privacy.
 
+![Screenshots of CameraView](./assets/screenshots/2.png)
+
 ### Line-by-Line Highlighting & Gestures
 
 - Segments text into readable chunks to reduce visual fatigue.
 - Uses intuitive screen-splitting tap gestures to move between lines seamlessly, avoiding the need to hunt for small buttons.
+
+![Screenshot of ReaderView](./assets/screenshots/3.png)
 
 ### Advanced Accessibility Customization
 
 - Supports a variety of typography options, including dyslexia-friendly fonts.
 - Real-time preview adjustments for font size, line spacing, and high-contrast background themes to suit individual visual preferences.
 
+![Screenshots of ReaderView](./assets/screenshots/0.png)
+
 ### Advanced Features
 
 - **Blink Detection:** Uses the front-facing TrueDepth camera to let users control line navigation using only eye blinks.
 - **Haptic Guidance:** Provides distinct haptic patterns for navigation feedback, reducing reliance on visual cues alone.
 - **AI-Powered Simplification:** Integrates on-device intelligence to explain complex phrasing instantly.
+
+![Screenshots of Advanced Features](./assets/screenshots/1.png)
 
 ## Tech Stack
 
