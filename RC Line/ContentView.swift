@@ -91,10 +91,6 @@ struct ContentView: View {
                         wasScrolled ? .visible : .hidden,
                         for: .bottomBar
                     )
-                    .toolbarMinimizationSafeAreaAdjustment(
-                        .disabled,
-                        for: .bottomBar
-                    )
                 }
                 .frame(maxHeight: .infinity)
                 .disabled(progress > 0.1)
@@ -115,7 +111,7 @@ struct ContentView: View {
                     VStack {
                         DashboardView(
                             isSidebarOpen: $isSidebarOpen,
-                            pasteAlert: $pasteAlert,
+                            pasteAlert: .constant(false),
                             ocrText: $ocrResultText,
                             showSettingsView: $showSettingsView,
                             wasScrolled: $wasScrolled,
