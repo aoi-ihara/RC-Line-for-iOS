@@ -6,10 +6,10 @@ func registerCustomFont(fontName: String, fileName: String, extension: String = 
         print("フォントファイルが見つからない: \(fileName).\(`extension`)")
         return
     }
-    
+
     var error: Unmanaged<CFError>?
     let success = CTFontManagerRegisterFontsForURL(fontURL as CFURL, .process, &error)
-    
+
     if success {
         print("フォント登録成功: \(fontName)")
     } else {

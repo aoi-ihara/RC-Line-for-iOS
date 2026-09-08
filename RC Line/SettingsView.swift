@@ -1,8 +1,8 @@
+import ARKit
 import FoundationModels
+import PhotosUI
 import SwiftUI
 import UIKit
-import PhotosUI
-import ARKit
 
 struct DashboardView: View {
     @Binding var isSidebarOpen: Bool
@@ -22,8 +22,10 @@ struct DashboardView: View {
     @AppStorage("hapticsEnabled") private var hapticsEnabled: Bool = true
     @AppStorage("backgroundColor") private var storedBackground: CodableColor = .init(.white)
     @AppStorage("foregroundColor") private var storedForeground: CodableColor = .init(.black)
-    @AppStorage("storedForegroundDark") private var storedForegroundDark: CodableColor = .init(.white)
-    @AppStorage("storedBackgroundDark") private var storedBackgroundDark: CodableColor = .init(.black)
+    @AppStorage("storedForegroundDark") private var storedForegroundDark: CodableColor = .init(
+        .white)
+    @AppStorage("storedBackgroundDark") private var storedBackgroundDark: CodableColor = .init(
+        .black)
     @Environment(\.colorScheme) var colorScheme
     @AppStorage("theme") private var theme = 0
     @AppStorage("doNotShowClipboardAlert") private var doNotShowClipboardAlert: Bool = false
@@ -43,7 +45,10 @@ struct DashboardView: View {
                                     withAnimation(.timingCurve(.easeOut, duration: 0.3)) {
                                         pasteAlert = true
                                     }
-                                    UIAccessibility.post(notification: .announcement, argument: NSLocalizedString("pasted_from_clipboard", comment: ""))
+                                    UIAccessibility.post(
+                                        notification: .announcement,
+                                        argument: NSLocalizedString(
+                                            "pasted_from_clipboard", comment: ""))
 
                                     withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                                         isSidebarOpen = false
@@ -58,8 +63,11 @@ struct DashboardView: View {
                                     if !doNotShowClipboardAlert {
                                         showPasteError = true
                                     }
-                                    
-                                    UIAccessibility.post(notification: .announcement, argument: NSLocalizedString("clipboard_is_empty", comment: ""))
+
+                                    UIAccessibility.post(
+                                        notification: .announcement,
+                                        argument: NSLocalizedString(
+                                            "clipboard_is_empty", comment: ""))
 
                                     if hapticsEnabled {
                                         let generator = UINotificationFeedbackGenerator()
@@ -89,7 +97,9 @@ struct DashboardView: View {
                             doNotShowClipboardAlert = true
                         }
                     }
-                    .foregroundStyle(colorScheme == .dark ? storedBackgroundDark.color : storedBackground.color)
+                    .foregroundStyle(
+                        colorScheme == .dark ? storedBackgroundDark.color : storedBackground.color
+                    )
                     .padding(4)
                     .accessibilityLabel(Text("from_clipboard"))
                     .accessibilityHint(Text("paste_text_from_clipboard"))
@@ -99,7 +109,9 @@ struct DashboardView: View {
                         action: {
                             if !disabled {
                                 showImagePicker = true
-                                UIAccessibility.post(notification: .screenChanged, argument: NSLocalizedString("photo_picker_opened", comment: ""))
+                                UIAccessibility.post(
+                                    notification: .screenChanged,
+                                    argument: NSLocalizedString("photo_picker_opened", comment: ""))
 
                                 if hapticsEnabled {
                                     let generator = UISelectionFeedbackGenerator()
@@ -121,7 +133,9 @@ struct DashboardView: View {
                             .frame(width: 200, alignment: .leading)
                         }
                     )
-                    .foregroundStyle(colorScheme == .dark ? storedBackgroundDark.color : storedBackground.color)
+                    .foregroundStyle(
+                        colorScheme == .dark ? storedBackgroundDark.color : storedBackground.color
+                    )
                     .buttonStyle(.glassProminent)
                     .padding(4)
                     .accessibilityLabel(Text("from_camera_roll"))
@@ -134,7 +148,9 @@ struct DashboardView: View {
                     action: {
                         if !disabled {
                             showSettingsView.toggle()
-                            UIAccessibility.post(notification: .screenChanged, argument: NSLocalizedString("settings_opened", comment: ""))
+                            UIAccessibility.post(
+                                notification: .screenChanged,
+                                argument: NSLocalizedString("settings_opened", comment: ""))
 
                             withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                                 isSidebarOpen = false
@@ -166,18 +182,22 @@ struct DashboardView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(colorScheme == .dark ? storedBackgroundDark.color : storedBackground.color)
-            .photosPicker(isPresented: $showImagePicker, selection: $selectedItem, matching: .images)
+            .photosPicker(
+                isPresented: $showImagePicker, selection: $selectedItem, matching: .images
+            )
             .onChange(of: selectedItem) {
                 Task {
                     guard let data = try? await selectedItem?.loadTransferable(type: Data.self),
-                          let image = UIImage(data: data) else { return }
-                    
+                        let image = UIImage(data: data)
+                    else { return }
+
                     await MainActor.run {
                         self.selectedImage = image
-                        UIAccessibility.post(notification: .announcement,
-                                             argument: NSLocalizedString("image_selected", comment: ""))
+                        UIAccessibility.post(
+                            notification: .announcement,
+                            argument: NSLocalizedString("image_selected", comment: ""))
                     }
-                    
+
                     performOCR(on: image) { text in
                         Task { @MainActor in
                             self.ocrText = text
@@ -185,10 +205,11 @@ struct DashboardView: View {
                             withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                                 isSidebarOpen = false
                             }
-                            
+
                             UIAccessibility.post(
                                 notification: .screenChanged,
-                                argument: NSLocalizedString("image_processing_complete", comment: "")
+                                argument: NSLocalizedString(
+                                    "image_processing_complete", comment: "")
                             )
                         }
                     }
@@ -241,21 +262,21 @@ struct SettingsView: View {
                 }
                 .accessibilityLabel(Text("colors"))
                 .accessibilityAddTraits(.isLink)
-                
+
                 NavigationLink(destination: FeatureSettingsView()) {
                     Label("features", systemImage: "wrench.and.screwdriver")
                         .foregroundStyle(Color(.label))
                 }
                 .accessibilityLabel(Text("features"))
                 .accessibilityAddTraits(.isLink)
-                
+
                 NavigationLink(destination: AdvancedFeaturesSettingsView()) {
                     Label("advanced_features", systemImage: "square.badge.plus")
                         .foregroundStyle(Color(.label))
                 }
                 .accessibilityLabel(Text("advanced_features"))
                 .accessibilityAddTraits(.isLink)
-                
+
                 NavigationLink(destination: InformationView()) {
                     Label("info", systemImage: "info.circle")
                         .foregroundStyle(Color(.label))
@@ -299,7 +320,7 @@ struct AdvancedFeaturesSettingsView: View {
     private var isARKitSupported: Bool {
         ARFaceTrackingConfiguration.isSupported
     }
-    
+
     let status = AVCaptureDevice.authorizationStatus(for: .video)
 
     var body: some View {
@@ -307,7 +328,7 @@ struct AdvancedFeaturesSettingsView: View {
             List {
                 if #available(iOS 18.1, *) {
                     let available = SystemLanguageModel.default.isAvailable
-                    
+
                     if available {
                         Section {
                             Toggle(
@@ -315,14 +336,19 @@ struct AdvancedFeaturesSettingsView: View {
                                 label: {
                                     Text("summarize")
                                     Text("summarize_explanation")
-                                })
+                                }
+                            )
                             .accessibilityLabel(Text("summarize"))
                             .accessibilityHint(Text("summarize_explanation"))
                             .accessibilityAddTraits(.updatesFrequently)
                             .onChange(of: summrizeText) {
-                                UIAccessibility.post(notification: .announcement, argument: summrizeText ? NSLocalizedString("summarize_enabled", comment: "") : NSLocalizedString("summarize_disabled", comment: ""))
+                                UIAccessibility.post(
+                                    notification: .announcement,
+                                    argument: summrizeText
+                                        ? NSLocalizedString("summarize_enabled", comment: "")
+                                        : NSLocalizedString("summarize_disabled", comment: ""))
                             }
-                            
+
                             if summrizeText {
                                 NavigationLink {
                                     summarizeInstructionsEditor
@@ -342,20 +368,25 @@ struct AdvancedFeaturesSettingsView: View {
                         }
                     }
                 }
-                
+
                 Section {
                     Toggle(
                         isOn: $insertSpaceBitweenWords,
                         label: {
                             Text("word_separation")
                             Text("word_separation_explanation")
-                        })
+                        }
+                    )
                     .accessibilityLabel(Text("word_separation"))
                     .accessibilityHint(Text("word_separation_explanation"))
                     .onChange(of: insertSpaceBitweenWords) {
-                        UIAccessibility.post(notification: .announcement, argument: insertSpaceBitweenWords ? NSLocalizedString("word_separation_enabled", comment: "") : NSLocalizedString("word_separation_disabled", comment: ""))
+                        UIAccessibility.post(
+                            notification: .announcement,
+                            argument: insertSpaceBitweenWords
+                                ? NSLocalizedString("word_separation_enabled", comment: "")
+                                : NSLocalizedString("word_separation_disabled", comment: ""))
                     }
-                    
+
                     if insertSpaceBitweenWords {
                         Picker("separator", selection: $spaceInserted) {
                             Text("half_width_space").tag(" ")
@@ -369,10 +400,10 @@ struct AdvancedFeaturesSettingsView: View {
                 } header: {
                     Text("word_separation")
                 }
-                
+
                 if #available(iOS 18.1, *) {
                     let available = SystemLanguageModel.default.isAvailable
-                    
+
                     if available {
                         Section {
                             NavigationLink {
@@ -697,8 +728,10 @@ struct ColorSettingsView: View {
     @AppStorage("foregroundColor") private var storedForeground: CodableColor = .init(.black)
     @AppStorage("backgroundColor") private var storedBackground: CodableColor = .init(.white)
     @AppStorage("highlightColor") private var storedHighlight: CodableColor = .init(.red)
-    @AppStorage("storedForegroundDark") private var storedForegroundDark: CodableColor = .init(.white)
-    @AppStorage("storedBackgroundDark") private var storedBackgroundDark: CodableColor = .init(.black)
+    @AppStorage("storedForegroundDark") private var storedForegroundDark: CodableColor = .init(
+        .white)
+    @AppStorage("storedBackgroundDark") private var storedBackgroundDark: CodableColor = .init(
+        .black)
     @AppStorage("storedHighlightDark") private var storedHighlightDark: CodableColor = .init(.red)
     @AppStorage("theme") private var theme = 0
 
@@ -743,28 +776,30 @@ struct ColorSettingsView: View {
             set: { storedHighlightDark = CodableColor($0) }
         )
     }
-    
+
     var body: some View {
         NavigationStack {
             List {
                 Section {
-                    Picker("theme", selection: $theme, content: {
-                        Text("auto").tag(0)
-                        Text("theme_light").tag(1)
-                        Text("dark").tag(2)
-                    })
+                    Picker(
+                        "theme", selection: $theme,
+                        content: {
+                            Text("auto").tag(0)
+                            Text("theme_light").tag(1)
+                            Text("dark").tag(2)
+                        })
                 } header: {
                     Text("appearance")
                 }
-                
+
                 if theme != 2 {
                     Section {
                         ColorPicker("background_color", selection: backgroundColorBinding)
                             .accessibilityLabel(Text("background_color"))
-                        
+
                         ColorPicker("text_color", selection: foregroundColorBinding)
                             .accessibilityLabel(Text("text_color"))
-                        
+
                         ColorPicker("highlight_color", selection: highlightBinding)
                             .accessibilityLabel(Text("highlight_color"))
                     } header: {
@@ -773,15 +808,15 @@ struct ColorSettingsView: View {
                         }
                     }
                 }
-                
+
                 if theme != 1 {
                     Section {
                         ColorPicker("background_color", selection: backgroundColorBindingDark)
                             .accessibilityLabel(Text("background_color"))
-                        
+
                         ColorPicker("text_color", selection: foregroundColorBindingDark)
                             .accessibilityLabel(Text("text_color"))
-                        
+
                         ColorPicker("highlight_color", selection: highlightBindingDark)
                             .accessibilityLabel(Text("highlight_color"))
                     } header: {
@@ -804,18 +839,18 @@ struct FeatureSettingsView: View {
     @AppStorage("saveToLibrary") private var saveToLibrary: Bool = false
     @AppStorage("hapticsEnabled") private var hapticsEnabled: Bool = true
     @AppStorage("priorityFrontCamera") private var priorityFrontCamera: Bool = false
-    
+
     @AppStorage("splitByLineBreak") private var splitByLineBreak: Bool = true  // ↩
     @AppStorage("splitByPeriod") private var splitByPeriod: Bool = true  // 。 / .
     @AppStorage("splitByComma") private var splitByComma: Bool = false  // 、 / ,
     @AppStorage("splitByExclamationMark") private var splitByExclamationMark: Bool = true  // !
     @AppStorage("splitByQuestionMark") private var splitByQuestionMark: Bool = true  // ?
     @AppStorage("splitByBrackets") private var splitByBrackets: Bool = true  // 「」 / " / ' / []
-    
+
     @AppStorage("selectedLnaguage") private var selectedLnaguage = "en-US"
     @AppStorage("readSpeed") private var readSpeed: Double = 0.5
     @AppStorage("postUtteranceDelay") private var postUtteranceDelay: Double = 0.9
-    
+
     var body: some View {
         NavigationStack {
             List {
@@ -831,7 +866,8 @@ struct FeatureSettingsView: View {
                             content: {
                                 Text("rear").tag(false)
                                 Text("front").tag(true)
-                            })
+                            }
+                        )
                         .accessibilityLabel(Text("preferred_camera"))
 
                         Picker(
@@ -843,7 +879,8 @@ struct FeatureSettingsView: View {
                             label: {
                                 Text("ocr_accuracy")
                                 Text("speed_mode_not_japanese")
-                            })
+                            }
+                        )
                         .accessibilityLabel(Text("ocr_accuracy"))
 
                         if PHPhotoLibrary.authorizationStatus(for: .addOnly) != .denied {
@@ -870,76 +907,87 @@ struct FeatureSettingsView: View {
                         label: {
                             Text("auto_scroll")
                             Text("scroll_to_highlight")
-                        })
+                        }
+                    )
                     .accessibilityLabel(Text("auto_scroll"))
                 }
-                
-                Section(content: {
-                    Toggle("line_break", isOn: $splitByLineBreak)
-                        .accessibilityLabel(Text("line_break"))
-                    Toggle("。 / .", isOn: $splitByPeriod)
-                        .accessibilityLabel(Text("。 / ."))
-                    Toggle("、 / ,", isOn: $splitByComma)
-                        .accessibilityLabel(Text("、 / ,"))
-                    Toggle("!", isOn: $splitByExclamationMark)
-                        .accessibilityLabel(Text("!"))
-                    Toggle("?", isOn: $splitByQuestionMark)
-                        .accessibilityLabel(Text("?"))
-                    Toggle("「」 / \" / ' / []", isOn: $splitByBrackets)
-                        .accessibilityLabel(Text("「」 / \" / ' / []"))
-                },
-                        header: {
-                    Text("section")
-                },
-                        footer: {
-                    Text("split_by_symbol")
-                })
-                
-                Section(content: {
-                    Picker("language", selection: $selectedLnaguage, content: {
-                        Text("English").tag("en-US")
-                        Text("English (United Kingdom)").tag("en-GB")
-                        Text("English (Australia)").tag("en-AU")
-                        Text("日本語").tag("ja-JP")
-                        Text("한국어").tag("ko-KR")
-                        Text("简体中文").tag("zh-CN")
-                        Text("繁體中文 (香港)").tag("zh-HK")
-                        Text("Français").tag("fr-FR")
-                        Text("Deutsch").tag("de-DE")
-                        Text("Español").tag("es-ES")
-                        Text("Italiano").tag("it-IT")
-                        Text("Português").tag("pt-PT")
-                        Text("Русский").tag("ru-RU")
+
+                Section(
+                    content: {
+                        Toggle("line_break", isOn: $splitByLineBreak)
+                            .accessibilityLabel(Text("line_break"))
+                        Toggle("。 / .", isOn: $splitByPeriod)
+                            .accessibilityLabel(Text("。 / ."))
+                        Toggle("、 / ,", isOn: $splitByComma)
+                            .accessibilityLabel(Text("、 / ,"))
+                        Toggle("!", isOn: $splitByExclamationMark)
+                            .accessibilityLabel(Text("!"))
+                        Toggle("?", isOn: $splitByQuestionMark)
+                            .accessibilityLabel(Text("?"))
+                        Toggle("「」 / \" / ' / []", isOn: $splitByBrackets)
+                            .accessibilityLabel(Text("「」 / \" / ' / []"))
+                    },
+                    header: {
+                        Text("section")
+                    },
+                    footer: {
+                        Text("split_by_symbol")
                     })
-                    .accessibilityLabel(Text("language"))
-                    
-                    HStack {
-                        Image(systemName: "tortoise.fill")
-                        Slider(value: $readSpeed, in: 0...1, step: 0.02)
-                            .accessibilityLabel(Text("read_aloud_feature"))
-                            .accessibilityValue(Text("\(Int(readSpeed * 100))%"))
-                        Image(systemName: "hare.fill")
-                    }
-                }, header: {
-                    Text("read_aloud_feature")
-                }, footer: {
-                    Text("\(Int(readSpeed*100))%")
-                })
-                
-                Section(content: {
-                    HStack {
-                        Image(systemName: "tortoise.fill")
-                        Slider(value: $postUtteranceDelay, in: 0...1, step: 0.02)
-                            .accessibilityLabel(Text("pause_duration"))
-                            .accessibilityValue(Text("\(Int(postUtteranceDelay * 100))%"))
-                        Image(systemName: "hare.fill")
-                    }
-                }, header: {
-                    Text("pause_duration")
-                }, footer: {
-                    Text("\(Int(postUtteranceDelay*100))%")
-                })
-                
+
+                Section(
+                    content: {
+                        Picker(
+                            "language", selection: $selectedLnaguage,
+                            content: {
+                                Text("English").tag("en-US")
+                                Text("English (United Kingdom)").tag("en-GB")
+                                Text("English (Australia)").tag("en-AU")
+                                Text("日本語").tag("ja-JP")
+                                Text("한국어").tag("ko-KR")
+                                Text("简体中文").tag("zh-CN")
+                                Text("繁體中文 (香港)").tag("zh-HK")
+                                Text("Français").tag("fr-FR")
+                                Text("Deutsch").tag("de-DE")
+                                Text("Español").tag("es-ES")
+                                Text("Italiano").tag("it-IT")
+                                Text("Português").tag("pt-PT")
+                                Text("Русский").tag("ru-RU")
+                            }
+                        )
+                        .accessibilityLabel(Text("language"))
+
+                        HStack {
+                            Image(systemName: "tortoise.fill")
+                            Slider(value: $readSpeed, in: 0...1, step: 0.02)
+                                .accessibilityLabel(Text("read_aloud_feature"))
+                                .accessibilityValue(Text("\(Int(readSpeed * 100))%"))
+                            Image(systemName: "hare.fill")
+                        }
+                    },
+                    header: {
+                        Text("read_aloud_feature")
+                    },
+                    footer: {
+                        Text("\(Int(readSpeed*100))%")
+                    })
+
+                Section(
+                    content: {
+                        HStack {
+                            Image(systemName: "tortoise.fill")
+                            Slider(value: $postUtteranceDelay, in: 0...1, step: 0.02)
+                                .accessibilityLabel(Text("pause_duration"))
+                                .accessibilityValue(Text("\(Int(postUtteranceDelay * 100))%"))
+                            Image(systemName: "hare.fill")
+                        }
+                    },
+                    header: {
+                        Text("pause_duration")
+                    },
+                    footer: {
+                        Text("\(Int(postUtteranceDelay*100))%")
+                    })
+
             }
             .navigationTitle("features")
             .navigationBarTitleDisplayMode(.inline)
@@ -972,7 +1020,9 @@ struct InformationView: View {
                 }
 
                 Section("version_info") {
-                    if let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
+                    if let version = Bundle.main.object(
+                        forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+                    {
                         Text(version)
                     }
                 }
@@ -980,7 +1030,11 @@ struct InformationView: View {
             .navigationTitle("info")
             .navigationBarTitleDisplayMode(.inline)
             .onChange(of: showWelcomeView) {
-                UIAccessibility.post(notification: showWelcomeView ? .screenChanged : .announcement, argument: showWelcomeView ? NSLocalizedString("tutorial_opened", comment: "") : NSLocalizedString("tutorial_closed", comment: ""))
+                UIAccessibility.post(
+                    notification: showWelcomeView ? .screenChanged : .announcement,
+                    argument: showWelcomeView
+                        ? NSLocalizedString("tutorial_opened", comment: "")
+                        : NSLocalizedString("tutorial_closed", comment: ""))
             }
             .fullScreenCover(
                 isPresented: $showWelcomeView,

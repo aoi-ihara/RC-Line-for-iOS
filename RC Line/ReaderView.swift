@@ -12,7 +12,7 @@ struct ReaderView: View {
     @Binding var showingCameraSheetFromContentView: Bool
     @Binding var wasScrolled: Bool
     @Binding var isSidebarOpen: Bool
-    
+
     @State private var showWelcomeView = !UserDefaults.standard.bool(forKey: "wasRuned")
 
     @AppStorage("fullScreenMode") var fullScreenMode: Bool = true
@@ -25,10 +25,10 @@ struct ReaderView: View {
     @Environment(\.colorScheme) var colorScheme
     @AppStorage("theme") private var theme = 0
     @AppStorage("animate") var animate: Bool = true
-    
+
     @State private var eyeTracking: Bool = false
     @State private var maxFocusingLine: Int = 0
-    
+
     var body: some View {
         ZStack {
             if eyeTracking && !showWelcomeView {
@@ -65,7 +65,7 @@ struct ReaderView: View {
                 .ignoresSafeArea()
                 .opacity(0)
             }
-            
+
             AnyView(
                 GeometryReader { geometry in
                     ScrollViewReader { proxy in
@@ -143,7 +143,7 @@ struct ReaderView: View {
                     .interactiveDismissDisabled(true)
             }
         )
-        
+
         VStack(alignment: .center) {
             Spacer()
             Button {
@@ -152,7 +152,7 @@ struct ReaderView: View {
                         speaking = false
                     }
                 }
-                
+
                 if eyeTracking {
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                         eyeTracking = false
@@ -172,7 +172,7 @@ struct ReaderView: View {
         }
         .frame(maxWidth: .infinity)
     }
-    
+
     func playSelectionHaptics() {
         let generator = UISelectionFeedbackGenerator()
         generator.prepare()
@@ -260,7 +260,7 @@ struct TextView: View {
                                     }
                                 }
                             }
-                        
+
                             .presentationDetents(UIDevice.current.userInterfaceIdiom == .phone ? [.medium, .large] : [.large])
                     }
                 }

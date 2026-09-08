@@ -27,7 +27,7 @@ func performOCR(on image: UIImage, completion: @escaping @Sendable (String) -> V
     request.recognitionLevel = ((ocrMode == 0) ? .accurate : .fast)
     request.usesLanguageCorrection = true
     request.recognitionLanguages = ["ja-JP", "en-US", "en-UK"]
-    
+
     let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
     DispatchQueue.global(qos: .userInitiated).async {
         do {
