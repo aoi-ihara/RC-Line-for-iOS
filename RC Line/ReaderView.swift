@@ -139,8 +139,8 @@ struct ReaderView: View {
                 .accentColor(Color(.label))
                 .presentationDetents([.large])
         }
-        
-        
+
+
         VStack(alignment: .center) {
             Spacer()
             Button {

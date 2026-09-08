@@ -10,7 +10,8 @@ struct RCLineApp: App {
             ContentView()
                 .accentColor(Color(.label))
                 .task {
-                    registerCustomFont(fontName: "Lexend-Regular", fileName: "Lexend", extension: "ttf")
+                    registerCustomFont(
+                        fontName: "Lexend-Regular", fileName: "Lexend", extension: "ttf")
                 }
                 .preferredColorScheme(theme == 0 ? nil : (theme == 1 ? .light : .dark))
         }
