@@ -3,6 +3,275 @@ import AVFoundation
 import AVKit
 import SwiftUI
 
+struct InstructionView: View {
+    @Binding var showInstructionView: Bool
+    @AccessibilityFocusState private var focusedTitle: Bool
+
+    @Environment(\.dismiss) private var dismiss
+
+    @AppStorage("eyeTracking") private var eyeTracking: Bool = false
+
+    let player0 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView0", withExtension: "mov")!)
+    let player1 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView1", withExtension: "mov")!)
+    let player2 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView2", withExtension: "mov")!)
+    let player3 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView3", withExtension: "mov")!)
+    let player4 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView4", withExtension: "mov")!)
+    let player8 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView8", withExtension: "mov")!)
+    let player9 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView9", withExtension: "mov")!)
+
+    @State private var status = AVCaptureDevice.authorizationStatus(for: .video)
+    @State private var playTrigger = 0
+    @State private var blinkEye: Bool = false
+    @State private var hasPlayedBlinkVideoOnce = false
+    @State private var slide = 0
+
+    let titles = [
+        "welcome_view_0_title", "welcome_view_1_title", "welcome_view_2_title",
+        "welcome_view_3_title", "welcome_view_3.5_title", "welcome_view_4_title",
+        "read_aloud_feature", "welcome_view_5_title", "welcome_view_6_title",
+    ]
+
+    private var isARKitSupported: Bool {
+        ARFaceTrackingConfiguration.isSupported
+    }
+
+    var body: some View {
+        NavigationStack {
+            List {
+                NavigationLink {
+                    mediaImportView
+                } label: {
+                    Label(
+                        "メディアの読み込み",
+                        systemImage: "photo.on.rectangle.angled"
+                    )
+                }
+
+                NavigationLink {
+                    gestureView
+                } label: {
+                    Label(
+                        "ジェスチャ操作",
+                        systemImage: "hand.tap"
+                    )
+                }
+
+                NavigationLink {
+                    advancedFeaturesView
+                } label: {
+                    Label(
+                        "高度な機能",
+                        systemImage: "square.badge.plus"
+                    )
+                }
+
+                NavigationLink {
+                    customizationView
+                } label: {
+                    Label(
+                        "カスタマイズ",
+                        systemImage: "paintbrush"
+                    )
+                }
+            }
+            .navigationTitle("インストラクション")
+            .navigationBarTitleDisplayMode(.inline)
+        }
+    }
+}
+
+extension InstructionView {
+    var mediaImportView: some View {
+        VStack {
+            VStack {
+                TabView(selection: $slide) {
+                    VStack(spacing: 20) {
+                        TransparentPlayerView(player: player0)
+                            .background(Color.clear)
+                            .onAppear {
+                                player0.seek(to: .zero)
+                                player0.play()
+                                NotificationCenter.default.addObserver(
+                                    forName: .AVPlayerItemDidPlayToEndTime,
+                                    object: player0.currentItem,
+                                    queue: .main
+                                ) { _ in
+                                    player0.seek(to: .zero)
+                                    player0.play()
+                                }
+                            }
+                        
+                        Text("カメラから")
+                            .font(.title)
+                            .fontWeight(.semibold)
+                        Text("画面を左にスワイプするとカメラが開きます。写真を撮影するとテキストが読み込まれます。")
+                            .padding(.bottom, 40)
+                    }
+                    .padding(.horizontal, 40)
+                    .tag(0)
+                    
+                    VStack(spacing: 20) {
+                        TransparentPlayerView(player: player0)
+                            .background(Color.clear)
+                            .onAppear {
+                                player0.seek(to: .zero)
+                                player0.play()
+                                NotificationCenter.default.addObserver(
+                                    forName: .AVPlayerItemDidPlayToEndTime,
+                                    object: player0.currentItem,
+                                    queue: .main
+                                ) { _ in
+                                    player0.seek(to: .zero)
+                                    player0.play()
+                                }
+                            }
+                        
+                        Text("クリップボードから")
+                            .font(.title)
+                            .fontWeight(.semibold)
+                        Text("画面を右にスワイプしてメニューを開き、「クリップボードからペースト」をタップします。")
+                            .padding(.bottom, 40)
+                    }
+                    .padding(.horizontal, 40)
+                    .tag(1)
+                }
+                .tabViewStyle(.page(indexDisplayMode: .never))
+                .animation(.default, value: slide)
+            }
+            
+            HStack(spacing: 20) {
+                Button {
+                    slide -= 1
+                } label: {
+                    Image(systemName: "arrow.left")
+                        .frame(maxWidth: .infinity)
+                        .padding(10)
+                }
+                .disabled(slide == 0)
+                .buttonStyle(.glass)
+                
+                Button {
+                    slide += 1
+                } label: {
+                    Image(systemName: "arrow.right")
+                        .frame(maxWidth: .infinity)
+                        .padding(10)
+                }
+                .disabled(slide == 1)
+                .buttonStyle(.glass)
+            }
+            .padding(.horizontal, 40)
+        }
+        .navigationTitle("メディアの読み込み")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+extension InstructionView {
+    var gestureView: some View {
+        NavigationStack {
+            VStack {
+                Text("welcome_view_1_title")
+                    .accessibilityLabel(Text("welcome_view_1_title"))
+                    .font(.title)
+                    .fontWeight(.semibold)
+                    .padding(.top, 64)
+                    .padding(.horizontal)
+                    .accessibilityAddTraits(.isHeader)
+                Text("welcome_view_1_explanation")
+                    .accessibilityLabel(Text("welcome_view_1_explanation"))
+                    .fontWeight(.semibold)
+                    .padding(.top, 2)
+                    .padding(.horizontal)
+            }
+            .navigationTitle("メディアの読み込み")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                }
+            }
+        }
+    }
+}
+
+extension InstructionView {
+    var advancedFeaturesView: some View {
+        NavigationStack {
+            VStack {
+                Text("welcome_view_1_title")
+                    .accessibilityLabel(Text("welcome_view_1_title"))
+                    .font(.title)
+                    .fontWeight(.semibold)
+                    .padding(.top, 64)
+                    .padding(.horizontal)
+                    .accessibilityAddTraits(.isHeader)
+                Text("welcome_view_1_explanation")
+                    .accessibilityLabel(Text("welcome_view_1_explanation"))
+                    .fontWeight(.semibold)
+                    .padding(.top, 2)
+                    .padding(.horizontal)
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        showInstructionView = false
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                }
+            }
+            .navigationTitle("メディアの読み込み")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                }
+            }
+        }
+    }
+}
+
+extension InstructionView {
+    var customizationView: some View {
+        NavigationStack {
+            VStack {
+                Text("welcome_view_1_title")
+                    .accessibilityLabel(Text("welcome_view_1_title"))
+                    .font(.title)
+                    .fontWeight(.semibold)
+                    .padding(.top, 64)
+                    .padding(.horizontal)
+                    .accessibilityAddTraits(.isHeader)
+                Text("welcome_view_1_explanation")
+                    .accessibilityLabel(Text("welcome_view_1_explanation"))
+                    .fontWeight(.semibold)
+                    .padding(.top, 2)
+                    .padding(.horizontal)
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        showInstructionView = false
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                }
+            }
+            .navigationTitle("メディアの読み込み")
+            .navigationBarTitleDisplayMode(.inline)
+        }
+    }
+}
+
 struct WelcomeView: View {
     @State private var slide = 0
     @State private var blinkEye: Bool = false
