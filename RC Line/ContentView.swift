@@ -9,6 +9,7 @@ struct ContentView: View {
     @State private var capturedImageInContentView: UIImage?
     @State private var ocrResultText: String = ""
     @State private var hideStatusBar: Bool = true
+    @State private var pasteAlert: Bool = false
     @State private var capturedImage: UIImage?
     @State private var showSettingsView: Bool = false
     @State private var wasScrolled: Bool = true
@@ -105,7 +106,7 @@ struct ContentView: View {
                     VStack {
                         DashboardView(
                             isSidebarOpen: $isSidebarOpen,
-                            pasteAlert: .constant(false),
+                            pasteAlert: $pasteAlert,
                             ocrText: $ocrResultText,
                             showSettingsView: $showSettingsView,
                             wasScrolled: $wasScrolled,
