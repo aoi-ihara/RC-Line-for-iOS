@@ -998,7 +998,7 @@ struct FeatureSettingsView: View {
 struct InformationView: View {
     @Environment(\.openURL) var openURL
 
-    @State private var showWelcomeView: Bool = false
+    @State private var showInstructionView: Bool = false
 
     var body: some View {
         NavigationStack {
@@ -1006,7 +1006,7 @@ struct InformationView: View {
                 Section {
                     Button(
                         action: {
-                            showWelcomeView = true
+                            showInstructionView = true
                         },
                         label: {
                             Label("show_tutorial", systemImage: "lightbulb")
@@ -1029,17 +1029,10 @@ struct InformationView: View {
             }
             .navigationTitle("info")
             .navigationBarTitleDisplayMode(.inline)
-            .onChange(of: showWelcomeView) {
-                UIAccessibility.post(
-                    notification: showWelcomeView ? .screenChanged : .announcement,
-                    argument: showWelcomeView
-                        ? NSLocalizedString("tutorial_opened", comment: "")
-                        : NSLocalizedString("tutorial_closed", comment: ""))
-            }
-            .fullScreenCover(
-                isPresented: $showWelcomeView,
+            .sheet(
+                isPresented: $showInstructionView,
                 content: {
-                    WelcomeView(showWelcomeView: $showWelcomeView)
+                    InstructionView(showInstructionView: $showInstructionView)
                         .accentColor(Color(.label))
                         .presentationDetents([.large])
                         .interactiveDismissDisabled(true)

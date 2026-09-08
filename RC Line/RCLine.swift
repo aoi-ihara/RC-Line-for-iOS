@@ -16,3 +16,11 @@ struct RCLineApp: App {
         }
     }
 }
+
+#Preview {
+    ContentView()
+        .accentColor(Color(.label))
+        .task {
+            registerCustomFont(fontName: "Lexend-Regular", fileName: "Lexend", extension: "ttf")
+        }
+}

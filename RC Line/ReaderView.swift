@@ -13,7 +13,7 @@ struct ReaderView: View {
     @Binding var wasScrolled: Bool
     @Binding var isSidebarOpen: Bool
 
-    @State private var showInstructinoView = !UserDefaults.standard.bool(forKey: "wasRuned")
+    @State private var showInstructinoView = !UserDefaults.standard.bool(forKey: "wasRuned") || true
 
     @AppStorage("fullScreenMode") var fullScreenMode: Bool = true
     @AppStorage("ocrMode") var ocrMode: Int = 0
@@ -31,7 +31,7 @@ struct ReaderView: View {
 
     var body: some View {
         ZStack {
-            if eyeTracking && !showInstructionView {
+            if eyeTracking && !showInstructinoView {
                 EyeTrackingView(onBlink: {
                     if animate {
                         withAnimation(.timingCurve(.easeInOut, duration: 0.3)) {
@@ -96,7 +96,7 @@ struct ReaderView: View {
                             (wasScrolled && fullScreenMode == false) ? .automatic : .hidden
                         )
                         .onChange(of: ocrText) {
-                            if !showWelcomeView {
+                            if !showInstructinoView {
                                 focusingLine = 0
                                 withAnimation(.timingCurve(.linear, duration: 0.2)) {
                                     wasScrolled = true
@@ -134,13 +134,12 @@ struct ReaderView: View {
                 generator.notificationOccurred(.success)
             }
         }
-        .fullScreenCover(
+        .sheet(
             isPresented: $showInstructinoView,
             content: {
                 InstructionView(showInstructionView: $showInstructinoView)
                     .accentColor(Color(.label))
                     .presentationDetents([.large])
-                    .interactiveDismissDisabled(true)
             }
         )
 

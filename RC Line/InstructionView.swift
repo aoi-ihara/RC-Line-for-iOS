@@ -4,13 +4,14 @@ import AVKit
 import SwiftUI
 
 struct InstructionView: View {
-    @State private var slide = 0
-    @State private var blinkEye: Bool = false
-
     @Binding var showInstructionView: Bool
     @AccessibilityFocusState private var focusedTitle: Bool
+    
+    @Environment(\.dismiss) private var dismiss
 
     @AppStorage("eyeTracking") private var eyeTracking: Bool = false
+    @State private var blinkEye: Bool = false
+
 
     let player0 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView0", withExtension: "mov")!)
     let player1 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView1", withExtension: "mov")!)
@@ -21,22 +22,199 @@ struct InstructionView: View {
     let player9 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView9", withExtension: "mov")!)
 
     @State private var status = AVCaptureDevice.authorizationStatus(for: .video)
-
+    
     @State private var playTrigger = 0
     @State private var hasPlayedBlinkVideoOnce = false
-
+    
     let titles = [
         "welcome_view_0_title", "welcome_view_1_title", "welcome_view_2_title",
         "welcome_view_3_title", "welcome_view_3.5_title", "welcome_view_4_title",
         "read_aloud_feature", "welcome_view_5_title", "welcome_view_6_title",
     ]
-
+    
     private var isARKitSupported: Bool {
         ARFaceTrackingConfiguration.isSupported
     }
     
     var body: some View {
-        Text("Hello World!!")
+        NavigationStack {
+            List {
+                NavigationLink {
+                    mediaImportView
+                } label: {
+                    Label(
+                        "メディアの読み込み",
+                        systemImage: "photo.on.rectangle.angled"
+                    )
+                }
+                
+                NavigationLink {
+                    gestureView
+                } label: {
+                    Label(
+                        "ジェスチャ操作",
+                        systemImage: "hand.tap"
+                    )
+                }
+                
+                NavigationLink {
+                    advancedFeaturesView
+                } label: {
+                    Label(
+                        "高度な機能",
+                        systemImage: "square.badge.plus"
+                    )
+                }
+                
+                NavigationLink {
+                    customizationView
+                } label: {
+                    Label(
+                        "カスタマイズ",
+                        systemImage: "paintbrush"
+                    )
+                }
+            }
+            .navigationTitle("インストラクション")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                }
+            }
+        }
+    }
+}
+
+extension InstructionView {
+    var mediaImportView: some View {
+        VStack {
+            Text("welcome_view_1_title")
+                .font(.title)
+                .fontWeight(.semibold)
+
+            Text("welcome_view_1_explanation")
+        }
+        .navigationTitle("メディアの読み込み")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "xmark")
+                }
+            }
+        }
+    }
+}
+
+extension InstructionView {
+    var gestureView: some View {
+        NavigationStack {
+            VStack {
+                Text("welcome_view_1_title")
+                    .accessibilityLabel(Text("welcome_view_1_title"))
+                    .font(.title)
+                    .fontWeight(.semibold)
+                    .padding(.top, 64)
+                    .padding(.horizontal)
+                    .accessibilityAddTraits(.isHeader)
+                Text("welcome_view_1_explanation")
+                    .accessibilityLabel(Text("welcome_view_1_explanation"))
+                    .fontWeight(.semibold)
+                    .padding(.top, 2)
+                    .padding(.horizontal)
+            }
+            .navigationTitle("メディアの読み込み")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                }
+            }
+        }
+    }
+}
+
+extension InstructionView {
+    var advancedFeaturesView: some View {
+        NavigationStack {
+            VStack {
+                Text("welcome_view_1_title")
+                    .accessibilityLabel(Text("welcome_view_1_title"))
+                    .font(.title)
+                    .fontWeight(.semibold)
+                    .padding(.top, 64)
+                    .padding(.horizontal)
+                    .accessibilityAddTraits(.isHeader)
+                Text("welcome_view_1_explanation")
+                    .accessibilityLabel(Text("welcome_view_1_explanation"))
+                    .fontWeight(.semibold)
+                    .padding(.top, 2)
+                    .padding(.horizontal)
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        showInstructionView = false
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                }
+            }
+            .navigationTitle("メディアの読み込み")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                }
+            }
+        }
+    }
+}
+
+extension InstructionView {
+    var customizationView: some View {
+        NavigationStack {
+            VStack {
+                Text("welcome_view_1_title")
+                    .accessibilityLabel(Text("welcome_view_1_title"))
+                    .font(.title)
+                    .fontWeight(.semibold)
+                    .padding(.top, 64)
+                    .padding(.horizontal)
+                    .accessibilityAddTraits(.isHeader)
+                Text("welcome_view_1_explanation")
+                    .accessibilityLabel(Text("welcome_view_1_explanation"))
+                    .fontWeight(.semibold)
+                    .padding(.top, 2)
+                    .padding(.horizontal)
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        showInstructionView = false
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                }
+            }
+            .navigationTitle("メディアの読み込み")
+            .navigationBarTitleDisplayMode(.inline)
+        }
     }
 }
 
