@@ -177,4 +177,7 @@
 "theme_light" = "ライト";
 "dark" = "ダーク";
 
+"light_mode" = "Light Mode";
+"dark_mode" = "Dark Mode";
+
 "do_not_show_again" = "次回から表示しない";
