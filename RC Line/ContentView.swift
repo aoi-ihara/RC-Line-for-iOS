@@ -86,6 +86,10 @@ struct ContentView: View {
                             }
                         }
                     }
+                    .toolbarVisibility(
+                        wasScrolled ? .visible : .hidden,
+                        for: .bottomBar
+                    )
                 }
                 .frame(maxHeight: .infinity)
                 .disabled(progress > 0.1)
