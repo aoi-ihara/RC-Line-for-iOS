@@ -51,8 +51,10 @@ struct ColorSettingsView: View {
     @AppStorage("foregroundColor") private var storedForeground: CodableColor = .init(.black)
     @AppStorage("backgroundColor") private var storedBackground: CodableColor = .init(.white)
     @AppStorage("highlightColor") private var storedHighlight: CodableColor = .init(.red)
-    @AppStorage("storedForegroundDark") private var storedForegroundDark: CodableColor = .init(.white)
-    @AppStorage("storedBackgroundDark") private var storedBackgroundDark: CodableColor = .init(.black)
+    @AppStorage("storedForegroundDark") private var storedForegroundDark: CodableColor = .init(
+        .white)
+    @AppStorage("storedBackgroundDark") private var storedBackgroundDark: CodableColor = .init(
+        .black)
     @AppStorage("storedHighlightDark") private var storedHighlightDark: CodableColor = .init(.red)
     @AppStorage("theme") private var theme = 0
 

@@ -33,7 +33,9 @@ func performOCR(on image: UIImage, completion: @escaping @Sendable (String) -> V
         do {
             try handler.perform([request])
         } catch {
-            DispatchQueue.main.async { completion("OCRエラー: リクエストの実行に失敗しました: \(error.localizedDescription)") }
+            DispatchQueue.main.async {
+                completion("OCRエラー: リクエストの実行に失敗しました: \(error.localizedDescription)")
+            }
         }
     }
 }

@@ -100,7 +100,7 @@ extension InstructionView {
                                     player0.play()
                                 }
                             }
-                        
+
                         Text("カメラから")
                             .font(.title)
                             .fontWeight(.semibold)
@@ -109,7 +109,7 @@ extension InstructionView {
                     }
                     .padding(.horizontal, 40)
                     .tag(0)
-                    
+
                     VStack(spacing: 20) {
                         TransparentPlayerView(player: player0)
                             .background(Color.clear)
@@ -125,7 +125,7 @@ extension InstructionView {
                                     player0.play()
                                 }
                             }
-                        
+
                         Text("クリップボードから")
                             .font(.title)
                             .fontWeight(.semibold)
@@ -138,7 +138,7 @@ extension InstructionView {
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 .animation(.default, value: slide)
             }
-            
+
             HStack(spacing: 20) {
                 Button {
                     slide -= 1
@@ -149,7 +149,7 @@ extension InstructionView {
                 }
                 .disabled(slide == 0)
                 .buttonStyle(.glass)
-                
+
                 Button {
                     slide += 1
                 } label: {
