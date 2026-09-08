@@ -72,6 +72,9 @@
 "text_case_original" = "そのまま";
 "text_case_lowercase" = "すべて小文字";
 "text_case_uppercase" = "すべて大文字";
+"feature_display_mode" = "機能の表示方法";
+"feature_display_mode_buttons" = "ボタン";
+"feature_display_mode_gestures" = "ジェスチャ";
 "line_break" = "改行";
 "section" = "セクション";
 "split_by_symbol" = "選択した記号を使用してテキストをセクションに分割します。";
