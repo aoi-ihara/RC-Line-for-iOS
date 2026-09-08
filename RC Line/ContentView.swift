@@ -58,41 +58,35 @@ struct ContentView: View {
                         .frame(maxHeight: .infinity)
                     }
                     .frame(maxHeight: .infinity)
-                    .safeAreaInset(edge: .bottom) {
+                    .toolbar {
                         if featureDisplayMode == 0 {
-                            HStack(spacing: 20) {
+                            ToolbarItemGroup(placement: .bottomBar) {
                                 Button {
                                     showSettingsView.toggle()
                                 } label: {
                                     Image(systemName: "gearshape")
                                 }
-                                .accessibilityLabel(Text("settings"))
 
-                                Spacer(minLength: 0)
+                                Spacer()
 
                                 Button {
                                     openCamera()
                                 } label: {
                                     Image(systemName: "camera")
                                 }
-                                .accessibilityLabel(Text("open_camera"))
 
                                 Button {
                                     showImagePicker = true
                                 } label: {
                                     Image(systemName: "photo.on.rectangle.angled")
                                 }
-                                .accessibilityLabel(Text("select_image_from_library"))
 
                                 Button {
                                     pasteFromClipboard()
                                 } label: {
                                     Image(systemName: "clipboard")
                                 }
-                                .accessibilityLabel(Text("paste_text_from_clipboard"))
                             }
-                            .padding(.horizontal, 20)
-                            .padding(.vertical, 8)
                         }
                     }
                 }
