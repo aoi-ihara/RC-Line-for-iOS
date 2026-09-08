@@ -6,12 +6,10 @@ import SwiftUI
 struct InstructionView: View {
     @Binding var showInstructionView: Bool
     @AccessibilityFocusState private var focusedTitle: Bool
-    
+
     @Environment(\.dismiss) private var dismiss
 
     @AppStorage("eyeTracking") private var eyeTracking: Bool = false
-    @State private var blinkEye: Bool = false
-
 
     let player0 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView0", withExtension: "mov")!)
     let player1 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView1", withExtension: "mov")!)
@@ -22,20 +20,21 @@ struct InstructionView: View {
     let player9 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView9", withExtension: "mov")!)
 
     @State private var status = AVCaptureDevice.authorizationStatus(for: .video)
-    
     @State private var playTrigger = 0
+    @State private var blinkEye: Bool = false
     @State private var hasPlayedBlinkVideoOnce = false
-    
+    @State private var slide = 0
+
     let titles = [
         "welcome_view_0_title", "welcome_view_1_title", "welcome_view_2_title",
         "welcome_view_3_title", "welcome_view_3.5_title", "welcome_view_4_title",
         "read_aloud_feature", "welcome_view_5_title", "welcome_view_6_title",
     ]
-    
+
     private var isARKitSupported: Bool {
         ARFaceTrackingConfiguration.isSupported
     }
-    
+
     var body: some View {
         NavigationStack {
             List {
@@ -47,7 +46,7 @@ struct InstructionView: View {
                         systemImage: "photo.on.rectangle.angled"
                     )
                 }
-                
+
                 NavigationLink {
                     gestureView
                 } label: {
@@ -56,7 +55,7 @@ struct InstructionView: View {
                         systemImage: "hand.tap"
                     )
                 }
-                
+
                 NavigationLink {
                     advancedFeaturesView
                 } label: {
@@ -65,7 +64,7 @@ struct InstructionView: View {
                         systemImage: "square.badge.plus"
                     )
                 }
-                
+
                 NavigationLink {
                     customizationView
                 } label: {
@@ -93,11 +92,84 @@ struct InstructionView: View {
 extension InstructionView {
     var mediaImportView: some View {
         VStack {
-            Text("welcome_view_1_title")
-                .font(.title)
-                .fontWeight(.semibold)
-
-            Text("welcome_view_1_explanation")
+            VStack {
+                TabView(selection: $slide) {
+                    VStack(spacing: 20) {
+                        TransparentPlayerView(player: player0)
+                            .background(Color.clear)
+                            .onAppear {
+                                player0.seek(to: .zero)
+                                player0.play()
+                                NotificationCenter.default.addObserver(
+                                    forName: .AVPlayerItemDidPlayToEndTime,
+                                    object: player0.currentItem,
+                                    queue: .main
+                                ) { _ in
+                                    player0.seek(to: .zero)
+                                    player0.play()
+                                }
+                            }
+                        
+                        Text("カメラから")
+                            .font(.title)
+                            .fontWeight(.semibold)
+                        Text("画面を左にスワイプするとカメラが開きます。写真を撮影するとテキストが読み込まれます。")
+                            .padding(.bottom, 40)
+                    }
+                    .padding(.horizontal, 40)
+                    .tag(0)
+                    
+                    VStack(spacing: 20) {
+                        TransparentPlayerView(player: player0)
+                            .background(Color.clear)
+                            .onAppear {
+                                player0.seek(to: .zero)
+                                player0.play()
+                                NotificationCenter.default.addObserver(
+                                    forName: .AVPlayerItemDidPlayToEndTime,
+                                    object: player0.currentItem,
+                                    queue: .main
+                                ) { _ in
+                                    player0.seek(to: .zero)
+                                    player0.play()
+                                }
+                            }
+                        
+                        Text("クリップボードから")
+                            .font(.title)
+                            .fontWeight(.semibold)
+                        Text("画面を右にスワイプしてメニューを開き、「クリップボードからペースト」をタップします。")
+                            .padding(.bottom, 40)
+                    }
+                    .padding(.horizontal, 40)
+                    .tag(1)
+                }
+                .tabViewStyle(.page(indexDisplayMode: .never))
+                .animation(.default, value: slide)
+            }
+            
+            HStack(spacing: 20) {
+                Button {
+                    slide -= 1
+                } label: {
+                    Image(systemName: "arrow.left")
+                        .frame(maxWidth: .infinity)
+                        .padding(10)
+                }
+                .disabled(slide == 0)
+                .buttonStyle(.glass)
+                
+                Button {
+                    slide += 1
+                } label: {
+                    Image(systemName: "arrow.right")
+                        .frame(maxWidth: .infinity)
+                        .padding(10)
+                }
+                .disabled(slide == 1)
+                .buttonStyle(.glass)
+            }
+            .padding(.horizontal, 40)
         }
         .navigationTitle("メディアの読み込み")
         .navigationBarTitleDisplayMode(.inline)
