@@ -1,5 +1,6 @@
 import AVFoundation
 import Photos
+import PhotosUI
 import SwiftUI
 import UIKit
 
@@ -8,13 +9,16 @@ struct ContentView: View {
     @State private var capturedImageInContentView: UIImage?
     @State private var ocrResultText: String = ""
     @State private var hideStatusBar: Bool = true
-    @State private var pasteAlert: Bool = false
     @State private var capturedImage: UIImage?
     @State private var showSettingsView: Bool = false
     @State private var wasScrolled: Bool = true
     @State private var hasTriggeredHaptic: Bool = false
     @State private var showCameraPermissionAlert: Bool = false
     @State private var showCameraSimulatorAlert: Bool = false
+    @State private var showImagePicker = false
+    @State private var selectedImage: UIImage?
+    @State private var selectedItem: PhotosPickerItem?
+    @State private var showPasteError: Bool = false
 
     @Environment(\.layoutDirection) var layoutDirection
 
@@ -26,6 +30,7 @@ struct ContentView: View {
     @AppStorage("storedForegroundDark") private var storedForegroundDark: CodableColor = .init(
         .white)
     @AppStorage("hapticsEnabled") private var hapticsEnabled: Bool = true
+    @AppStorage("doNotShowClipboardAlert") private var doNotShowClipboardAlert: Bool = false
 
     var body: some View {
         GeometryReader { geometry in
@@ -58,21 +63,23 @@ struct ContentView: View {
                             } label: {
                                 Image(systemName: "gearshape")
                             }
-                            
+
                             Spacer()
-                            
+
                             Button {
-                                showingCameraSheetFromContentView.toggle()
+                                openCamera()
                             } label: {
                                 Image(systemName: "camera")
                             }
+
                             Button {
-                                showingCameraSheetFromContentView.toggle()
+                                showImagePicker = true
                             } label: {
                                 Image(systemName: "photo.on.rectangle.angled")
                             }
+
                             Button {
-                                showingCameraSheetFromContentView.toggle()
+                                pasteFromClipboard()
                             } label: {
                                 Image(systemName: "clipboard")
                             }
@@ -98,30 +105,13 @@ struct ContentView: View {
                     VStack {
                         DashboardView(
                             isSidebarOpen: $isSidebarOpen,
-                            pasteAlert: $pasteAlert,
+                            pasteAlert: .constant(false),
                             ocrText: $ocrResultText,
                             showSettingsView: $showSettingsView,
                             wasScrolled: $wasScrolled,
                             disabled: progress < 0.9
                         )
                     }
-                    .toolbar(content: {
-                        if UIAccessibility.isVoiceOverRunning {
-                            ToolbarItem(placement: .navigationBarTrailing) {
-                                if true {
-                                    Button {
-                                        withAnimation(.spring(response: 0.35, dampingFraction: 0.8))
-                                        {
-                                            isSidebarOpen.toggle()
-                                        }
-                                    } label: {
-                                        Image(systemName: "sidebar.right")
-                                    }
-                                    .accessibilityLabel("close_sidebar")
-                                }
-                            }
-                        }
-                    })
                 }
                 .accentColor(
                     colorScheme == .dark ? storedForegroundDark.color : storedForeground.color
@@ -194,19 +184,7 @@ struct ContentView: View {
                                 horizontal < -cameraMinDistance || horizontal < cameraMinVelocity
 
                             if isStrongLeftSwipe {
-                                let status = AVCaptureDevice.authorizationStatus(for: .video)
-
-                                if status == .denied || status == .restricted {
-                                    DispatchQueue.main.async {
-                                        showCameraPermissionAlert = true
-                                    }
-                                } else {
-                                    #if targetEnvironment(simulator)
-                                        showCameraSimulatorAlert = true
-                                    #else
-                                        showingCameraSheetFromContentView = true
-                                    #endif
-                                }
+                                openCamera()
 
                                 withAnimation {
                                     dragOffset = 0
@@ -232,7 +210,6 @@ struct ContentView: View {
                             dragOffset = 0
                         }
                     }
-
             )
         }
         .sheet(
@@ -254,6 +231,38 @@ struct ContentView: View {
             .padding(0)
             .background(Color.black)
         }
+        .photosPicker(
+            isPresented: $showImagePicker,
+            selection: $selectedItem,
+            matching: .images
+        )
+        .onChange(of: selectedItem) {
+            Task {
+                guard let data = try? await selectedItem?.loadTransferable(type: Data.self),
+                    let image = UIImage(data: data)
+                else { return }
+
+                await MainActor.run {
+                    self.selectedImage = image
+                    UIAccessibility.post(
+                        notification: .announcement,
+                        argument: NSLocalizedString("image_selected", comment: "")
+                    )
+                }
+
+                performOCR(on: image) { text in
+                    Task { @MainActor in
+                        self.ocrResultText = text
+                        isSidebarOpen = false
+                        UIAccessibility.post(
+                            notification: .screenChanged,
+                            argument: NSLocalizedString(
+                                "image_processing_complete", comment: "")
+                        )
+                    }
+                }
+            }
+        }
         .onChange(of: capturedImage) {
             self.capturedImageInContentView = capturedImage
             if let capturedImage = capturedImage {
@@ -272,6 +281,15 @@ struct ContentView: View {
             isSidebarOpen = false
         }
         .interactiveDismissDisabled(true)
+        .alert(
+            "clipboard_is_empty", isPresented: $showPasteError,
+            actions: {
+                Button("close", role: .cancel) {}
+                Button("do_not_show_again", role: .destructive) {
+                    doNotShowClipboardAlert = true
+                }
+            }
+        )
         .alert(
             "camera_not_allowed", isPresented: $showCameraPermissionAlert,
             actions: {
@@ -294,6 +312,52 @@ struct ContentView: View {
             message: {
                 Text("This feature is not available in the Xcode simulator.")
             })
+    }
+
+    private func openCamera() {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+
+        if status == .denied || status == .restricted {
+            DispatchQueue.main.async {
+                showCameraPermissionAlert = true
+            }
+        } else {
+            #if targetEnvironment(simulator)
+                showCameraSimulatorAlert = true
+            #else
+                showingCameraSheetFromContentView = true
+            #endif
+        }
+    }
+
+    private func pasteFromClipboard() {
+        if let clipboard = UIPasteboard.general.string {
+            ocrResultText = clipboard
+
+            UIAccessibility.post(
+                notification: .announcement,
+                argument: NSLocalizedString("pasted_from_clipboard", comment: "")
+            )
+
+            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                isSidebarOpen = false
+            }
+        } else {
+            if !doNotShowClipboardAlert {
+                showPasteError = true
+            }
+
+            UIAccessibility.post(
+                notification: .announcement,
+                argument: NSLocalizedString("clipboard_is_empty", comment: "")
+            )
+
+            if hapticsEnabled {
+                let generator = UINotificationFeedbackGenerator()
+                generator.prepare()
+                generator.notificationOccurred(.error)
+            }
+        }
     }
 }
 
