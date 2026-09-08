@@ -68,6 +68,10 @@
 "reader" = "リーダー";
 "auto_scroll" = "自動スクロール";
 "scroll_to_highlight" = "ハイライトされた行まで自動的にスクロールします。";
+"text_case" = "文字の大文字・小文字";
+"text_case_original" = "そのまま";
+"text_case_lowercase" = "すべて小文字";
+"text_case_uppercase" = "すべて大文字";
 "line_break" = "改行";
 "section" = "セクション";
 "split_by_symbol" = "選択した記号を使用してテキストをセクションに分割します。";
@@ -120,7 +124,7 @@
 
 "opens_tutorial" = "チュートリアルを開く";
 "tutorial_opened" = "チュートリアルを開きました";
-"tutorial_closed" = "チュートリアルを閉じました";
+"tutorial_closed" = "チュートリアルを閉じる";
 
 "open_sidebar" = "サイドバーを開く";
 "open_camera" = "カメラを開く";
