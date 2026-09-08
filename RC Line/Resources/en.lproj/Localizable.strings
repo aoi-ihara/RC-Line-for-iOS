@@ -72,6 +72,9 @@
 "text_case_original" = "Original";
 "text_case_lowercase" = "Lowercase";
 "text_case_uppercase" = "Uppercase";
+"feature_display_mode" = "Feature Display";
+"feature_display_mode_buttons" = "Buttons";
+"feature_display_mode_gestures" = "Gestures";
 "line_break" = "Line Break";
 "section" = "Section";
 "split_by_symbol" = "Splits text into sections using the selected symbol.";
