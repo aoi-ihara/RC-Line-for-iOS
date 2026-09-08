@@ -3,6 +3,43 @@ import AVFoundation
 import AVKit
 import SwiftUI
 
+struct InstructionView: View {
+    @State private var slide = 0
+    @State private var blinkEye: Bool = false
+
+    @Binding var showInstructionView: Bool
+    @AccessibilityFocusState private var focusedTitle: Bool
+
+    @AppStorage("eyeTracking") private var eyeTracking: Bool = false
+
+    let player0 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView0", withExtension: "mov")!)
+    let player1 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView1", withExtension: "mov")!)
+    let player2 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView2", withExtension: "mov")!)
+    let player3 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView3", withExtension: "mov")!)
+    let player4 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView4", withExtension: "mov")!)
+    let player8 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView8", withExtension: "mov")!)
+    let player9 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView9", withExtension: "mov")!)
+
+    @State private var status = AVCaptureDevice.authorizationStatus(for: .video)
+
+    @State private var playTrigger = 0
+    @State private var hasPlayedBlinkVideoOnce = false
+
+    let titles = [
+        "welcome_view_0_title", "welcome_view_1_title", "welcome_view_2_title",
+        "welcome_view_3_title", "welcome_view_3.5_title", "welcome_view_4_title",
+        "read_aloud_feature", "welcome_view_5_title", "welcome_view_6_title",
+    ]
+
+    private var isARKitSupported: Bool {
+        ARFaceTrackingConfiguration.isSupported
+    }
+    
+    var body: some View {
+        Text("Hello World!!")
+    }
+}
+
 struct WelcomeView: View {
     @State private var slide = 0
     @State private var blinkEye: Bool = false

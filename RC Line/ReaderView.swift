@@ -13,7 +13,7 @@ struct ReaderView: View {
     @Binding var wasScrolled: Bool
     @Binding var isSidebarOpen: Bool
 
-    @State private var showWelcomeView = !UserDefaults.standard.bool(forKey: "wasRuned")
+    @State private var showInstructinoView = !UserDefaults.standard.bool(forKey: "wasRuned")
 
     @AppStorage("fullScreenMode") var fullScreenMode: Bool = true
     @AppStorage("ocrMode") var ocrMode: Int = 0
@@ -31,7 +31,7 @@ struct ReaderView: View {
 
     var body: some View {
         ZStack {
-            if eyeTracking && !showWelcomeView {
+            if eyeTracking && !showInstructionView {
                 EyeTrackingView(onBlink: {
                     if animate {
                         withAnimation(.timingCurve(.easeInOut, duration: 0.3)) {
@@ -135,9 +135,9 @@ struct ReaderView: View {
             }
         }
         .fullScreenCover(
-            isPresented: $showWelcomeView,
+            isPresented: $showInstructinoView,
             content: {
-                WelcomeView(showWelcomeView: $showWelcomeView)
+                InstructionView(showInstructionView: $showInstructinoView)
                     .accentColor(Color(.label))
                     .presentationDetents([.large])
                     .interactiveDismissDisabled(true)
