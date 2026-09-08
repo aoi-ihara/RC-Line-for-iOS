@@ -124,7 +124,7 @@
 
 "opens_tutorial" = "チュートリアルを開く";
 "tutorial_opened" = "チュートリアルを開きました";
-"tutorial_closed" = "チュートリアルを閉じる";
+"tutorial_closed" = "チュートリアルを閉じました";
 
 "open_sidebar" = "サイドバーを開く";
 "open_camera" = "カメラを開く";
