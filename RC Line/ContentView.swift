@@ -32,6 +32,7 @@ struct ContentView: View {
         .white)
     @AppStorage("hapticsEnabled") private var hapticsEnabled: Bool = true
     @AppStorage("doNotShowClipboardAlert") private var doNotShowClipboardAlert: Bool = false
+    @AppStorage("featureDisplayMode") private var featureDisplayMode: Int = 0
 
     var body: some View {
         GeometryReader { geometry in
@@ -58,31 +59,33 @@ struct ContentView: View {
                     }
                     .frame(maxHeight: .infinity)
                     .toolbar {
-                        ToolbarItemGroup(placement: .bottomBar) {
-                            Button {
-                                showSettingsView.toggle()
-                            } label: {
-                                Image(systemName: "gearshape")
-                            }
+                        if featureDisplayMode == 0 {
+                            ToolbarItemGroup(placement: .bottomBar) {
+                                Button {
+                                    showSettingsView.toggle()
+                                } label: {
+                                    Image(systemName: "gearshape")
+                                }
 
-                            Spacer()
+                                Spacer()
 
-                            Button {
-                                openCamera()
-                            } label: {
-                                Image(systemName: "camera")
-                            }
+                                Button {
+                                    openCamera()
+                                } label: {
+                                    Image(systemName: "camera")
+                                }
 
-                            Button {
-                                showImagePicker = true
-                            } label: {
-                                Image(systemName: "photo.on.rectangle.angled")
-                            }
+                                Button {
+                                    showImagePicker = true
+                                } label: {
+                                    Image(systemName: "photo.on.rectangle.angled")
+                                }
 
-                            Button {
-                                pasteFromClipboard()
-                            } label: {
-                                Image(systemName: "clipboard")
+                                Button {
+                                    pasteFromClipboard()
+                                } label: {
+                                    Image(systemName: "clipboard")
+                                }
                             }
                         }
                     }
@@ -122,8 +125,10 @@ struct ContentView: View {
                 .zIndex(100)
             }
             .simultaneousGesture(
-                DragGesture()
+                DragGesture(minimumDistance: featureDisplayMode == 1 ? 10 : .greatestFiniteMagnitude)
                     .onChanged { value in
+                        guard featureDisplayMode == 1 else { return }
+
                         let dx: Double
 
                         if layoutDirection == .rightToLeft {
@@ -161,6 +166,11 @@ struct ContentView: View {
                         }
                     }
                     .onEnded { value in
+                        guard featureDisplayMode == 1 else {
+                            dragOffset = 0
+                            return
+                        }
+
                         hasTriggeredHaptic = false
                         let horizontal: Double
                         if layoutDirection == .rightToLeft {

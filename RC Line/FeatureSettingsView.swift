@@ -9,6 +9,7 @@ struct FeatureSettingsView: View {
     @AppStorage("hapticsEnabled") private var hapticsEnabled: Bool = true
     @AppStorage("priorityFrontCamera") private var priorityFrontCamera: Bool = false
     @AppStorage("textCase") private var textCase: Int = 0
+    @AppStorage("featureDisplayMode") private var featureDisplayMode: Int = 0
 
     @AppStorage("splitByLineBreak") private var splitByLineBreak: Bool = true  // ↩
     @AppStorage("splitByPeriod") private var splitByPeriod: Bool = true  // 。 / .
@@ -87,6 +88,12 @@ struct FeatureSettingsView: View {
                         Text("text_case_uppercase").tag(2)
                     }
                     .accessibilityLabel(Text("text_case"))
+
+                    Picker("feature_display_mode", selection: $featureDisplayMode) {
+                        Text("feature_display_mode_buttons").tag(0)
+                        Text("feature_display_mode_gestures").tag(1)
+                    }
+                    .accessibilityLabel(Text("feature_display_mode"))
                 }
 
                 Section(

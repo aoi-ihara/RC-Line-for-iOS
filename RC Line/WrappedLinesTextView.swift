@@ -51,6 +51,7 @@ struct WrappedLinesTextView: View {
     @AppStorage("storedHighlightDark") private var storedHighlightDark: CodableColor = .init(.red)
     @Environment(\.colorScheme) var colorScheme
     @AppStorage("theme") private var theme = 0
+    @AppStorage("featureDisplayMode") private var featureDisplayMode: Int = 0
     @AppStorage("fontFamily") var fontFamily: Int = 0
     @AppStorage("fontWeight") var fontWeight: Int = 4
     @AppStorage("animate") var animate: Bool = true
@@ -137,7 +138,7 @@ extension WrappedLinesTextView {
     fileprivate var mainContentView: some View {
         ScrollViewReader { scrollProxy in
             LazyVStack(spacing: 0) {
-                if text.isEmpty {
+                if text.isEmpty && featureDisplayMode == 1 {
                     emptyStateView
                 } else {
                     if !summary.isEmpty && summrizeText {
