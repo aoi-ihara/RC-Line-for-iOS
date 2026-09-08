@@ -28,8 +28,7 @@ struct ContentView: View {
 
     @AppStorage("foregroundColor") private var storedForeground: CodableColor = .init(.black)
     @Environment(\.colorScheme) var colorScheme
-    @AppStorage("storedForegroundDark") private var storedForegroundDark: CodableColor = .init(
-        .white)
+    @AppStorage("storedForegroundDark") private var storedForegroundDark: CodableColor = .init(.white)
     @AppStorage("hapticsEnabled") private var hapticsEnabled: Bool = true
     @AppStorage("doNotShowClipboardAlert") private var doNotShowClipboardAlert: Bool = false
 
@@ -47,50 +46,22 @@ struct ContentView: View {
 
             ZStack(alignment: .leading) {
                 NavigationStack {
-                    ZStack {
-                        ReaderView(
-                            ocrText: $ocrResultText,
-                            showingCameraSheetFromContentView: $showingCameraSheetFromContentView,
-                            wasScrolled: $wasScrolled,
-                            isSidebarOpen: $isSidebarOpen
-                        )
-                        .frame(maxHeight: .infinity)
-                        .ignoresSafeArea(.container, edges: .bottom)
-                    }
+                    ReaderView(
+                        ocrText: $ocrResultText,
+                        showingCameraSheetFromContentView: $showingCameraSheetFromContentView,
+                        wasScrolled: $wasScrolled,
+                        isSidebarOpen: $isSidebarOpen
+                    )
                     .frame(maxHeight: .infinity)
-                    .toolbar {
-                        ToolbarItemGroup(placement: .bottomBar) {
-                            Button {
-                                showSettingsView.toggle()
-                            } label: {
-                                Image(systemName: "gearshape")
-                            }
-
-                            Spacer()
-
-                            Button {
-                                openCamera()
-                            } label: {
-                                Image(systemName: "camera")
-                            }
-
-                            Button {
-                                showImagePicker = true
-                            } label: {
-                                Image(systemName: "photo.on.rectangle.angled")
-                            }
-
-                            Button {
-                                pasteFromClipboard()
-                            } label: {
-                                Image(systemName: "clipboard")
+                    .safeAreaInset(edge: .bottom, spacing: 0) {
+                        ZStack {
+                            if wasScrolled {
+                                readerToolbar
                             }
                         }
+                        .frame(height: 50)
                     }
-                    .toolbarVisibility(
-                        wasScrolled ? .visible : .hidden,
-                        for: .bottomBar
-                    )
+                    .frame(maxHeight: .infinity)
                 }
                 .frame(maxHeight: .infinity)
                 .disabled(progress > 0.1)
@@ -262,8 +233,7 @@ struct ContentView: View {
                         isSidebarOpen = false
                         UIAccessibility.post(
                             notification: .screenChanged,
-                            argument: NSLocalizedString(
-                                "image_processing_complete", comment: "")
+                            argument: NSLocalizedString("image_processing_complete", comment: "")
                         )
                     }
                 }
@@ -318,6 +288,41 @@ struct ContentView: View {
             message: {
                 Text("This feature is not available in the Xcode simulator.")
             })
+    }
+
+    @ViewBuilder
+    private var readerToolbar: some View {
+        HStack {
+            Button {
+                showSettingsView.toggle()
+            } label: {
+                Image(systemName: "gearshape")
+            }
+
+            Spacer()
+
+            Button {
+                openCamera()
+            } label: {
+                Image(systemName: "camera")
+            }
+
+            Button {
+                showImagePicker = true
+            } label: {
+                Image(systemName: "photo.on.rectangle.angled")
+            }
+
+            Button {
+                pasteFromClipboard()
+            } label: {
+                Image(systemName: "clipboard")
+            }
+        }
+        .padding(.horizontal)
+        .frame(maxWidth: .infinity)
+        .frame(height: 50)
+        .background(.bar)
     }
 
     private func openCamera() {
