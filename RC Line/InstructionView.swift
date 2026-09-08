@@ -76,15 +76,6 @@ struct InstructionView: View {
             }
             .navigationTitle("インストラクション")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "xmark")
-                    }
-                }
-            }
         }
     }
 }
@@ -173,15 +164,6 @@ extension InstructionView {
         }
         .navigationTitle("メディアの読み込み")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "xmark")
-                }
-            }
-        }
     }
 }
 

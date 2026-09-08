@@ -13,7 +13,7 @@ struct ReaderView: View {
     @Binding var wasScrolled: Bool
     @Binding var isSidebarOpen: Bool
 
-    @State private var showInstructinoView = !UserDefaults.standard.bool(forKey: "wasRuned") || true
+    @State private var showInstructinoView = !UserDefaults.standard.bool(forKey: "wasRuned")
 
     @AppStorage("fullScreenMode") var fullScreenMode: Bool = true
     @AppStorage("ocrMode") var ocrMode: Int = 0
@@ -134,15 +134,13 @@ struct ReaderView: View {
                 generator.notificationOccurred(.success)
             }
         }
-        .sheet(
-            isPresented: $showInstructinoView,
-            content: {
-                InstructionView(showInstructionView: $showInstructinoView)
-                    .accentColor(Color(.label))
-                    .presentationDetents([.large])
-            }
-        )
-
+        .sheet(isPresented: $showInstructinoView) {
+            InstructionView(showInstructionView: $showInstructinoView)
+                .accentColor(Color(.label))
+                .presentationDetents([.large])
+        }
+        
+        
         VStack(alignment: .center) {
             Spacer()
             Button {

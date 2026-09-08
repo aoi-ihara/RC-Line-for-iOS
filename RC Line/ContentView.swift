@@ -51,28 +51,33 @@ struct ContentView: View {
                         .frame(maxHeight: .infinity)
                     }
                     .frame(maxHeight: .infinity)
-                    .toolbar(content: {
-                        if UIAccessibility.isVoiceOverRunning {
-                            ToolbarItem(placement: .navigationBarLeading) {
-                                Button {
-                                    withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
-                                        isSidebarOpen.toggle()
-                                    }
-                                } label: {
-                                    Image(systemName: "sidebar.left")
-                                }
-                                .accessibilityLabel("open_sidebar")
+                    .toolbar {
+                        ToolbarItemGroup(placement: .bottomBar) {
+                            Button {
+                                showSettingsView.toggle()
+                            } label: {
+                                Image(systemName: "gearshape")
                             }
-                            ToolbarItem(placement: .navigationBarTrailing) {
-                                Button {
-                                    showingCameraSheetFromContentView.toggle()
-                                } label: {
-                                    Image(systemName: "camera")
-                                }
-                                .accessibilityLabel("open_camera")
+                            
+                            Spacer()
+                            
+                            Button {
+                                showingCameraSheetFromContentView.toggle()
+                            } label: {
+                                Image(systemName: "camera")
+                            }
+                            Button {
+                                showingCameraSheetFromContentView.toggle()
+                            } label: {
+                                Image(systemName: "photo.on.rectangle.angled")
+                            }
+                            Button {
+                                showingCameraSheetFromContentView.toggle()
+                            } label: {
+                                Image(systemName: "clipboard")
                             }
                         }
-                    })
+                    }
                 }
                 .frame(maxHeight: .infinity)
                 .disabled(progress > 0.1)
@@ -166,15 +171,12 @@ struct ContentView: View {
                     }
                     .onEnded { value in
                         hasTriggeredHaptic = false
-
                         let horizontal: Double
-
                         if layoutDirection == .rightToLeft {
                             horizontal = -value.translation.width
                         } else {
                             horizontal = value.translation.width
                         }
-
                         let vertical = abs(value.translation.height)
 
                         guard abs(horizontal) > vertical * 1.5 else {
