@@ -8,6 +8,7 @@ struct FeatureSettingsView: View {
     @AppStorage("saveToLibrary") private var saveToLibrary: Bool = false
     @AppStorage("hapticsEnabled") private var hapticsEnabled: Bool = true
     @AppStorage("priorityFrontCamera") private var priorityFrontCamera: Bool = false
+    @AppStorage("textCase") private var textCase: Int = 0
 
     @AppStorage("splitByLineBreak") private var splitByLineBreak: Bool = true  // ↩
     @AppStorage("splitByPeriod") private var splitByPeriod: Bool = true  // 。 / .
@@ -79,6 +80,13 @@ struct FeatureSettingsView: View {
                         }
                     )
                     .accessibilityLabel(Text("auto_scroll"))
+
+                    Picker("text_case", selection: $textCase) {
+                        Text("text_case_original").tag(0)
+                        Text("text_case_lowercase").tag(1)
+                        Text("text_case_uppercase").tag(2)
+                    }
+                    .accessibilityLabel(Text("text_case"))
                 }
 
                 Section(
