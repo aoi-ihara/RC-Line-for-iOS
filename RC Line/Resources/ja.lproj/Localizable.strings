@@ -68,6 +68,10 @@
 "reader" = "リーダー";
 "auto_scroll" = "自動スクロール";
 "scroll_to_highlight" = "ハイライトされた行まで自動的にスクロールします。";
+"text_case" = "文字の大文字・小文字";
+"text_case_original" = "そのまま";
+"text_case_lowercase" = "すべて小文字";
+"text_case_uppercase" = "すべて大文字";
 "line_break" = "改行";
 "section" = "セクション";
 "split_by_symbol" = "選択した記号を使用してテキストをセクションに分割します。";
@@ -172,5 +176,8 @@
 "auto" = "自動";
 "theme_light" = "ライト";
 "dark" = "ダーク";
+
+"light_mode" = "Light Mode";
+"dark_mode" = "Dark Mode";
 
 "do_not_show_again" = "次回から表示しない";

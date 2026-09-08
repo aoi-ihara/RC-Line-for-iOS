@@ -25,9 +25,21 @@ struct ReaderView: View {
     @Environment(\.colorScheme) var colorScheme
     @AppStorage("theme") private var theme = 0
     @AppStorage("animate") var animate: Bool = true
+    @AppStorage("textCase") private var textCase: Int = 0
 
     @State private var eyeTracking: Bool = false
     @State private var maxFocusingLine: Int = 0
+
+    private var readerText: String {
+        switch textCase {
+        case 1:
+            return ocrText.lowercased()
+        case 2:
+            return ocrText.uppercased()
+        default:
+            return ocrText
+        }
+    }
 
     var body: some View {
         ZStack {
@@ -77,7 +89,7 @@ struct ReaderView: View {
                                     let screenWidth = geometry.size.width
 
                                     TextView(
-                                        text: ocrText,
+                                        text: readerText,
                                         fontSize: fontSize,
                                         screenHeight: screenHeight,
                                         screenWidth: screenWidth,

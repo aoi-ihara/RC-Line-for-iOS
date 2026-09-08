@@ -68,6 +68,10 @@
 "reader" = "Reader";
 "auto_scroll" = "Auto Scroll";
 "scroll_to_highlight" = "Automatically scrolls to the highlighted line.";
+"text_case" = "Text Case";
+"text_case_original" = "Original";
+"text_case_lowercase" = "Lowercase";
+"text_case_uppercase" = "Uppercase";
 "line_break" = "Line Break";
 "section" = "Section";
 "split_by_symbol" = "Splits text into sections using the selected symbol.";
