@@ -91,6 +91,10 @@ struct ContentView: View {
                         wasScrolled ? .visible : .hidden,
                         for: .bottomBar
                     )
+                    .toolbarMinimizationSafeAreaAdjustment(
+                        .disabled,
+                        for: .bottomBar
+                    )
                 }
                 .frame(maxHeight: .infinity)
                 .disabled(progress > 0.1)
