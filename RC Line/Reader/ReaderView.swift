@@ -84,7 +84,6 @@ struct ReaderView: View {
                         ScrollView {
                             VStack(spacing: 0) {
                                 VStack {
-
                                     let screenHeight = geometry.size.height
                                     let screenWidth = geometry.size.width
 
@@ -118,8 +117,7 @@ struct ReaderView: View {
                         .simultaneousGesture(
                             DragGesture(minimumDistance: 10)
                                 .onChanged { value in
-                                    if abs(value.translation.height) > abs(value.translation.width)
-                                    {
+                                    if abs(value.translation.height) > abs(value.translation.width) {
                                         withAnimation(.timingCurve(.linear, duration: 0.2)) {
                                             wasScrolled = true
                                         }
@@ -136,7 +134,7 @@ struct ReaderView: View {
                         .padding(.vertical, fullScreenMode ? 0 : 1)
                     }
                 }
-                    .background(colorScheme == .dark ? storedBackgroundDark.color : storedBackground.color)
+                .background(colorScheme == .dark ? storedBackgroundDark.color : storedBackground.color)
             )
         }
         .onChange(of: ocrText) {
@@ -151,7 +149,6 @@ struct ReaderView: View {
                 .accentColor(Color(.label))
                 .presentationDetents([.large])
         }
-
 
         VStack(alignment: .center) {
             Spacer()
@@ -207,7 +204,7 @@ struct TextView: View {
 
     let fontNames = [
         "Jost-Regular", "Lexend-Regular", "LINESeedJPApp_OTF-Regular", "NotoSansJP-Thin_Regular",
-        "NotoSerifJP-Regular", "Roboto-Regular",
+        "NotoSerifJP-Regular", "Roboto-Regular", "OpenDyslexic-Regular", "JetBrainsMono-Regular",
     ]
 
     @Binding var speaking: Bool
@@ -219,17 +216,37 @@ struct TextView: View {
     @State private var showExplanation = false
     @State private var explanation = ""
 
+    private var selectedFontName: String {
+        if fontFamily == 8 {
+            return fontWeight >= 6 ? "OpenDyslexic-Bold" : "OpenDyslexic-Regular"
+        }
+
+        return fontNames[fontFamily - 2]
+    }
+
+    private var selectedFont: Font {
+        if fontFamily < 2 {
+            return .system(size: fontSize, design: fontFamily == 0 ? .default : .serif)
+        }
+
+        return .custom(selectedFontName, size: fontSize)
+    }
+
+    private var selectedSmallFont: Font {
+        if fontFamily < 2 {
+            return .system(size: fontSize * 0.75, design: fontFamily == 0 ? .default : .serif)
+        }
+
+        return .custom(selectedFontName, size: fontSize * 0.75)
+    }
+
     var body: some View {
         VStack(alignment: .center) {
             WrappedLinesTextView(
                 speaking: $speaking,
                 text: text,
-                font: fontFamily < 2
-                    ? .system(size: fontSize, design: fontFamily == 0 ? .default : .serif)
-                    : .custom(fontNames[fontFamily - 2], size: fontSize),
-                smallFont: fontFamily < 2
-                    ? .system(size: fontSize * 0.75, design: fontFamily == 0 ? .default : .serif)
-                    : .custom(fontNames[fontFamily - 2], size: fontSize * 0.75),
+                font: selectedFont,
+                smallFont: selectedSmallFont,
                 focusingLine: $focusingLine,
                 wasScrolled: $wasScrolled,
                 screenWidth: screenWidth,
@@ -249,13 +266,12 @@ struct TextView: View {
                         Text(explanation == "generating_explanation" ? "Generating Explanation" : explanation)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.horizontal)
-
                             .font(
                                 fontFamily < 2
                                     ? .system(
                                         size: fontSize * 1.2,
                                         design: fontFamily == 0 ? .default : .serif)
-                                    : .custom(fontNames[fontFamily - 2], size: fontSize * 1.2)
+                                    : .custom(selectedFontName, size: fontSize * 1.2)
                             )
                             .fontWeight(fontWightList[fontWeight])
                             .tracking(fontSize * (letterSpacing - 1))
@@ -269,7 +285,6 @@ struct TextView: View {
                                     }
                                 }
                             }
-
                             .presentationDetents(UIDevice.current.userInterfaceIdiom == .phone ? [.medium, .large] : [.large])
                     }
                 }
