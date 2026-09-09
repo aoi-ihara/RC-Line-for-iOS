@@ -207,7 +207,7 @@ struct TextView: View {
 
     let fontNames = [
         "Jost-Regular", "Lexend-Regular", "LINESeedJPApp_OTF-Regular", "NotoSansJP-Thin_Regular",
-        "NotoSerifJP-Regular", "Roboto-Regular",
+        "NotoSerifJP-Regular", "Roboto-Regular", "OpenDyslexic-Regular", "OpenDyslexic-Bold",
     ]
 
     @Binding var speaking: Bool
@@ -219,17 +219,37 @@ struct TextView: View {
     @State private var showExplanation = false
     @State private var explanation = ""
 
+    private var selectedFontName: String {
+        if fontFamily == 8 {
+            return fontWeight >= 6 ? "OpenDyslexic-Bold" : "OpenDyslexic-Regular"
+        }
+
+        return fontNames[fontFamily - 2]
+    }
+
+    private var selectedFont: Font {
+        if fontFamily < 2 {
+            return .system(size: fontSize, design: fontFamily == 0 ? .default : .serif)
+        }
+
+        return .custom(selectedFontName, size: fontSize)
+    }
+
+    private var selectedSmallFont: Font {
+        if fontFamily < 2 {
+            return .system(size: fontSize * 0.75, design: fontFamily == 0 ? .default : .serif)
+        }
+
+        return .custom(selectedFontName, size: fontSize * 0.75)
+    }
+
     var body: some View {
         VStack(alignment: .center) {
             WrappedLinesTextView(
                 speaking: $speaking,
                 text: text,
-                font: fontFamily < 2
-                    ? .system(size: fontSize, design: fontFamily == 0 ? .default : .serif)
-                    : .custom(fontNames[fontFamily - 2], size: fontSize),
-                smallFont: fontFamily < 2
-                    ? .system(size: fontSize * 0.75, design: fontFamily == 0 ? .default : .serif)
-                    : .custom(fontNames[fontFamily - 2], size: fontSize * 0.75),
+                font: selectedFont,
+                smallFont: selectedSmallFont,
                 focusingLine: $focusingLine,
                 wasScrolled: $wasScrolled,
                 screenWidth: screenWidth,
@@ -255,7 +275,7 @@ struct TextView: View {
                                     ? .system(
                                         size: fontSize * 1.2,
                                         design: fontFamily == 0 ? .default : .serif)
-                                    : .custom(fontNames[fontFamily - 2], size: fontSize * 1.2)
+                                    : .custom(selectedFontName, size: fontSize * 1.2)
                             )
                             .fontWeight(fontWightList[fontWeight])
                             .tracking(fontSize * (letterSpacing - 1))
