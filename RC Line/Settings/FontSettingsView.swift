@@ -19,6 +19,7 @@ struct FontSettingsView: View {
                             Text("system_sans").tag(0)
                             Text("system_serif").tag(1)
                             Text("Lexend").tag(3)
+                            Text("OpenDyslexic").tag(8)
                         }
                     )
                     .pickerStyle(.menu)
