@@ -49,8 +49,6 @@ struct ContentView: View {
             ZStack(alignment: .leading) {
                 NavigationStack {
                     ZStack {
-                        ToobarView()
-
                         ReaderView(
                             ocrText: $ocrResultText,
                             showingCameraSheetFromContentView: $showingCameraSheetFromContentView,
@@ -60,6 +58,37 @@ struct ContentView: View {
                         .frame(maxHeight: .infinity)
                     }
                     .frame(maxHeight: .infinity)
+                    .toolbar {
+                        if featureDisplayMode == 0 {
+                            ToolbarItemGroup(placement: .bottomBar) {
+                                Button {
+                                    showSettingsView.toggle()
+                                } label: {
+                                    Image(systemName: "gearshape")
+                                }
+                                
+                                Spacer()
+                                
+                                Button {
+                                    openCamera()
+                                } label: {
+                                    Image(systemName: "camera")
+                                }
+                                
+                                Button {
+                                    showImagePicker = true
+                                } label: {
+                                    Image(systemName: "photo.on.rectangle.angled")
+                                }
+                                
+                                Button {
+                                    pasteFromClipboard()
+                                } label: {
+                                    Image(systemName: "clipboard")
+                                }
+                            }
+                        }
+                    }
                 }
                 .frame(maxHeight: .infinity)
                 .disabled(progress > 0.1)
