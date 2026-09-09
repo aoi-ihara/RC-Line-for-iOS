@@ -11,23 +11,23 @@ struct ToolbarButton: View {
     let title: String
     let systemImage: String
     let action: () -> Void
-    
+
     var body: some View {
         Button(action: action, label: {
             VStack(spacing: 10) {
                 Image(systemName: systemImage)
                     .font(.system(size: 24))
                 Text(title)
+                    .fontWeight(.semibold)
                     .font(.caption)
             }
-            .foregroundColor(.white)
-            .frame(width: 80, height: 80)
-            .background(Color.black)
-            .cornerRadius(5)
+            .frame(width: 60, height: 60)
         })
-        .buttonStyle(ScaleButtonStyle())
+        .buttonStyle(.glass)
+        .buttonBorderShape(.roundedRectangle(radius: 10))
     }
 }
+
 
 struct ScaleButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
@@ -35,4 +35,8 @@ struct ScaleButtonStyle: ButtonStyle {
             .scaleEffect(configuration.isPressed ? 0.9 : 1.0)
             .animation(.easeOut(duration: 0.15), value: configuration.isPressed)
     }
+}
+
+#Preview {
+    ContentView()
 }

@@ -11,8 +11,10 @@ struct ToolbarView: View {
     var body: some View {
         VStack {
             Spacer()
-            
+
             ToolbarButton(title: "Settings", systemImage: "gearshape", action: {})
+            ToolbarButton(title: "From Camera", systemImage: "camera", action: {})
+            ToolbarButton(title: "From Camera", systemImage: "camera", action: {})
         }
     }
 }
