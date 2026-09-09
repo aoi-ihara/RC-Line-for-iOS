@@ -13,7 +13,7 @@ struct ReaderView: View {
     @Binding var wasScrolled: Bool
     @Binding var isSidebarOpen: Bool
 
-    @State private var showInstructinoView = !UserDefaults.standard.bool(forKey: "wasRuned")
+    @State private var showInstructinoView = !UserDefaults.standard.bool(forKey: "wasRuned") && false
 
     @AppStorage("fullScreenMode") var fullScreenMode: Bool = true
     @AppStorage("ocrMode") var ocrMode: Int = 0
@@ -203,8 +203,7 @@ struct TextView: View {
     ]
 
     let fontNames = [
-        "Jost-Regular", "Lexend-Regular", "LINESeedJPApp_OTF-Regular", "NotoSansJP-Thin_Regular",
-        "NotoSerifJP-Regular", "Roboto-Regular", "OpenDyslexic-Regular", "JetBrainsMono-Regular",
+        "Jost-Regular", "Lexend-Regular", "Roboto-Regular", "OpenDyslexic-Regular", "JetBrainsMono-Regular",
     ]
 
     @Binding var speaking: Bool
