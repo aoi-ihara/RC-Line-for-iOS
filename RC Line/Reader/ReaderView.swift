@@ -84,7 +84,6 @@ struct ReaderView: View {
                         ScrollView {
                             VStack(spacing: 0) {
                                 VStack {
-
                                     let screenHeight = geometry.size.height
                                     let screenWidth = geometry.size.width
 
@@ -118,8 +117,7 @@ struct ReaderView: View {
                         .simultaneousGesture(
                             DragGesture(minimumDistance: 10)
                                 .onChanged { value in
-                                    if abs(value.translation.height) > abs(value.translation.width)
-                                    {
+                                    if abs(value.translation.height) > abs(value.translation.width) {
                                         withAnimation(.timingCurve(.linear, duration: 0.2)) {
                                             wasScrolled = true
                                         }
@@ -136,7 +134,7 @@ struct ReaderView: View {
                         .padding(.vertical, fullScreenMode ? 0 : 1)
                     }
                 }
-                    .background(colorScheme == .dark ? storedBackgroundDark.color : storedBackground.color)
+                .background(colorScheme == .dark ? storedBackgroundDark.color : storedBackground.color)
             )
         }
         .onChange(of: ocrText) {
@@ -151,7 +149,6 @@ struct ReaderView: View {
                 .accentColor(Color(.label))
                 .presentationDetents([.large])
         }
-
 
         VStack(alignment: .center) {
             Spacer()
@@ -207,7 +204,7 @@ struct TextView: View {
 
     let fontNames = [
         "Jost-Regular", "Lexend-Regular", "LINESeedJPApp_OTF-Regular", "NotoSansJP-Thin_Regular",
-        "NotoSerifJP-Regular", "Roboto-Regular", "OpenDyslexic-Regular", "OpenDyslexic-Bold",
+        "NotoSerifJP-Regular", "Roboto-Regular", "OpenDyslexic-Regular", "JetBrainsMono-Regular",
     ]
 
     @Binding var speaking: Bool
@@ -269,7 +266,6 @@ struct TextView: View {
                         Text(explanation == "generating_explanation" ? "Generating Explanation" : explanation)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.horizontal)
-
                             .font(
                                 fontFamily < 2
                                     ? .system(
@@ -289,7 +285,6 @@ struct TextView: View {
                                     }
                                 }
                             }
-
                             .presentationDetents(UIDevice.current.userInterfaceIdiom == .phone ? [.medium, .large] : [.large])
                     }
                 }
