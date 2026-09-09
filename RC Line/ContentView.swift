@@ -50,7 +50,7 @@ struct ContentView: View {
                 NavigationStack {
                     ZStack {
                         ToobarView()
-                        
+
                         ReaderView(
                             ocrText: $ocrResultText,
                             showingCameraSheetFromContentView: $showingCameraSheetFromContentView,
@@ -95,104 +95,7 @@ struct ContentView: View {
                 .offset(x: targetX)
                 .zIndex(100)
             }
-            .simultaneousGesture(
-                DragGesture(minimumDistance: featureDisplayMode == 1 ? 10 : .greatestFiniteMagnitude)
-                    .onChanged { value in
-                        guard featureDisplayMode == 1 else { return }
-
-                        let dx: Double
-
-                        if layoutDirection == .rightToLeft {
-                            dx = -value.translation.width
-                        } else {
-                            dx = value.translation.width
-                        }
-
-                        let dy = value.translation.height
-
-                        if abs(dy) > abs(dx) {
-                            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
-                                self.dragOffset = 0
-                            }
-                            return
-                        }
-
-                        if isSidebarOpen && dx > 0 {
-                            self.dragOffset = dx / 3
-                        } else if !isSidebarOpen && dx < 0 {
-                            self.dragOffset = dx / 3
-                        } else {
-                            self.dragOffset = dx
-                        }
-
-                        if hapticsEnabled && !isSidebarOpen {
-                            if dx < -125 {
-                                if !hasTriggeredHaptic {
-                                    UISelectionFeedbackGenerator().selectionChanged()
-                                    hasTriggeredHaptic = true
-                                }
-                            } else {
-                                hasTriggeredHaptic = false
-                            }
-                        }
-                    }
-                    .onEnded { value in
-                        guard featureDisplayMode == 1 else {
-                            dragOffset = 0
-                            return
-                        }
-
-                        hasTriggeredHaptic = false
-                        let horizontal: Double
-                        if layoutDirection == .rightToLeft {
-                            horizontal = -value.translation.width
-                        } else {
-                            horizontal = value.translation.width
-                        }
-                        let vertical = abs(value.translation.height)
-
-                        guard abs(horizontal) > vertical * 1.5 else {
-                            withAnimation {
-                                dragOffset = 0
-                            }
-                            return
-                        }
-
-                        if !isSidebarOpen {
-                            let cameraMinDistance: CGFloat = 125
-                            let cameraMinVelocity: CGFloat = -1000
-
-                            let isStrongLeftSwipe =
-                                horizontal < -cameraMinDistance || horizontal < cameraMinVelocity
-
-                            if isStrongLeftSwipe {
-                                openCamera()
-
-                                withAnimation {
-                                    dragOffset = 0
-                                }
-                            }
-                        }
-
-                        let sidebarMinDistance: CGFloat = sidebarWidth * 0.1
-                        let sidebarMinVelocity: CGFloat = 900
-
-                        let shouldOpen: Bool
-                        if isSidebarOpen {
-                            shouldOpen =
-                                !(horizontal < -sidebarMinDistance
-                                || horizontal < -sidebarMinVelocity)
-                        } else {
-                            shouldOpen =
-                                horizontal > sidebarMinDistance || horizontal > sidebarMinVelocity
-                        }
-
-                        withAnimation(.interpolatingSpring(stiffness: 350, damping: 45)) {
-                            isSidebarOpen = shouldOpen
-                            dragOffset = 0
-                        }
-                    }
-            )
+            .simultaneousGesture(sidebarDragGesture(sidebarWidth: sidebarWidth))
         }
         .sheet(
             isPresented: $showSettingsView,
@@ -294,6 +197,105 @@ struct ContentView: View {
             message: {
                 Text("This feature is not available in the Xcode simulator.")
             })
+    }
+
+    private func sidebarDragGesture(sidebarWidth: CGFloat) -> some Gesture {
+        DragGesture(
+            minimumDistance: featureDisplayMode == 1 ? 10 : .greatestFiniteMagnitude
+        )
+        .onChanged { value in
+            guard featureDisplayMode == 1 else { return }
+
+            let dx: Double
+            if layoutDirection == .rightToLeft {
+                dx = -value.translation.width
+            } else {
+                dx = value.translation.width
+            }
+
+            let dy = value.translation.height
+
+            if abs(dy) > abs(dx) {
+                withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                    self.dragOffset = 0
+                }
+                return
+            }
+
+            if isSidebarOpen && dx > 0 {
+                self.dragOffset = dx / 3
+            } else if !isSidebarOpen && dx < 0 {
+                self.dragOffset = dx / 3
+            } else {
+                self.dragOffset = dx
+            }
+
+            if hapticsEnabled && !isSidebarOpen {
+                if dx < -125 {
+                    if !hasTriggeredHaptic {
+                        UISelectionFeedbackGenerator().selectionChanged()
+                        hasTriggeredHaptic = true
+                    }
+                } else {
+                    hasTriggeredHaptic = false
+                }
+            }
+        }
+        .onEnded { value in
+            guard featureDisplayMode == 1 else {
+                dragOffset = 0
+                return
+            }
+
+            hasTriggeredHaptic = false
+
+            let horizontal: Double
+            if layoutDirection == .rightToLeft {
+                horizontal = -value.translation.width
+            } else {
+                horizontal = value.translation.width
+            }
+
+            let vertical = abs(value.translation.height)
+            guard abs(horizontal) > vertical * 1.5 else {
+                withAnimation {
+                    dragOffset = 0
+                }
+                return
+            }
+
+            if !isSidebarOpen {
+                let cameraMinDistance: CGFloat = 125
+                let cameraMinVelocity: CGFloat = -1000
+                let isStrongLeftSwipe =
+                    horizontal < -cameraMinDistance || horizontal < cameraMinVelocity
+
+                if isStrongLeftSwipe {
+                    openCamera()
+                    withAnimation {
+                        dragOffset = 0
+                    }
+                }
+            }
+
+            let sidebarMinDistance: CGFloat = sidebarWidth * 0.1
+            let sidebarMinVelocity: CGFloat = 900
+
+            let shouldOpen: Bool
+            if isSidebarOpen {
+                shouldOpen =
+                    !(horizontal < -sidebarMinDistance
+                    || horizontal < -sidebarMinVelocity)
+            } else {
+                shouldOpen =
+                    horizontal > sidebarMinDistance || horizontal > sidebarMinVelocity
+            }
+
+            withAnimation(.interpolatingSpring(stiffness: 350, damping: 45)) {
+                isSidebarOpen = shouldOpen
+                dragOffset = 0
+            }
+        }
     }
 
     private func openCamera() {
