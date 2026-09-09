@@ -10,7 +10,9 @@ import SwiftUI
 struct ToolbarView: View {
     var body: some View {
         VStack {
-            Text("Hello World")
+            Spacer()
+            
+            ToolbarButton(title: "Settings", systemImage: "gearshape", action: {})
         }
     }
 }
