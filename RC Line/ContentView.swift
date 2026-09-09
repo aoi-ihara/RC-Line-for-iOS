@@ -56,6 +56,8 @@ struct ContentView: View {
                             isSidebarOpen: $isSidebarOpen
                         )
                         .frame(maxHeight: .infinity)
+                        
+                        ToolbarView()
                     }
                     .frame(maxHeight: .infinity)
                     .toolbar {
