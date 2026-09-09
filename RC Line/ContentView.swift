@@ -57,40 +57,40 @@ struct ContentView: View {
                         )
                         .frame(maxHeight: .infinity)
                         
-                        ToolbarView()
+                        ToolbarView(wasScrolled: $wasScrolled)
                     }
                     .frame(maxHeight: .infinity)
-//                    .toolbar {
-//                        if featureDisplayMode == 0 {
-//                            ToolbarItemGroup(placement: .bottomBar) {
-//                                Button {
-//                                    showSettingsView.toggle()
-//                                } label: {
-//                                    Image(systemName: "gearshape")
-//                                }
-//                                
-//                                Spacer()
-//                                
-//                                Button {
-//                                    openCamera()
-//                                } label: {
-//                                    Image(systemName: "camera")
-//                                }
-//                                
-//                                Button {
-//                                    showImagePicker = true
-//                                } label: {
-//                                    Image(systemName: "photo.on.rectangle.angled")
-//                                }
-//                                
-//                                Button {
-//                                    pasteFromClipboard()
-//                                } label: {
-//                                    Image(systemName: "clipboard")
-//                                }
-//                            }
-//                        }
-//                    }
+                    .toolbar {
+                        if featureDisplayMode == 0 {
+                            ToolbarItemGroup(placement: .bottomBar) {
+                                Button {
+                                    showSettingsView.toggle()
+                                } label: {
+                                    Image(systemName: "gearshape")
+                                }
+                                
+                                Spacer()
+                                
+                                Button {
+                                    openCamera()
+                                } label: {
+                                    Image(systemName: "camera")
+                                }
+                                
+                                Button {
+                                    showImagePicker = true
+                                } label: {
+                                    Image(systemName: "photo.on.rectangle.angled")
+                                }
+                                
+                                Button {
+                                    pasteFromClipboard()
+                                } label: {
+                                    Image(systemName: "clipboard")
+                                }
+                            }
+                        }
+                    }
                 }
                 .frame(maxHeight: .infinity)
                 .disabled(progress > 0.1)
