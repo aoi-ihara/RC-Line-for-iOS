@@ -26,6 +26,8 @@ struct ContentView: View {
     @State private var isSidebarOpen = false
     @State private var dragOffset: CGFloat = 0
 
+    @State private var showLabel = false
+
     @AppStorage("foregroundColor") private var storedForeground: CodableColor = .init(.black)
     @Environment(\.colorScheme) var colorScheme
     @AppStorage("storedForegroundDark") private var storedForegroundDark: CodableColor = .init(
@@ -37,14 +39,7 @@ struct ContentView: View {
     var body: some View {
         GeometryReader { geometry in
             let sidebarWidth = geometry.size.width
-
-            let anchoredX: CGFloat = isSidebarOpen ? 0 : -sidebarWidth
-            let combined: CGFloat = anchoredX + dragOffset
-            let clampedX: CGFloat = min(combined, 0)
-            let halfClamped: CGFloat = clampedX / 2.0
-            let halfAnchored: CGFloat = combined / 2.0
-            let targetX: CGFloat = halfClamped + halfAnchored
-            let progress: CGFloat = (targetX + sidebarWidth) / max(sidebarWidth, 1)
+            let (targetX, progress) = sidebarProgress(sidebarWidth: sidebarWidth)
 
             ZStack(alignment: .leading) {
                 NavigationStack {
@@ -56,41 +51,48 @@ struct ContentView: View {
                             isSidebarOpen: $isSidebarOpen
                         )
                         .frame(maxHeight: .infinity)
-                        
-                        ToolbarView(wasScrolled: $wasScrolled)
+
+                        VStack {
+                            Spacer()
+                            Toggle(isOn: $showLabel) {
+                                Text("Show Label")
+                            }
+                            ToolbarView(wasScrolled: showLabel)
+                        }
+                        .padding(.horizontal, 35)
                     }
                     .frame(maxHeight: .infinity)
-                    .toolbar {
-                        if featureDisplayMode == 0 {
-                            ToolbarItemGroup(placement: .bottomBar) {
-                                Button {
-                                    showSettingsView.toggle()
-                                } label: {
-                                    Image(systemName: "gearshape")
-                                }
-                                
-                                Spacer()
-                                
-                                Button {
-                                    openCamera()
-                                } label: {
-                                    Image(systemName: "camera")
-                                }
-                                
-                                Button {
-                                    showImagePicker = true
-                                } label: {
-                                    Image(systemName: "photo.on.rectangle.angled")
-                                }
-                                
-                                Button {
-                                    pasteFromClipboard()
-                                } label: {
-                                    Image(systemName: "clipboard")
-                                }
-                            }
-                        }
-                    }
+                    //                    .toolbar {
+                    //                        if featureDisplayMode == 0 {
+                    //                            ToolbarItemGroup(placement: .bottomBar) {
+                    //                                Button {
+                    //                                    showSettingsView.toggle()
+                    //                                } label: {
+                    //                                    Image(systemName: "gearshape")
+                    //                                }
+                    //
+                    //                                Spacer()
+                    //
+                    //                                Button {
+                    //                                    openCamera()
+                    //                                } label: {
+                    //                                    Image(systemName: "camera")
+                    //                                }
+                    //
+                    //                                Button {
+                    //                                    showImagePicker = true
+                    //                                } label: {
+                    //                                    Image(systemName: "photo.on.rectangle.angled")
+                    //                                }
+                    //
+                    //                                Button {
+                    //                                    pasteFromClipboard()
+                    //                                } label: {
+                    //                                    Image(systemName: "clipboard")
+                    //                                }
+                    //                            }
+                    //                        }
+                    //                    }
                 }
                 .frame(maxHeight: .infinity)
                 .disabled(progress > 0.1)
@@ -155,7 +157,7 @@ struct ContentView: View {
         .onChange(of: selectedItem) {
             Task {
                 guard let data = try? await selectedItem?.loadTransferable(type: Data.self),
-                    let image = UIImage(data: data)
+                      let image = UIImage(data: data)
                 else { return }
 
                 await MainActor.run {
@@ -299,7 +301,7 @@ struct ContentView: View {
                 let cameraMinDistance: CGFloat = 125
                 let cameraMinVelocity: CGFloat = -1000
                 let isStrongLeftSwipe =
-                    horizontal < -cameraMinDistance || horizontal < cameraMinVelocity
+                horizontal < -cameraMinDistance || horizontal < cameraMinVelocity
 
                 if isStrongLeftSwipe {
                     openCamera()
@@ -315,11 +317,11 @@ struct ContentView: View {
             let shouldOpen: Bool
             if isSidebarOpen {
                 shouldOpen =
-                    !(horizontal < -sidebarMinDistance
-                    || horizontal < -sidebarMinVelocity)
+                !(horizontal < -sidebarMinDistance
+                  || horizontal < -sidebarMinVelocity)
             } else {
                 shouldOpen =
-                    horizontal > sidebarMinDistance || horizontal > sidebarMinVelocity
+                horizontal > sidebarMinDistance || horizontal > sidebarMinVelocity
             }
 
             withAnimation(.interpolatingSpring(stiffness: 350, damping: 45)) {
@@ -327,6 +329,20 @@ struct ContentView: View {
                 dragOffset = 0
             }
         }
+    }
+
+    private func sidebarProgress(
+        sidebarWidth: CGFloat
+    ) -> (targetX: CGFloat, progress: CGFloat) {
+        let anchoredX: CGFloat = isSidebarOpen ? 0 : -sidebarWidth
+        let combined = anchoredX + dragOffset
+        let clampedX = min(combined, 0)
+        let halfClamped = clampedX / 2
+        let halfAnchored = combined / 2
+        let targetX = halfClamped + halfAnchored
+        let progress = (targetX + sidebarWidth) / max(sidebarWidth, 1)
+
+        return (targetX, progress)
     }
 
     private func openCamera() {
@@ -337,11 +353,11 @@ struct ContentView: View {
                 showCameraPermissionAlert = true
             }
         } else {
-            #if targetEnvironment(simulator)
-                showCameraSimulatorAlert = true
-            #else
-                showingCameraSheetFromContentView = true
-            #endif
+#if targetEnvironment(simulator)
+            showCameraSimulatorAlert = true
+#else
+            showingCameraSheetFromContentView = true
+#endif
         }
     }
 

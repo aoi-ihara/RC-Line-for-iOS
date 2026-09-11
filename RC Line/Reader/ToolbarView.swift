@@ -8,15 +8,17 @@
 import SwiftUI
 
 struct ToolbarView: View {
-    @Binding var wasScrolled: Bool
+    var wasScrolled: Bool
     
     var body: some View {
-        VStack {
+        HStack {
+            ToolbarButton(title: "Settings", systemImage: "gearshape", action: {}, showLabel: wasScrolled)
+            
             Spacer()
 
-            ToolbarButton(title: "Settings", systemImage: "gearshape", action: {}, showLabel: wasScrolled)
             ToolbarButton(title: "From Camera", systemImage: "camera", action: {}, showLabel: wasScrolled)
-            ToolbarButton(title: "From Camera", systemImage: "camera", action: {}, showLabel: wasScrolled)
+            ToolbarButton(title: "From Library", systemImage: "clipboard", action: {}, showLabel: wasScrolled)
+            ToolbarButton(title: "From Clipboard", systemImage: "clipboard", action: {}, showLabel: wasScrolled)
         }
     }
 }
@@ -29,17 +31,22 @@ struct ToolbarButton: View {
 
     var body: some View {
         Button(action: action, label: {
-            VStack(spacing: 10) {
+            ZStack {
                 Image(systemName: systemImage)
                     .font(.system(size: 24))
+                    .offset(y: showLabel ? -18 : 0)
+                
                 Text(title)
+                    .offset(y: showLabel ? 18 : 0)
+                    .opacity(showLabel ? 1 : 0)
                     .fontWeight(.semibold)
-                    .font(.caption)
+                    .font(.caption2)
             }
-            .frame(width: 60, height: 60)
+            .animation(.bouncy(duration: 0.2), value: showLabel)
+            .frame(width: 60, height: 80)
         })
         .buttonStyle(.glass)
-        .buttonBorderShape(.roundedRectangle(radius: 10))
+        .buttonBorderShape(.roundedRectangle(radius: 24))
     }
 }
 
