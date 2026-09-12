@@ -19,7 +19,8 @@ struct ContentView: View {
     @State private var showImagePicker = false
     @State private var selectedImage: UIImage?
     @State private var selectedItem: PhotosPickerItem?
-    @State private var showPasteError: Bool = false
+    @State private var showPasteError = false
+    @State private var showLibraryList = false
     
     @Environment(\.layoutDirection) var layoutDirection
     
@@ -121,6 +122,14 @@ struct ContentView: View {
             selection: $selectedItem,
             matching: .images
         )
+        .sheet(
+            isPresented: $showLibraryList,
+            content: {
+                LibraryListView()
+                .accentColor(Color(.label))
+                .presentationDetents([.medium, .large])
+            }
+        )
         .onChange(of: selectedItem) {
             Task {
                 guard let data = try? await selectedItem?.loadTransferable(type: Data.self),
@@ -209,12 +218,14 @@ struct ContentView: View {
                 openCamera()
             },
             onLibrary: {
-                showImagePicker = true
+                showLibraryList.toggle()
             },
             onClipboard: {
                 pasteFromClipboard()
             },
-            onPhotos: {}
+            onPhotos: {
+                showImagePicker = true
+            }
         )
     }
     
