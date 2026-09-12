@@ -15,7 +15,7 @@ struct ToolbarView: View {
     let onClipboard: () -> Void
     let onPhotos: () -> Void
     
-    @State var showActions = false
+    @State private var showActions = false
     
     var body: some View {
         ZStack(alignment: .bottom) {
