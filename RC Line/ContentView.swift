@@ -22,6 +22,7 @@ struct ContentView: View {
     @State private var showPasteError = false
     @State private var showLibraryList = false
     @StateObject private var libraryStore = LibraryStore()
+    @State private var shouldSaveCurrentTextToLibrary = false
     
     @Environment(\.layoutDirection) var layoutDirection
     
@@ -50,7 +51,11 @@ struct ContentView: View {
                             ocrText: $ocrResultText,
                             showingCameraSheetFromContentView: $showingCameraSheetFromContentView,
                             wasScrolled: $wasScrolled,
-                            isSidebarOpen: $isSidebarOpen
+                            isSidebarOpen: $isSidebarOpen,
+                            shouldSaveCurrentTextToLibrary: $shouldSaveCurrentTextToLibrary,
+                            onSaveCurrentTextToLibrary: { text in
+                                libraryStore.save(text: text)
+                            }
                         )
                         .frame(maxHeight: .infinity)
                         
@@ -238,10 +243,7 @@ struct ContentView: View {
     
     private func setOCRText(_ text: String, saveToLibrary: Bool = true) {
         ocrResultText = text
-        
-        if saveToLibrary {
-            libraryStore.save(text: text)
-        }
+        shouldSaveCurrentTextToLibrary = saveToLibrary
     }
     
     private func sidebarDragGesture(sidebarWidth: CGFloat) -> some Gesture {
