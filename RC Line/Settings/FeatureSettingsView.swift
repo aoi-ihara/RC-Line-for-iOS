@@ -10,18 +10,18 @@ struct FeatureSettingsView: View {
     @AppStorage("priorityFrontCamera") private var priorityFrontCamera: Bool = false
     @AppStorage("textCase") private var textCase: Int = 0
     @AppStorage("featureDisplayMode") private var featureDisplayMode: Int = 0
-
+    
     @AppStorage("splitByLineBreak") private var splitByLineBreak: Bool = true  // ↩
     @AppStorage("splitByPeriod") private var splitByPeriod: Bool = true  // 。 / .
     @AppStorage("splitByComma") private var splitByComma: Bool = false  // 、 / ,
     @AppStorage("splitByExclamationMark") private var splitByExclamationMark: Bool = true  // !
     @AppStorage("splitByQuestionMark") private var splitByQuestionMark: Bool = true  // ?
     @AppStorage("splitByBrackets") private var splitByBrackets: Bool = true  // 「」 / " / ' / []
-
+    
     @AppStorage("selectedLnaguage") private var selectedLnaguage = "en-US"
     @AppStorage("readSpeed") private var readSpeed: Double = 0.5
     @AppStorage("postUtteranceDelay") private var postUtteranceDelay: Double = 0.9
-
+    
     var body: some View {
         NavigationStack {
             List {
@@ -29,7 +29,7 @@ struct FeatureSettingsView: View {
                     Toggle("haptic_feedback", isOn: $hapticsEnabled)
                         .accessibilityLabel(Text("haptic_feedback"))
                 }
-
+                
                 Section(
                     content: {
                         Picker(
@@ -40,7 +40,7 @@ struct FeatureSettingsView: View {
                             }
                         )
                         .accessibilityLabel(Text("preferred_camera"))
-
+                        
                         Picker(
                             selection: $ocrMode,
                             content: {
@@ -53,7 +53,7 @@ struct FeatureSettingsView: View {
                             }
                         )
                         .accessibilityLabel(Text("ocr_accuracy"))
-
+                        
                         if PHPhotoLibrary.authorizationStatus(for: .addOnly) != .denied {
                             Toggle(
                                 isOn: $saveToLibrary,
@@ -71,7 +71,7 @@ struct FeatureSettingsView: View {
                     header: {
                         Text("load_image")
                     })
-
+                
                 Section("reader") {
                     Toggle(
                         isOn: $autoScrool,
@@ -81,21 +81,21 @@ struct FeatureSettingsView: View {
                         }
                     )
                     .accessibilityLabel(Text("auto_scroll"))
-
+                    
                     Picker("text_case", selection: $textCase) {
                         Text("text_case_original").tag(0)
                         Text("text_case_lowercase").tag(1)
                         Text("text_case_uppercase").tag(2)
                     }
                     .accessibilityLabel(Text("text_case"))
-
+                    
                     Picker("feature_display_mode", selection: $featureDisplayMode) {
                         Text("feature_display_mode_buttons").tag(0)
                         Text("feature_display_mode_gestures").tag(1)
                     }
                     .accessibilityLabel(Text("feature_display_mode"))
                 }
-
+                
                 Section(
                     content: {
                         Toggle("line_break", isOn: $splitByLineBreak)
@@ -117,7 +117,7 @@ struct FeatureSettingsView: View {
                     footer: {
                         Text("split_by_symbol")
                     })
-
+                
                 Section(
                     content: {
                         Picker(
@@ -139,7 +139,7 @@ struct FeatureSettingsView: View {
                             }
                         )
                         .accessibilityLabel(Text("language"))
-
+                        
                         HStack {
                             Image(systemName: "tortoise.fill")
                             Slider(value: $readSpeed, in: 0...1, step: 0.02)
@@ -154,7 +154,7 @@ struct FeatureSettingsView: View {
                     footer: {
                         Text("\(Int(readSpeed*100))%")
                     })
-
+                
                 Section(
                     content: {
                         HStack {

@@ -3,7 +3,7 @@ import SwiftUI
 struct SettingsView: View {
     @Binding var showSettingsView: Bool
     @State private var showInstructionView: Bool = false
-
+    
     var body: some View {
         NavigationStack {
             List {

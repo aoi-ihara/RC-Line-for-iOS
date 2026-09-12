@@ -4,7 +4,7 @@ import SwiftUI
 struct RCLineApp: App {
     @AppStorage("theme") private var theme = 0
     @Environment(\.colorScheme) var colorScheme
-
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
