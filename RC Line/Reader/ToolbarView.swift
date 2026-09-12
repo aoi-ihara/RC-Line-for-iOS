@@ -23,16 +23,16 @@ struct ToolbarView: View {
                 title: "Settings", systemImage: "gearshape", action: onSettings,
                 showLabel: showLabel, index: 0)
             ToolbarButton(
-                title: "From Camera", systemImage: "camera", action: onCamera,
+                title: "From Library", systemImage: "books.vertical", action: onLibrary,
                 showLabel: showLabel, index: 1)
             ToolbarButton(
-                title: "From Photos", systemImage: "photo.on.rectangle.angled", action: onLibrary,
+                title: "From Camera", systemImage: "camera", action: onCamera,
                 showLabel: showLabel, index: 2)
             ToolbarButton(
-                title: "From Clipboard", systemImage: "clipboard", action: onClipboard,
+                title: "From Photos", systemImage: "photo.on.rectangle.angled", action: onLibrary,
                 showLabel: showLabel, index: 3)
             ToolbarButton(
-                title: "From Library", systemImage: "books.vertical", action: onLibrary,
+                title: "From Clipboard", systemImage: "clipboard", action: onClipboard,
                 showLabel: showLabel, index: 4)
         }
         .frame(maxWidth: .infinity)
