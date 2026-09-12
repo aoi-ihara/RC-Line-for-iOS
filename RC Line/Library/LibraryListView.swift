@@ -58,6 +58,11 @@ final class LibraryStore: ObservableObject {
         persist()
     }
 
+    func delete(at offsets: IndexSet) {
+        documents.remove(atOffsets: offsets)
+        persist()
+    }
+
     func move(fromOffsets source: IndexSet, toOffset destination: Int) {
         documents.move(fromOffsets: source, toOffset: destination)
         persist()
@@ -161,10 +166,14 @@ struct LibraryListView: View {
                     }
                     .buttonStyle(.plain)
                 }
+                .onDelete(perform: store.delete)
                 .onMove(perform: store.move)
             }
             .navigationTitle("Library")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                EditButton()
+            }
         }
     }
 }
