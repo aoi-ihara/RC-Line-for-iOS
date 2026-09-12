@@ -3,7 +3,7 @@ import Foundation
 import NaturalLanguage
 
 private final class SpeechHighlightWordStepperState {
-    var timer: DispatchWorkItem?
+    var generation = 0
     var lastCallbackTime: TimeInterval?
     var lastWordCount = 1
     var estimatedWordDuration: TimeInterval = 0.22
@@ -73,8 +73,8 @@ extension SpeechHighlightDelegate {
         let wordRanges = speechHighlightWordRanges(in: text, within: characterRange)
         let state = SpeechHighlightWordStepperStore.state(for: self)
 
-        state.timer?.cancel()
-        state.timer = nil
+        state.generation += 1
+        let generation = state.generation
 
         let now = ProcessInfo.processInfo.systemUptime
         if let previousTime = state.lastCallbackTime {
@@ -94,31 +94,14 @@ extension SpeechHighlightDelegate {
         }
 
         let wordDuration = state.estimatedWordDuration
-        let generation = UUID()
-        let delayState = state
-
         for (index, range) in wordRanges.enumerated() {
-            let work = DispatchWorkItem { [weak self, weak delayState] in
-                guard let self, let delayState, !work.isCancelled else { return }
+            let delay = wordDuration * Double(index)
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
+                guard let self else { return }
+                let currentState = SpeechHighlightWordStepperStore.state(for: self)
+                guard currentState.generation == generation else { return }
                 self.characterRange = range
             }
-
-            if index == 0 {
-                DispatchQueue.main.async(execute: work)
-            } else {
-                DispatchQueue.main.asyncAfter(
-                    deadline: .now() + wordDuration * Double(index),
-                    execute: work
-                )
-            }
-
-            if index == wordRanges.count - 1 {
-                delayState.timer = work
-            }
         }
-
-        // The local UUID keeps this callback logically independent from later callbacks.
-        // The actual timer is cancelled whenever the next speech unit arrives.
-        _ = generation
     }
 }
