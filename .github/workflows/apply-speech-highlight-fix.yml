@@ -1,0 +1,292 @@
+name: Apply speech highlight fix
+
+on:
+  push:
+    branches:
+      - fix/speech-highlight-word-sync
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/speech-highlight-word-sync
+          fetch-depth: 0
+
+      - name: Patch speech highlighting
+        env:
+          TARGET: RC Line/Reader/WrappedLinesTextView.swift
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path("RC Line/Reader/WrappedLinesTextView.swift")
+          source = path.read_text()
+
+          old_delegate = '''    private var currentGeneration = UUID()
+    private var currentLineIndex: Int?
+
+    func prepare(lineIndex: Int, utteranceText: String) {
+        currentGeneration = UUID()
+        currentLineIndex = lineIndex
+        self.utteranceText = utteranceText
+        characterRange = nil
+    }
+'''
+          new_delegate = '''    private var currentGeneration = UUID()
+    private var currentLineIndex: Int?
+    private var currentBaseOffset = 0
+
+    func prepare(lineIndex: Int, utteranceText: String, baseOffset: Int) {
+        currentGeneration = UUID()
+        currentLineIndex = lineIndex
+        currentBaseOffset = baseOffset
+        self.utteranceText = utteranceText
+        characterRange = nil
+    }
+'''
+          if old_delegate not in source:
+              raise SystemExit("delegate block not found")
+          source = source.replace(old_delegate, new_delegate, 1)
+
+          old_callback = '''        let generation = currentGeneration
+        let lineIndex = currentLineIndex
+        let utteranceText = utterance.speechString
+
+        DispatchQueue.main.async {
+            guard generation == self.currentGeneration else { return }
+            self.lineIndex = lineIndex
+            self.characterRange = characterRange
+            self.utteranceText = utteranceText
+        }
+'''
+          new_callback = '''        let generation = currentGeneration
+        let lineIndex = currentLineIndex
+        let baseOffset = currentBaseOffset
+        let utteranceText = utterance.speechString
+
+        DispatchQueue.main.async {
+            guard generation == self.currentGeneration else { return }
+            self.lineIndex = lineIndex
+            self.characterRange = NSRange(
+                location: baseOffset + characterRange.location,
+                length: characterRange.length
+            )
+            self.utteranceText = utteranceText
+        }
+'''
+          if old_callback not in source:
+              raise SystemExit("callback block not found")
+          source = source.replace(old_callback, new_callback, 1)
+
+          old_highlight = '''        guard speechHighlightDelegate.lineIndex == index,
+              let characterRange = speechHighlightDelegate.characterRange,
+              !speechHighlightDelegate.utteranceText.isEmpty,
+              let highlightRange = Range(characterRange, in: speechHighlightDelegate.utteranceText),
+              speechHighlightDelegate.utteranceText == line
+        else {
+            var attributed = AttributedString(line)
+            attributed.foregroundColor = dimColor
+            return Text(attributed)
+        }
+
+        var attributed = AttributedString()
+        attributed.append(dimmedAttributedString(String(line[..<highlightRange.lowerBound]), color: dimColor))
+        attributed.append(dimmedAttributedString(String(line[highlightRange]), color: baseColor))
+        attributed.append(dimmedAttributedString(String(line[highlightRange.upperBound...]), color: dimColor))
+'''
+          new_highlight = '''        guard speechHighlightDelegate.lineIndex == index,
+              let characterRange = speechHighlightDelegate.characterRange,
+              let highlightRange = Range(characterRange, in: line),
+              characterRange.length > 0
+        else {
+            var attributed = AttributedString(line)
+            attributed.foregroundColor = dimColor
+            return Text(attributed)
+        }
+
+        var attributed = AttributedString()
+        attributed.append(dimmedAttributedString(String(line[..<highlightRange.lowerBound]), color: dimColor))
+        attributed.append(dimmedAttributedString(String(line[highlightRange]), color: baseColor))
+        attributed.append(dimmedAttributedString(String(line[highlightRange.upperBound...]), color: dimColor))
+'''
+          if old_highlight not in source:
+              raise SystemExit("highlight block not found")
+          source = source.replace(old_highlight, new_highlight, 1)
+
+          start = source.index('    private func startSpeaking(')
+          stop = source.index('    private func stopSpeaking()', start)
+
+          replacement = '''    private func speechUtteranceSegments(for text: String) -> [(text: String, baseOffset: Int)] {
+        let tagger = NLTagger(tagSchemes: [.tokenType])
+        tagger.string = text
+
+        var wordRanges: [Range<String.Index>] = []
+        tagger.enumerateTags(
+            in: text.startIndex..<text.endIndex,
+            unit: .word,
+            scheme: .tokenType
+        ) { _, range in
+            wordRanges.append(range)
+            return true
+        }
+
+        guard !wordRanges.isEmpty else {
+            return [(text: text, baseOffset: 0)]
+        }
+
+        var segments: [(text: String, baseOffset: Int)] = []
+        var segmentStart = text.startIndex
+
+        for wordIndex in wordRanges.indices {
+            let wordRange = wordRanges[wordIndex]
+            let nextStart = wordIndex + 1 < wordRanges.count
+                ? wordRanges[wordIndex + 1].lowerBound
+                : text.endIndex
+
+            guard segmentStart < nextStart else { continue }
+
+            let segment = String(text[segmentStart..<nextStart])
+            let baseOffset = NSRange(text[segmentStart..<nextStart], in: text).location
+            segments.append((text: segment, baseOffset: baseOffset))
+            segmentStart = nextStart
+        }
+
+        if segmentStart < text.endIndex {
+            let segment = String(text[segmentStart...])
+            let baseOffset = NSRange(text[segmentStart...], in: text).location
+            segments.append((text: segment, baseOffset: baseOffset))
+        }
+
+        return segments.isEmpty ? [(text: text, baseOffset: 0)] : segments
+    }
+
+    private func startSpeaking(text: [String], index: Int, scrollProxy: ScrollViewProxy) {
+        if synthesizer.isSpeaking {
+            synthesizer.stopSpeaking(at: .immediate)
+        }
+
+        synthesizer.delegate = speechHighlightDelegate
+        speechHighlightDelegate.reset()
+
+        withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+            speaking = true
+        }
+
+        if animate {
+            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                focusingLine = index
+                wasScrolled = false
+            }
+        } else {
+            wasScrolled = false
+        }
+
+        Task {
+            var i = focusingLine
+            while focusingLine < text.count && speaking {
+                i = focusingLine
+
+                let sentence = text[i].trimmingCharacters(in: .whitespacesAndNewlines)
+
+                if sentence.isEmpty {
+                    i += 1
+                    continue
+                }
+
+                if animate {
+                    withAnimation(.timingCurve(.easeInOut, duration: 0.3)) {
+                        wasScrolled = false
+                    }
+                } else {
+                    wasScrolled = false
+                }
+
+                if autoScrool {
+                    if animate {
+                        withAnimation(.timingCurve(.easeInOut, duration: 0.3)) {
+                            scrollProxy.scrollTo(i, anchor: .init(x: 0.5, y: 0.4))
+                        }
+                    } else {
+                        scrollProxy.scrollTo(i, anchor: .init(x: 0.5, y: 0.4))
+                    }
+                }
+
+                let segments = speechUtteranceSegments(for: sentence)
+                for segmentIndex in segments.indices {
+                    guard speaking else { break }
+
+                    let segment = segments[segmentIndex]
+                    let utterance = AVSpeechUtterance(string: segment.text)
+                    speechHighlightDelegate.prepare(
+                        lineIndex: i,
+                        utteranceText: sentence,
+                        baseOffset: segment.baseOffset
+                    )
+                    utterance.voice = AVSpeechSynthesisVoice(language: selectedLnaguage)
+                    utterance.rate = Float(readSpeed)
+                    utterance.postUtteranceDelay =
+                        segmentIndex == segments.count - 1
+                        ? 1 - postUtteranceDelay
+                        : 0
+
+                    synthesizer.speak(utterance)
+
+                    try? await Task.sleep(for: .milliseconds(20))
+
+                    while (synthesizer.isSpeaking || synthesizer.isPaused) && speaking {
+                        try? await Task.sleep(for: .milliseconds(50))
+                    }
+                }
+
+                if speaking {
+                    if animate {
+                        withAnimation(.timingCurve(.easeInOut, duration: 0.3)) {
+                            if i == focusingLine {
+                                focusingLine += 1
+                            }
+                        }
+                    } else {
+                        if i == focusingLine {
+                            focusingLine += 1
+                        }
+                    }
+                }
+            }
+
+            if animate {
+                withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                    wasScrolled = true
+                }
+            } else {
+                wasScrolled = true
+            }
+
+            speechHighlightDelegate.reset()
+
+            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                speaking = false
+            }
+        }
+    }
+
+'''
+
+          source = source[:start] + replacement + source[stop:]
+
+          path.write_text(source)
+          PY
+
+      - name: Commit patched source and remove temporary workflow
+        run: |
+          rm -f .github/workflows/apply-speech-highlight-fix.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "RC Line/Reader/WrappedLinesTextView.swift" .github/workflows/apply-speech-highlight-fix.yml
+          git commit -m "Fix Japanese word-level speech highlighting"
+          git push origin HEAD:fix/speech-highlight-word-sync
