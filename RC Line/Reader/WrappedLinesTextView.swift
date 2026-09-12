@@ -8,35 +8,87 @@ final class SpeechHighlightDelegate: NSObject, ObservableObject, AVSpeechSynthes
     @Published var lineIndex: Int?
     @Published var characterRange: NSRange?
     @Published var utteranceText = ""
-    
-    var currentLineIndex: Int?
-    var currentUtteranceText = ""
-    
+
+    private var currentGeneration = UUID()
+    private var currentLineIndex: Int?
+    private var currentLineText = ""
+    private var currentBaseOffset = 0
+    private var currentHighlightOffset = 0
+    private var currentHighlightLength = 0
+
+    func prepare(
+        lineIndex: Int,
+        lineText: String,
+        baseOffset: Int,
+        highlightOffset: Int,
+        highlightLength: Int
+    ) {
+        currentGeneration = UUID()
+        currentLineIndex = lineIndex
+        currentLineText = lineText
+        currentBaseOffset = baseOffset
+        currentHighlightOffset = highlightOffset
+        currentHighlightLength = highlightLength
+        utteranceText = lineText
+        characterRange = NSRange(
+            location: baseOffset + highlightOffset,
+            length: highlightLength
+        )
+        self.lineIndex = lineIndex
+    }
+
     func speechSynthesizer(
         _ synthesizer: AVSpeechSynthesizer,
         willSpeakRangeOfSpeechString characterRange: NSRange,
         utterance: AVSpeechUtterance
     ) {
+        let generation = currentGeneration
+        let lineIndex = currentLineIndex
+        let lineText = currentLineText
+        let baseOffset = currentBaseOffset
+        let highlightOffset = currentHighlightOffset
+        let highlightLength = currentHighlightLength
+
+        let tokenRange = NSRange(location: highlightOffset, length: highlightLength)
+        let callbackRange = NSIntersectionRange(characterRange, tokenRange)
+        let absoluteRange: NSRange
+        if callbackRange.length > 0 {
+            absoluteRange = NSRange(
+                location: baseOffset + callbackRange.location,
+                length: callbackRange.length
+            )
+        } else {
+            absoluteRange = NSRange(
+                location: baseOffset + highlightOffset,
+                length: highlightLength
+            )
+        }
+
         DispatchQueue.main.async {
-            self.lineIndex = self.currentLineIndex
-            self.characterRange = characterRange
-            self.utteranceText = self.currentUtteranceText
+            guard generation == self.currentGeneration else { return }
+            self.lineIndex = lineIndex
+            self.characterRange = absoluteRange
+            self.utteranceText = lineText
         }
     }
-    
+
     func reset() {
+        currentGeneration = UUID()
         lineIndex = nil
         characterRange = nil
         utteranceText = ""
         currentLineIndex = nil
-        currentUtteranceText = ""
+        currentLineText = ""
+        currentBaseOffset = 0
+        currentHighlightOffset = 0
+        currentHighlightLength = 0
     }
 }
 
 struct WrappedLinesTextView: View {
     @Binding var speaking: Bool
     @State private var speakingLine = 0
-    
+
     let text: String
     let font: Font
     let smallFont: Font
@@ -48,22 +100,22 @@ struct WrappedLinesTextView: View {
     @Binding var explanation: String
     @Binding var eyeTracking: Bool
     @Binding var maxFocusingLine: Int
-    
+
     let synthesizer = AVSpeechSynthesizer()
     @StateObject private var speechHighlightDelegate = SpeechHighlightDelegate()
     @State private var showSimulatorAlert: Bool = false
-    
+
     private var isARKitSupported: Bool {
         ARFaceTrackingConfiguration.isSupported
     }
-    
+
     @AppStorage("splitByLineBreak") private var splitByLineBreak: Bool = true
     @AppStorage("splitByPeriod") private var splitByPeriod: Bool = true
     @AppStorage("splitByComma") private var splitByComma: Bool = false
     @AppStorage("splitByExclamationMark") private var splitByExclamationMark: Bool = true
     @AppStorage("splitByQuestionMark") private var splitByQuestionMark: Bool = true
     @AppStorage("splitByBrackets") private var splitByBrackets: Bool = true
-    
+
     @AppStorage("hapticsEnabled") var hapticsEnabled: Bool = true
     @AppStorage("autoScrool") var autoScrool: Bool = true
     @AppStorage("lineWidth") var lineWidth: Double = 75
@@ -74,10 +126,8 @@ struct WrappedLinesTextView: View {
     @AppStorage("foregroundColor") private var storedForeground: CodableColor = .init(.black)
     @AppStorage("backgroundColor") private var storedBackground: CodableColor = .init(.white)
     @AppStorage("highlightColor") private var storedHighlight: CodableColor = .init(.red)
-    @AppStorage("storedForegroundDark") private var storedForegroundDark: CodableColor = .init(
-        .white)
-    @AppStorage("storedBackgroundDark") private var storedBackgroundDark: CodableColor = .init(
-        .black)
+    @AppStorage("storedForegroundDark") private var storedForegroundDark: CodableColor = .init(.white)
+    @AppStorage("storedBackgroundDark") private var storedBackgroundDark: CodableColor = .init(.black)
     @AppStorage("storedHighlightDark") private var storedHighlightDark: CodableColor = .init(.red)
     @Environment(\.colorScheme) var colorScheme
     @AppStorage("theme") private var theme = 0
@@ -101,19 +151,19 @@ struct WrappedLinesTextView: View {
     @AppStorage("selectedLnaguage") private var selectedLnaguage = "en-US"
     @AppStorage("readSpeed") private var readSpeed: Double = 0.5
     @AppStorage("postUtteranceDelay") private var postUtteranceDelay: Double = 0.9
-    
+
     @State private var measuredLines: [String] = []
     @State private var measuredLinesRaw: [String] = []
     @State private var summary = ""
-    
+
     let fontWightList: [Font.Weight] = [
         .thin, .thin, .regular, .regular, .semibold, .semibold, .bold, .bold, .heavy, .heavy,
     ]
     private let model = SystemLanguageModel.default
-    
+
     @State var explanationSession = LanguageModelSession()
     @State var summarizeSession = LanguageModelSession()
-    
+
     var body: some View {
         ZStack(alignment: .topLeading) {
             backgroundCalculationView
@@ -128,65 +178,53 @@ extension WrappedLinesTextView {
             Color.clear
                 .onAppear {
                     updateMeasuredLines()
-                    
                     maxFocusingLine = measuredLines.count
                 }
                 .onChange(of: proxy.size.width) { _, _ in
                     updateMeasuredLines()
-                    
                     maxFocusingLine = measuredLines.count
                 }
                 .onChange(of: currentSplitSettings) {
                     updateMeasuredLines()
-                    
                     maxFocusingLine = measuredLines.count
                 }
                 .onChange(of: text) {
                     updateMeasuredLines()
                     generateSummary()
-                    
                     maxFocusingLine = measuredLines.count
                 }
                 .onChange(of: insertSpaceBitweenWords) {
                     updateMeasuredLines()
-                    
                     maxFocusingLine = measuredLines.count
                 }
                 .onChange(of: spaceInserted) {
                     updateMeasuredLines()
-                    
                     maxFocusingLine = measuredLines.count
                 }
                 .onChange(of: separateByWord) {
                     updateMeasuredLines()
-                    
                     maxFocusingLine = measuredLines.count
                 }
         }
     }
-    
+
     fileprivate var mainContentView: some View {
         ScrollViewReader { scrollProxy in
             LazyVStack(spacing: 0) {
                 if text.isEmpty && featureDisplayMode == 1 {
                     emptyStateView
-                } else {
-                    if !summary.isEmpty && summrizeText {
-                        summaryView
-                    }
+                } else if !summary.isEmpty && summrizeText {
+                    summaryView
                 }
-                
                 linesListView(scrollProxy: scrollProxy)
             }
             .padding(.bottom, 100)
-            .onChange(
-                of: focusingLine,
-                {
-                    focusLineForAccessibility(focusingLine)
-                })
+            .onChange(of: focusingLine) {
+                focusLineForAccessibility(focusingLine)
+            }
         }
     }
-    
+
     fileprivate var emptyStateView: some View {
         VStack {
             VStack {
@@ -205,7 +243,7 @@ extension WrappedLinesTextView {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
-    
+
     fileprivate var summaryView: some View {
         Text(summary == "generating_summary" ? "Generating Summary" : summary)
             .foregroundStyle(
@@ -219,27 +257,27 @@ extension WrappedLinesTextView {
             .fontWeight(fontWightList[fontWeight])
             .blur(radius: wasScrolled ? 0 : (abs(Double(0 - focusingLine) - 0.25) - 0.25) * 1)
     }
-    
+
     fileprivate func linesListView(scrollProxy: ScrollViewProxy) -> some View {
         ForEach(Array(measuredLines.enumerated()), id: \.offset) { index, line in
             lineRow(index: index, line: line, rawText: text, scrollProxy: scrollProxy)
         }
     }
-    
+
     func focusLineForAccessibility(_ index: Int) {
         guard index < measuredLines.count else { return }
         UIAccessibility.post(notification: .layoutChanged, argument: nil)
         UIAccessibility.post(notification: .announcement, argument: measuredLines[index])
     }
-    
+
     func lineRow(
         index: Int, line: String, rawText: String, scrollProxy: ScrollViewProxy
     ) -> some View {
         VStack(alignment: .leading) {
             let lineTextOpacity =
-            (focusingLine == index || wasScrolled)
-            ? 1 : (0.5 - Double(abs(index - focusingLine)) * textOpacity)
-            
+                (focusingLine == index || wasScrolled)
+                ? 1 : (0.5 - Double(abs(index - focusingLine)) * textOpacity)
+
             VStack {
                 speechHighlightedText(line: line, index: index)
                     .foregroundStyle(
@@ -306,7 +344,7 @@ extension WrappedLinesTextView {
                         .accessibilityLabel("start_speaking")
                     }
                 }
-                
+
 #if targetEnvironment(simulator)
                 Button {
                     showSimulatorAlert.toggle()
@@ -314,7 +352,7 @@ extension WrappedLinesTextView {
                     Label("explanation", systemImage: "text.append")
                 }
                 .accessibilityLabel("explanation")
-                
+
                 Button {
                     showSimulatorAlert.toggle()
                 } label: {
@@ -324,49 +362,42 @@ extension WrappedLinesTextView {
 #else
                 if isARKitSupported {
                     if !speaking {
-                        if eyeTracking {
-                            Button(role: .destructive) {
-                                withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
-                                    eyeTracking = false
-                                    wasScrolled = true
-                                }
-                            } label: {
-                                Label("stop_eye_tracking", systemImage: "eye.slash")
+                        Button(role: .destructive) {
+                            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                                eyeTracking = false
+                                wasScrolled = true
                             }
-                            .accessibilityLabel("stop_eye_tracking")
-                        } else {
-                            Button {
-                                withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
-                                    eyeTracking = true
-                                    wasScrolled = false
-                                    focusingLine = index
-                                }
-                            } label: {
-                                Label("start_eye_tracking", systemImage: "eye")
-                            }
-                            .accessibilityLabel("start_eye_tracking")
+                        } label: {
+                            Label("stop_eye_tracking", systemImage: "eye.slash")
                         }
+                        .accessibilityLabel("stop_eye_tracking")
+                    } else {
+                        Button {
+                            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                                eyeTracking = true
+                                wasScrolled = false
+                                focusingLine = index
+                            }
+                        } label: {
+                            Label("start_eye_tracking", systemImage: "eye")
+                        }
+                        .accessibilityLabel("start_eye_tracking")
                     }
                 }
-                
+
                 if #available(iOS 18.1, *) {
                     let available = SystemLanguageModel.default.isAvailable
-                    
                     if available {
                         Button {
                             showExplanation.toggle()
-                            
                             explanation = line
-                            
                             focusingLine = index
-                            
                             if autoScrool {
                                 if animate {
                                     DispatchQueue.main.async {
                                         withAnimation {
                                             scrollProxy.scrollTo(
-                                                focusingLine, anchor: UnitPoint(x: 0.5, y: 0.25)
-                                            )
+                                                focusingLine, anchor: UnitPoint(x: 0.5, y: 0.25))
                                         }
                                     }
                                 } else {
@@ -374,7 +405,6 @@ extension WrappedLinesTextView {
                                         focusingLine, anchor: UnitPoint(x: 0.5, y: 0.25))
                                 }
                             }
-                            
                             generateExplanation(rawText: measuredLinesRaw[index])
                         } label: {
                             Label("explanation", systemImage: "text.append")
@@ -399,123 +429,141 @@ extension WrappedLinesTextView {
                 Text("This feature is not available in the Xcode simulator.")
             }
         )
-        .onChange(
-            of: focusingLine,
-            {
-                if autoScrool {
-                    if animate {
-                        DispatchQueue.main.async {
-                            withAnimation {
-                                scrollProxy.scrollTo(
-                                    focusingLine, anchor: UnitPoint(x: 0.5, y: 0.4))
-                            }
+        .onChange(of: focusingLine) {
+            if autoScrool {
+                if animate {
+                    DispatchQueue.main.async {
+                        withAnimation {
+                            scrollProxy.scrollTo(
+                                focusingLine, anchor: UnitPoint(x: 0.5, y: 0.4))
                         }
-                    } else {
-                        scrollProxy.scrollTo(
-                            focusingLine, anchor: UnitPoint(x: 0.5, y: 0.4))
                     }
+                } else {
+                    scrollProxy.scrollTo(
+                        focusingLine, anchor: UnitPoint(x: 0.5, y: 0.4))
                 }
             }
-        )
-        .onChange(
-            of: wasScrolled,
-            {
-                if autoScrool {
-                    if animate {
-                        DispatchQueue.main.async {
-                            withAnimation {
-                                scrollProxy.scrollTo(
-                                    focusingLine, anchor: UnitPoint(x: 0.5, y: 0.4))
-                            }
+        }
+        .onChange(of: wasScrolled) {
+            if autoScrool {
+                if animate {
+                    DispatchQueue.main.async {
+                        withAnimation {
+                            scrollProxy.scrollTo(
+                                focusingLine, anchor: UnitPoint(x: 0.5, y: 0.4))
                         }
-                    } else {
-                        scrollProxy.scrollTo(
-                            focusingLine, anchor: UnitPoint(x: 0.5, y: 0.4))
                     }
+                } else {
+                    scrollProxy.scrollTo(
+                        focusingLine, anchor: UnitPoint(x: 0.5, y: 0.4))
                 }
-            })
+            }
+        }
     }
-    
+
     private func speechHighlightedText(line: String, index: Int) -> Text {
         guard speaking else {
             return Text(line)
         }
-        
+
         let baseColor = colorScheme == .dark ? storedForegroundDark.color : storedForeground.color
         let dimColor = baseColor.opacity(0.4)
-        
+
         guard speechHighlightDelegate.lineIndex == index,
               let characterRange = speechHighlightDelegate.characterRange,
-              !speechHighlightDelegate.utteranceText.isEmpty,
-              let wordIndex = wordIndex(
-                for: characterRange, in: speechHighlightDelegate.utteranceText),
-              let wordRange = wordRange(at: wordIndex, in: line)
+              characterRange.length > 0,
+              let highlightRange = Range(characterRange, in: line)
         else {
             var attributed = AttributedString(line)
             attributed.foregroundColor = dimColor
             return Text(attributed)
         }
-        
+
         var attributed = AttributedString()
-        attributed.append(dimmedAttributedString(String(line[..<wordRange.lowerBound]), color: dimColor))
-        attributed.append(dimmedAttributedString(String(line[wordRange]), color: baseColor))
-        attributed.append(dimmedAttributedString(String(line[wordRange.upperBound...]), color: dimColor))
+        attributed.append(
+            dimmedAttributedString(String(line[..<highlightRange.lowerBound]), color: dimColor)
+        )
+        attributed.append(
+            dimmedAttributedString(String(line[highlightRange]), color: baseColor)
+        )
+        attributed.append(
+            dimmedAttributedString(String(line[highlightRange.upperBound...]), color: dimColor)
+        )
         return Text(attributed)
     }
-    
+
     private func dimmedAttributedString(_ text: String, color: Color) -> AttributedString {
         var attributed = AttributedString(text)
         attributed.foregroundColor = color
         return attributed
     }
-    
-    private func wordIndex(for characterRange: NSRange, in text: String) -> Int? {
+
+    private func speechWordSegments(
+        for text: String
+    ) -> [(text: String, baseOffset: Int, highlightOffset: Int, highlightLength: Int)] {
         let tokenizer = NLTokenizer(unit: .word)
         tokenizer.string = text
-        
-        var index = 0
-        var result: Int?
+
+        var wordRanges: [Range<String.Index>] = []
         tokenizer.enumerateTokens(in: text.startIndex..<text.endIndex) { range, _ in
-            let tokenRange = NSRange(range, in: text)
-            if NSIntersectionRange(tokenRange, characterRange).length > 0 {
-                result = index
-                return false
-            }
-            index += 1
+            wordRanges.append(range)
             return true
         }
-        return result
-    }
-    
-    private func wordRange(at index: Int, in text: String) -> Range<String.Index>? {
-        let tokenizer = NLTokenizer(unit: .word)
-        tokenizer.string = text
-        
-        var currentIndex = 0
-        var result: Range<String.Index>?
-        tokenizer.enumerateTokens(in: text.startIndex..<text.endIndex) { range, _ in
-            if currentIndex == index {
-                result = range
-                return false
-            }
-            currentIndex += 1
-            return true
+
+        guard !wordRanges.isEmpty else {
+            return [(
+                text: text,
+                baseOffset: 0,
+                highlightOffset: 0,
+                highlightLength: (text as NSString).length
+            )]
         }
-        return result
+
+        var segments: [(
+            text: String,
+            baseOffset: Int,
+            highlightOffset: Int,
+            highlightLength: Int
+        )] = []
+        var segmentStart = text.startIndex
+
+        for index in wordRanges.indices {
+            let wordRange = wordRanges[index]
+            let nextStart = index + 1 < wordRanges.count
+                ? wordRanges[index + 1].lowerBound
+                : text.endIndex
+
+            guard segmentStart < nextStart else { continue }
+
+            let segment = String(text[segmentStart..<nextStart])
+            let segmentOffset = NSRange(text[segmentStart..<nextStart], in: text).location
+            let highlightOffset = NSRange(text[segmentStart..<wordRange.lowerBound], in: text).length
+            let highlightLength = NSRange(wordRange, in: text).length
+
+            segments.append((
+                text: segment,
+                baseOffset: segmentOffset,
+                highlightOffset: highlightOffset,
+                highlightLength: highlightLength
+            ))
+            segmentStart = nextStart
+        }
+
+        return segments
     }
-    
+
     private func startSpeaking(text: [String], index: Int, scrollProxy: ScrollViewProxy) {
         if synthesizer.isSpeaking {
             synthesizer.stopSpeaking(at: .immediate)
         }
-        
+
         synthesizer.delegate = speechHighlightDelegate
         speechHighlightDelegate.reset()
-        
+
         withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
             speaking = true
         }
-        
+
         if animate {
             withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                 focusingLine = index
@@ -524,19 +572,18 @@ extension WrappedLinesTextView {
         } else {
             wasScrolled = false
         }
-        
+
         Task {
             var i = focusingLine
             while focusingLine < text.count && speaking {
                 i = focusingLine
-                
+
                 let sentence = text[i].trimmingCharacters(in: .whitespacesAndNewlines)
-                
                 if sentence.isEmpty {
                     i += 1
                     continue
                 }
-                
+
                 if animate {
                     withAnimation(.timingCurve(.easeInOut, duration: 0.3)) {
                         wasScrolled = false
@@ -544,7 +591,7 @@ extension WrappedLinesTextView {
                 } else {
                     wasScrolled = false
                 }
-                
+
                 if autoScrool {
                     if animate {
                         withAnimation(.timingCurve(.easeInOut, duration: 0.3)) {
@@ -554,22 +601,35 @@ extension WrappedLinesTextView {
                         scrollProxy.scrollTo(i, anchor: .init(x: 0.5, y: 0.4))
                     }
                 }
-                
-                let utterance = AVSpeechUtterance(string: sentence)
-                speechHighlightDelegate.currentLineIndex = i
-                speechHighlightDelegate.currentUtteranceText = sentence
-                utterance.voice = AVSpeechSynthesisVoice(language: selectedLnaguage)
-                utterance.rate = Float(readSpeed)
-                utterance.postUtteranceDelay = 1 - postUtteranceDelay
-                
-                synthesizer.speak(utterance)
-                
-                try? await Task.sleep(for: .milliseconds(50))
-                
-                while (synthesizer.isSpeaking || synthesizer.isPaused) && speaking {
-                    try? await Task.sleep(for: .milliseconds(100))
+
+                let segments = speechWordSegments(for: sentence)
+                for segmentIndex in segments.indices {
+                    guard speaking else { break }
+
+                    let segment = segments[segmentIndex]
+                    let utterance = AVSpeechUtterance(string: segment.text)
+                    speechHighlightDelegate.prepare(
+                        lineIndex: i,
+                        lineText: sentence,
+                        baseOffset: segment.baseOffset,
+                        highlightOffset: segment.highlightOffset,
+                        highlightLength: segment.highlightLength
+                    )
+                    utterance.voice = AVSpeechSynthesisVoice(language: selectedLnaguage)
+                    utterance.rate = Float(readSpeed)
+                    utterance.postUtteranceDelay =
+                        segmentIndex == segments.count - 1
+                        ? 1 - postUtteranceDelay
+                        : 0
+
+                    synthesizer.speak(utterance)
+
+                    try? await Task.sleep(for: .milliseconds(20))
+                    while (synthesizer.isSpeaking || synthesizer.isPaused) && speaking {
+                        try? await Task.sleep(for: .milliseconds(50))
+                    }
                 }
-                
+
                 if speaking {
                     if animate {
                         withAnimation(.timingCurve(.easeInOut, duration: 0.3)) {
@@ -577,14 +637,12 @@ extension WrappedLinesTextView {
                                 focusingLine += 1
                             }
                         }
-                    } else {
-                        if i == focusingLine {
-                            focusingLine += 1
-                        }
+                    } else if i == focusingLine {
+                        focusingLine += 1
                     }
                 }
             }
-            
+
             if animate {
                 withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                     wasScrolled = true
@@ -592,15 +650,14 @@ extension WrappedLinesTextView {
             } else {
                 wasScrolled = true
             }
-            
+
             speechHighlightDelegate.reset()
-            
             withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                 speaking = false
             }
         }
     }
-    
+
     private func stopSpeaking() {
         withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
             speaking = false
@@ -618,7 +675,6 @@ extension WrappedLinesTextView {
                 generator.prepare()
                 generator.selectionChanged()
             }
-            
             if animate {
                 withAnimation(.timingCurve(.easeInOut, duration: 0.3)) {
                     wasScrolled.toggle()
@@ -633,7 +689,6 @@ extension WrappedLinesTextView {
                     generator.prepare()
                     generator.impactOccurred()
                 }
-                
                 if animate && !wasScrolled {
                     withAnimation(.timingCurve(.easeInOut, duration: 0.3)) {
                         focusingLine = index
@@ -641,7 +696,6 @@ extension WrappedLinesTextView {
                 } else {
                     focusingLine = index
                 }
-                
                 if animate {
                     withAnimation(.timingCurve(.easeInOut, duration: 0.3)) {
                         wasScrolled = false
@@ -658,7 +712,6 @@ extension WrappedLinesTextView {
                     } else {
                         focusingLine = max(0, focusingLine - 1)
                     }
-                    
                     if hapticsEnabled {
                         let generator = UIImpactFeedbackGenerator(style: .soft)
                         generator.prepare()
@@ -672,14 +725,12 @@ extension WrappedLinesTextView {
                     } else {
                         focusingLine += 1
                     }
-                    
                     if hapticsEnabled {
                         let generator = UIImpactFeedbackGenerator(style: .light)
                         generator.prepare()
                         generator.impactOccurred()
                     }
                 }
-                
                 if animate {
                     withAnimation(.timingCurve(.easeInOut, duration: 0.3)) {
                         wasScrolled = false
@@ -690,15 +741,13 @@ extension WrappedLinesTextView {
             }
         }
     }
-    
+
     func generateExplanation(rawText: String) {
         Task {
             do {
                 switch model.availability {
                 case .available:
-                    withAnimation {
-                        explanation = "generating_explanation"
-                    }
+                    withAnimation { explanation = "generating_explanation" }
                 case .unavailable(.appleIntelligenceNotEnabled):
                     explanation = "enable_apple_intelligence"
                     return
@@ -715,24 +764,21 @@ extension WrappedLinesTextView {
                     explanation = "unknown_error"
                     return
                 }
-                
+
                 let prompt = explanationInstructions + ": " + rawText
                 guard !prompt.isEmpty else {
                     explanation = ""
                     return
                 }
-                
+
                 let response = try await explanationSession.respond(to: prompt)
-                
-                withAnimation {
-                    explanation = response.content
-                }
+                withAnimation { explanation = response.content }
             } catch {
                 explanation = "Error: \(error)"
             }
         }
     }
-    
+
     func generateSummary() {
 #if targetEnvironment(simulator)
         summary = "This feature is not available in the Xcode simulator."
@@ -742,9 +788,7 @@ extension WrappedLinesTextView {
             do {
                 switch model.availability {
                 case .available:
-                    withAnimation {
-                        summary = "generating_summary"
-                    }
+                    withAnimation { summary = "generating_summary" }
                 case .unavailable(.appleIntelligenceNotEnabled):
                     summary = "enable_apple_intelligence"
                     return
@@ -761,38 +805,34 @@ extension WrappedLinesTextView {
                     summary = "unknown_error"
                     return
                 }
-                
+
                 let prompt = summarizeInstructions + ": " + text
                 guard !prompt.isEmpty else {
                     summary = ""
                     return
                 }
-                
+
                 let response = try await summarizeSession.respond(to: prompt)
-                
-                withAnimation {
-                    summary = response.content
-                }
+                withAnimation { summary = response.content }
             } catch {
                 summary = "Error: \(error)"
             }
         }
 #endif
     }
-    
+
     fileprivate func updateMeasuredLines() {
         var lines = splitTextBySentenceEnd(text)
         measuredLinesRaw = lines
-        
+
         if insertSpaceBitweenWords {
             for i in 0..<lines.count {
                 lines[i] = wakachigaki(text: lines[i])
             }
         }
-        
         measuredLines = lines
     }
-    
+
     fileprivate func splitTextUsingNLTokenizer(_ text: String) -> [String] {
         let tokenizer = NLTokenizer(unit: .sentence)
         tokenizer.string = text
@@ -804,15 +844,17 @@ extension WrappedLinesTextView {
         }
         return sentences
     }
-    
+
     fileprivate func wakachigaki(text: String) -> String {
         let tagger = NLTagger(tagSchemes: [.tokenType])
         tagger.string = text
-        
+
         var words: [String] = []
         tagger.enumerateTags(
-            in: text.startIndex..<text.endIndex, unit: .word, scheme: .tokenType
-        ) { tag, range in
+            in: text.startIndex..<text.endIndex,
+            unit: .word,
+            scheme: .tokenType
+        ) { _, range in
             let word = String(text[range])
             if !word.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 words.append(word)
@@ -821,7 +863,7 @@ extension WrappedLinesTextView {
         }
         return words.joined(separator: spaceInserted)
     }
-    
+
     fileprivate func splitTextBySentenceEnd(_ text: String) -> [String] {
         var pattern: String {
             var separators = ""
@@ -830,10 +872,10 @@ extension WrappedLinesTextView {
             if splitByComma { separators += "、," }
             if splitByExclamationMark { separators += "！!" }
             if splitByQuestionMark { separators += "？?" }
-            
+
             var bracketPatterns: [String] = []
             var stopChars = separators
-            
+
             if splitByBrackets {
                 bracketPatterns.append("「[^」]*」")
                 bracketPatterns.append("『[^』]*』")
@@ -841,28 +883,29 @@ extension WrappedLinesTextView {
                 bracketPatterns.append("\"[^\"]*\"")
                 bracketPatterns.append("'[^']*'")
                 bracketPatterns.append("\\[[^\\]]*\\]")
-                
                 stopChars += "「『\\["
             }
-            
+
             let normalPattern = "[^\(stopChars)]+[\(separators)]?"
-            
             let allPatterns = bracketPatterns + [normalPattern]
             return allPatterns.joined(separator: "|")
         }
-        
+
         if pattern.isEmpty { return [text] }
-        
+
         let regex = try! NSRegularExpression(pattern: pattern)
         let nsText = text as NSString
-        let matches = regex.matches(in: text, range: NSRange(location: 0, length: nsText.length))
-        
+        let matches = regex.matches(
+            in: text,
+            range: NSRange(location: 0, length: nsText.length)
+        )
+
         return matches.map {
             nsText.substring(with: $0.range).trimmingCharacters(in: .whitespacesAndNewlines)
         }
         .filter { !$0.isEmpty }
     }
-    
+
     fileprivate var currentSplitSettings: [Bool] {
         [
             splitByLineBreak,
