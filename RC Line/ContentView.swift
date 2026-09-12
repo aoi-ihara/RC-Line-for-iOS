@@ -56,11 +56,12 @@ struct ContentView: View {
                             Spacer()
                             readerToolbar
                         }
+                        .frame(maxWidth: .infinity)
                         .padding(.horizontal, 35)
                     }
-                    .frame(maxHeight: .infinity)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
-                .frame(maxHeight: .infinity)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .disabled(progress > 0.1)
                 .offset(x: (targetX + sidebarWidth) * 0.5)
                 .overlay {
@@ -200,7 +201,7 @@ struct ContentView: View {
     
     private var readerToolbar: some View {
         ToolbarView(
-            wasScrolled: ocrResultText == "",
+            showLabel: ocrResultText == "",
             onSettings: {
                 showSettingsView.toggle()
             },
@@ -212,7 +213,8 @@ struct ContentView: View {
             },
             onClipboard: {
                 pasteFromClipboard()
-            }
+            },
+            onPhotos: {}
         )
     }
     
