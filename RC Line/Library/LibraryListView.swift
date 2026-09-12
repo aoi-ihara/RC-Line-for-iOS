@@ -58,6 +58,21 @@ final class LibraryStore: ObservableObject {
         persist()
     }
 
+    func move(fromOffsets source: IndexSet, toOffset destination: Int) {
+        documents.move(fromOffsets: source, toOffset: destination)
+        persist()
+    }
+
+    func moveToTop(id: UUID) {
+        guard let index = documents.firstIndex(where: { $0.id == id }), index != 0 else {
+            return
+        }
+
+        let document = documents.remove(at: index)
+        documents.insert(document, at: 0)
+        persist()
+    }
+
     private func load() {
         guard let data = try? Data(contentsOf: libraryFileURL),
               let storedDocuments = try? decoder.decode([LibraryDocument].self, from: data)
@@ -120,6 +135,7 @@ struct LibraryListView: View {
             List {
                 ForEach(store.documents) { document in
                     Button {
+                        store.moveToTop(id: document.id)
                         onSelect(document.text)
                     } label: {
                         VStack(alignment: .leading, spacing: 4) {
@@ -145,9 +161,13 @@ struct LibraryListView: View {
                     }
                     .buttonStyle(.plain)
                 }
+                .onMove(perform: store.move)
             }
             .navigationTitle("Library")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                EditButton()
+            }
         }
     }
 }
