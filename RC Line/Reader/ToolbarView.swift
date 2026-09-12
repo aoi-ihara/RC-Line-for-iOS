@@ -47,7 +47,7 @@ struct ToolbarButton: View {
                     .font(.caption2)
                     .frame(width: 60)
             }
-            .frame(width: showLabel ? 60 : 50, height: showLabel ? 80 : 50)
+            .frame(width: showLabel ? 50 : 45, height: showLabel ? 75 : 50)
         })
         .buttonStyle(.glass)
         .animation(.bouncy(duration: 0.2), value: showLabel)
