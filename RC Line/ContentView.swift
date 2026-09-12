@@ -54,9 +54,6 @@ struct ContentView: View {
 
                         VStack {
                             Spacer()
-                            Toggle(isOn: $showLabel) {
-                                Text("Show Label")
-                            }
                             readerToolbar
                         }
                         .padding(.horizontal, 35)
@@ -203,7 +200,7 @@ struct ContentView: View {
 
     private var readerToolbar: some View {
         ToolbarView(
-            wasScrolled: showLabel,
+            wasScrolled: ocrResultText == "",
             onSettings: {
                 showSettingsView.toggle()
             },
