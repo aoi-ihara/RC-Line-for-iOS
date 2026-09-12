@@ -41,11 +41,12 @@ struct ToolbarButton: View {
                     .opacity(showLabel ? 1 : 0)
                     .fontWeight(.semibold)
                     .font(.caption2)
+                    .frame(width: 60)
             }
-            .animation(.bouncy(duration: 0.2), value: showLabel)
-            .frame(width: 60, height: 80)
+            .frame(width: showLabel ? 60 : 50, height: showLabel ? 80 : 50)
         })
         .buttonStyle(.glass)
+        .animation(.bouncy(duration: 0.2), value: showLabel)
         .buttonBorderShape(.roundedRectangle(radius: 24))
     }
 }
