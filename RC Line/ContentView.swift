@@ -21,6 +21,7 @@ struct ContentView: View {
     @State private var selectedItem: PhotosPickerItem?
     @State private var showPasteError = false
     @State private var showLibraryList = false
+    @StateObject private var libraryStore = LibraryStore()
     
     @Environment(\.layoutDirection) var layoutDirection
     
@@ -125,7 +126,13 @@ struct ContentView: View {
         .sheet(
             isPresented: $showLibraryList,
             content: {
-                LibraryListView()
+                LibraryListView(
+                    store: libraryStore,
+                    onSelect: { text in
+                        setOCRText(text, saveToLibrary: false)
+                        showLibraryList = false
+                    }
+                )
                 .accentColor(Color(.label))
                 .presentationDetents([.medium, .large])
             }
@@ -146,7 +153,7 @@ struct ContentView: View {
                 
                 performOCR(on: image) { text in
                     Task { @MainActor in
-                        self.ocrResultText = text
+                        self.setOCRText(text)
                         isSidebarOpen = false
                         UIAccessibility.post(
                             notification: .screenChanged,
@@ -168,7 +175,7 @@ struct ContentView: View {
                 
                 performOCR(on: capturedImage) { recognizedText in
                     Task { @MainActor in
-                        self.ocrResultText = recognizedText
+                        self.setOCRText(recognizedText)
                     }
                 }
             }
@@ -227,6 +234,14 @@ struct ContentView: View {
                 showImagePicker = true
             }
         )
+    }
+    
+    private func setOCRText(_ text: String, saveToLibrary: Bool = true) {
+        ocrResultText = text
+        
+        if saveToLibrary {
+            libraryStore.save(text: text)
+        }
     }
     
     private func sidebarDragGesture(sidebarWidth: CGFloat) -> some Gesture {
@@ -360,7 +375,7 @@ struct ContentView: View {
     
     private func pasteFromClipboard() {
         if let clipboard = UIPasteboard.general.string {
-            ocrResultText = clipboard
+            setOCRText(clipboard)
             
             UIAccessibility.post(
                 notification: .announcement,
