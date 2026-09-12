@@ -12,6 +12,9 @@ struct ReaderView: View {
     @Binding var showingCameraSheetFromContentView: Bool
     @Binding var wasScrolled: Bool
     @Binding var isSidebarOpen: Bool
+    @Binding var shouldSaveCurrentTextToLibrary: Bool
+    
+    let onSaveCurrentTextToLibrary: (String) -> Void
     
     @State private var showInstructinoView =
     !UserDefaults.standard.bool(forKey: "wasRuned") && false
@@ -146,6 +149,11 @@ struct ReaderView: View {
             )
         }
         .onChange(of: ocrText) {
+            if shouldSaveCurrentTextToLibrary {
+                onSaveCurrentTextToLibrary(ocrText)
+                shouldSaveCurrentTextToLibrary = false
+            }
+            
             if hapticsEnabled {
                 let generator = UINotificationFeedbackGenerator()
                 generator.prepare()
