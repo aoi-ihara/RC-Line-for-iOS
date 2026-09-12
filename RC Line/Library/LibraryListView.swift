@@ -172,7 +172,9 @@ struct LibraryListView: View {
             .navigationTitle("Library")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                EditButton()
+                ToolbarItem(placement: .topBarTrailing) {
+                    EditButton()
+                }
             }
         }
     }
