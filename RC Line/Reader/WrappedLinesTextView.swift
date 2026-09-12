@@ -29,12 +29,12 @@ final class SpeechHighlightDelegate: NSObject, ObservableObject, AVSpeechSynthes
         currentBaseOffset = baseOffset
         currentHighlightOffset = highlightOffset
         currentHighlightLength = highlightLength
+        self.lineIndex = lineIndex
         utteranceText = lineText
         characterRange = NSRange(
             location: baseOffset + highlightOffset,
             length: highlightLength
         )
-        self.lineIndex = lineIndex
     }
 
     func speechSynthesizer(
@@ -49,25 +49,13 @@ final class SpeechHighlightDelegate: NSObject, ObservableObject, AVSpeechSynthes
         let highlightOffset = currentHighlightOffset
         let highlightLength = currentHighlightLength
 
-        let tokenRange = NSRange(location: highlightOffset, length: highlightLength)
-        let callbackRange = NSIntersectionRange(characterRange, tokenRange)
-        let absoluteRange: NSRange
-        if callbackRange.length > 0 {
-            absoluteRange = NSRange(
-                location: baseOffset + callbackRange.location,
-                length: callbackRange.length
-            )
-        } else {
-            absoluteRange = NSRange(
-                location: baseOffset + highlightOffset,
-                length: highlightLength
-            )
-        }
-
         DispatchQueue.main.async {
             guard generation == self.currentGeneration else { return }
             self.lineIndex = lineIndex
-            self.characterRange = absoluteRange
+            self.characterRange = NSRange(
+                location: baseOffset + highlightOffset,
+                length: highlightLength
+            )
             self.utteranceText = lineText
         }
     }
@@ -336,7 +324,7 @@ extension WrappedLinesTextView {
                                 speakingLine = index
                                 focusingLine = index
                                 startSpeaking(
-                                    text: measuredLinesRaw, index: index, scrollProxy: scrollProxy)
+                                    text: measuredLines, index: index, scrollProxy: scrollProxy)
                             }
                         } label: {
                             Label("start_speaking", systemImage: "speaker.wave.2")
@@ -362,26 +350,28 @@ extension WrappedLinesTextView {
 #else
                 if isARKitSupported {
                     if !speaking {
-                        Button(role: .destructive) {
-                            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
-                                eyeTracking = false
-                                wasScrolled = true
+                        if eyeTracking {
+                            Button(role: .destructive) {
+                                withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                                    eyeTracking = false
+                                    wasScrolled = true
+                                }
+                            } label: {
+                                Label("stop_eye_tracking", systemImage: "eye.slash")
                             }
-                        } label: {
-                            Label("stop_eye_tracking", systemImage: "eye.slash")
-                        }
-                        .accessibilityLabel("stop_eye_tracking")
-                    } else {
-                        Button {
-                            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
-                                eyeTracking = true
-                                wasScrolled = false
-                                focusingLine = index
+                            .accessibilityLabel("stop_eye_tracking")
+                        } else {
+                            Button {
+                                withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                                    eyeTracking = true
+                                    wasScrolled = false
+                                    focusingLine = index
+                                }
+                            } label: {
+                                Label("start_eye_tracking", systemImage: "eye")
                             }
-                        } label: {
-                            Label("start_eye_tracking", systemImage: "eye")
+                            .accessibilityLabel("start_eye_tracking")
                         }
-                        .accessibilityLabel("start_eye_tracking")
                     }
                 }
 
@@ -397,7 +387,8 @@ extension WrappedLinesTextView {
                                     DispatchQueue.main.async {
                                         withAnimation {
                                             scrollProxy.scrollTo(
-                                                focusingLine, anchor: UnitPoint(x: 0.5, y: 0.25))
+                                                focusingLine, anchor: UnitPoint(x: 0.5, y: 0.25)
+                                            )
                                         }
                                     }
                                 } else {
