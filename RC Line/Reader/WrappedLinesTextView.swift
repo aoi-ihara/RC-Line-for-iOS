@@ -4,6 +4,35 @@ import FoundationModels
 import NaturalLanguage
 import SwiftUI
 
+final class SpeechHighlightDelegate: NSObject, ObservableObject, AVSpeechSynthesizerDelegate {
+    @Published var lineIndex: Int?
+    @Published var characterRange: NSRange?
+    @Published var utteranceText = ""
+
+    var currentLineIndex: Int?
+    var currentUtteranceText = ""
+
+    func speechSynthesizer(
+        _ synthesizer: AVSpeechSynthesizer,
+        willSpeakRangeOfSpeechString characterRange: NSRange,
+        utterance: AVSpeechUtterance
+    ) {
+        DispatchQueue.main.async {
+            self.lineIndex = self.currentLineIndex
+            self.characterRange = characterRange
+            self.utteranceText = self.currentUtteranceText
+        }
+    }
+
+    func reset() {
+        lineIndex = nil
+        characterRange = nil
+        utteranceText = ""
+        currentLineIndex = nil
+        currentUtteranceText = ""
+    }
+}
+
 struct WrappedLinesTextView: View {
     @Binding var speaking: Bool
     @State private var speakingLine = 0
@@ -21,6 +50,7 @@ struct WrappedLinesTextView: View {
     @Binding var maxFocusingLine: Int
 
     let synthesizer = AVSpeechSynthesizer()
+    @StateObject private var speechHighlightDelegate = SpeechHighlightDelegate()
     @State private var showSimulatorAlert: Bool = false
 
     private var isARKitSupported: Bool {
@@ -211,7 +241,7 @@ extension WrappedLinesTextView {
                 ? 1 : (0.5 - Double(abs(index - focusingLine)) * textOpacity)
 
             VStack {
-                Text(line)
+                speechHighlightedText(line: line, index: index)
                     .foregroundStyle(
                         colorScheme == .dark ? storedForegroundDark.color : storedForeground.color
                     )
@@ -406,10 +436,81 @@ extension WrappedLinesTextView {
             })
     }
 
+    private func speechHighlightedText(line: String, index: Int) -> Text {
+        guard speaking else {
+            return Text(line)
+        }
+
+        let baseColor = colorScheme == .dark ? storedForegroundDark.color : storedForeground.color
+        let dimColor = baseColor.opacity(0.4)
+
+        guard speechHighlightDelegate.lineIndex == index,
+              let characterRange = speechHighlightDelegate.characterRange,
+              !speechHighlightDelegate.utteranceText.isEmpty,
+              let wordIndex = wordIndex(
+                  for: characterRange, in: speechHighlightDelegate.utteranceText),
+              let wordRange = wordRange(at: wordIndex, in: line)
+        else {
+            var attributed = AttributedString(line)
+            attributed.foregroundColor = dimColor
+            return Text(attributed)
+        }
+
+        var attributed = AttributedString()
+        attributed.append(dimmedAttributedString(String(line[..<wordRange.lowerBound]), color: dimColor))
+        attributed.append(dimmedAttributedString(String(line[wordRange]), color: baseColor))
+        attributed.append(dimmedAttributedString(String(line[wordRange.upperBound...]), color: dimColor))
+        return Text(attributed)
+    }
+
+    private func dimmedAttributedString(_ text: String, color: Color) -> AttributedString {
+        var attributed = AttributedString(text)
+        attributed.foregroundColor = color
+        return attributed
+    }
+
+    private func wordIndex(for characterRange: NSRange, in text: String) -> Int? {
+        let tokenizer = NLTokenizer(unit: .word)
+        tokenizer.string = text
+
+        var index = 0
+        var result: Int?
+        tokenizer.enumerateTokens(in: text.startIndex..<text.endIndex) { range, _ in
+            let tokenRange = NSRange(range, in: text)
+            if NSIntersectionRange(tokenRange, characterRange).length > 0 {
+                result = index
+                return false
+            }
+            index += 1
+            return true
+        }
+        return result
+    }
+
+    private func wordRange(at index: Int, in text: String) -> Range<String.Index>? {
+        let tokenizer = NLTokenizer(unit: .word)
+        tokenizer.string = text
+
+        var currentIndex = 0
+        var result: Range<String.Index>?
+        tokenizer.enumerateTokens(in: text.startIndex..<text.endIndex) { range, _ in
+            if currentIndex == index {
+                result = range
+                return false
+            }
+            currentIndex += 1
+            return true
+        }
+        return result
+    }
+
     private func startSpeaking(text: [String], index: Int, scrollProxy: ScrollViewProxy) {
         if synthesizer.isSpeaking {
             synthesizer.stopSpeaking(at: .immediate)
         }
+
+        synthesizer.delegate = speechHighlightDelegate
+        speechHighlightDelegate.reset()
 
         withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
             speaking = true
@@ -455,6 +556,8 @@ extension WrappedLinesTextView {
                 }
 
                 let utterance = AVSpeechUtterance(string: sentence)
+                speechHighlightDelegate.currentLineIndex = i
+                speechHighlightDelegate.currentUtteranceText = sentence
                 utterance.voice = AVSpeechSynthesisVoice(language: selectedLnaguage)
                 utterance.rate = Float(readSpeed)
                 utterance.postUtteranceDelay = 1 - postUtteranceDelay
@@ -490,6 +593,8 @@ extension WrappedLinesTextView {
                 wasScrolled = true
             }
 
+            speechHighlightDelegate.reset()
+
             withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                 speaking = false
             }
@@ -501,6 +606,7 @@ extension WrappedLinesTextView {
             speaking = false
         }
         synthesizer.stopSpeaking(at: .immediate)
+        speechHighlightDelegate.reset()
     }
 }
 
