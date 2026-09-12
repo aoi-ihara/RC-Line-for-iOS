@@ -8,30 +8,34 @@
 import SwiftUI
 
 struct ToolbarView: View {
-    var wasScrolled: Bool
+    var showLabel: Bool
     let onSettings: () -> Void
     let onCamera: () -> Void
     let onLibrary: () -> Void
     let onClipboard: () -> Void
+    let onPhotos: () -> Void
+    
+    @State var showActions = false
     
     var body: some View {
-        HStack {
+        ZStack(alignment: .bottom) {
             ToolbarButton(
                 title: "Settings", systemImage: "gearshape", action: onSettings,
-                showLabel: wasScrolled)
-            
-            Spacer()
-            
+                showLabel: showLabel, index: 0)
+            ToolbarButton(
+                title: "From Library", systemImage: "books.vertical", action: onLibrary,
+                showLabel: showLabel, index: 1)
             ToolbarButton(
                 title: "From Camera", systemImage: "camera", action: onCamera,
-                showLabel: wasScrolled)
+                showLabel: showLabel, index: 2)
             ToolbarButton(
-                title: "From Library", systemImage: "photo.on.rectangle.angled", action: onLibrary,
-                showLabel: wasScrolled)
+                title: "From Photos", systemImage: "photo.on.rectangle.angled", action: onLibrary,
+                showLabel: showLabel, index: 3)
             ToolbarButton(
                 title: "From Clipboard", systemImage: "clipboard", action: onClipboard,
-                showLabel: wasScrolled)
+                showLabel: showLabel, index: 4)
         }
+        .frame(maxWidth: .infinity)
     }
 }
 
@@ -40,6 +44,7 @@ struct ToolbarButton: View {
     let systemImage: String
     let action: () -> Void
     let showLabel: Bool
+    let index: CGFloat
     
     var body: some View {
         Button(
@@ -48,20 +53,23 @@ struct ToolbarButton: View {
                 ZStack {
                     Image(systemName: systemImage)
                         .font(.system(size: 24))
-                        .offset(y: showLabel ? -18 : 0)
-                    
+                        .offset(x: showLabel ? -70 : 0)
                     Text(title)
-                        .offset(y: showLabel ? 18 : 0)
+                        .offset(x: showLabel ? 25 : 0)
                         .opacity(showLabel ? 1 : 0)
                         .fontWeight(.semibold)
-                        .font(.caption2)
-                        .frame(width: 60)
+                        .font(showLabel ? .body : .caption2)
+                        .frame(width: 120)
                 }
-                .frame(width: showLabel ? 50 : 45, height: showLabel ? 75 : 50)
+                .frame(width: showLabel ? 200 : 35, height: showLabel ? 60 : 40)
             }
         )
+        .offset(
+            x: showLabel ? 0 : (index - 2) * 66,
+            y: showLabel ? index * -90 : 0
+        )
         .buttonStyle(.glass)
-        .animation(.bouncy(duration: 0.2), value: showLabel)
+        .animation(.bouncy(duration: 0.4), value: showLabel)
         .buttonBorderShape(.roundedRectangle(radius: 24))
     }
 }
