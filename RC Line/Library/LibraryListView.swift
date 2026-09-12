@@ -15,7 +15,6 @@ struct LibraryDocument: Identifiable, Codable {
     let createdAt: Date
 }
 
-@MainActor
 final class LibraryStore: ObservableObject {
     @Published private(set) var documents: [LibraryDocument] = []
 
