@@ -527,8 +527,8 @@ extension WrappedLinesTextView {
             guard segmentStart < nextStart else { continue }
 
             let segment = String(text[segmentStart..<nextStart])
-            let segmentOffset = NSRange(text[segmentStart..<nextStart], in: text).location
-            let highlightOffset = NSRange(text[segmentStart..<wordRange.lowerBound], in: text).length
+            let segmentOffset = NSRange(segmentStart..<nextStart, in: text).location
+            let highlightOffset = NSRange(segmentStart..<wordRange.lowerBound, in: text).length
             let highlightLength = NSRange(wordRange, in: text).length
 
             segments.append((
