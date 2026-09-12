@@ -57,21 +57,7 @@ struct ContentView: View {
                             Toggle(isOn: $showLabel) {
                                 Text("Show Label")
                             }
-                            ToolbarView(
-                                wasScrolled: showLabel,
-                                onSettings: {
-                                    showSettingsView.toggle()
-                                },
-                                onCamera: {
-                                    openCamera()
-                                },
-                                onLibrary: {
-                                    showImagePicker = true
-                                },
-                                onClipboard: {
-                                    pasteFromClipboard()
-                                }
-                            )
+                            readerToolbar
                         }
                         .padding(.horizontal, 35)
                     }
@@ -213,6 +199,24 @@ struct ContentView: View {
             message: {
                 Text("This feature is not available in the Xcode simulator.")
             })
+    }
+
+    private var readerToolbar: some View {
+        ToolbarView(
+            wasScrolled: showLabel,
+            onSettings: {
+                showSettingsView.toggle()
+            },
+            onCamera: {
+                openCamera()
+            },
+            onLibrary: {
+                showImagePicker = true
+            },
+            onClipboard: {
+                pasteFromClipboard()
+            }
+        )
     }
 
     private func sidebarDragGesture(sidebarWidth: CGFloat) -> some Gesture {
