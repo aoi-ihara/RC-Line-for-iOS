@@ -6,11 +6,11 @@ import SwiftUI
 struct InstructionView: View {
     @Binding var showInstructionView: Bool
     @AccessibilityFocusState private var focusedTitle: Bool
-
+    
     @Environment(\.dismiss) private var dismiss
-
+    
     @AppStorage("eyeTracking") private var eyeTracking: Bool = false
-
+    
     let player0 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView0", withExtension: "mov")!)
     let player1 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView1", withExtension: "mov")!)
     let player2 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView2", withExtension: "mov")!)
@@ -18,23 +18,23 @@ struct InstructionView: View {
     let player4 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView4", withExtension: "mov")!)
     let player8 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView8", withExtension: "mov")!)
     let player9 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView9", withExtension: "mov")!)
-
+    
     @State private var status = AVCaptureDevice.authorizationStatus(for: .video)
     @State private var playTrigger = 0
     @State private var blinkEye: Bool = false
     @State private var hasPlayedBlinkVideoOnce = false
     @State private var slide = 0
-
+    
     let titles = [
         "welcome_view_0_title", "welcome_view_1_title", "welcome_view_2_title",
         "welcome_view_3_title", "welcome_view_3.5_title", "welcome_view_4_title",
         "read_aloud_feature", "welcome_view_5_title", "welcome_view_6_title",
     ]
-
+    
     private var isARKitSupported: Bool {
         ARFaceTrackingConfiguration.isSupported
     }
-
+    
     var body: some View {
         NavigationStack {
             List {
@@ -46,7 +46,7 @@ struct InstructionView: View {
                         systemImage: "photo.on.rectangle.angled"
                     )
                 }
-
+                
                 NavigationLink {
                     gestureView
                 } label: {
@@ -55,7 +55,7 @@ struct InstructionView: View {
                         systemImage: "hand.tap"
                     )
                 }
-
+                
                 NavigationLink {
                     advancedFeaturesView
                 } label: {
@@ -64,7 +64,7 @@ struct InstructionView: View {
                         systemImage: "square.badge.plus"
                     )
                 }
-
+                
                 NavigationLink {
                     customizationView
                 } label: {
@@ -100,7 +100,7 @@ extension InstructionView {
                                     player0.play()
                                 }
                             }
-
+                        
                         Text("カメラから")
                             .font(.title)
                             .fontWeight(.semibold)
@@ -109,7 +109,7 @@ extension InstructionView {
                     }
                     .padding(.horizontal, 40)
                     .tag(0)
-
+                    
                     VStack(spacing: 20) {
                         TransparentPlayerView(player: player0)
                             .background(Color.clear)
@@ -125,7 +125,7 @@ extension InstructionView {
                                     player0.play()
                                 }
                             }
-
+                        
                         Text("クリップボードから")
                             .font(.title)
                             .fontWeight(.semibold)
@@ -138,7 +138,7 @@ extension InstructionView {
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 .animation(.default, value: slide)
             }
-
+            
             HStack(spacing: 20) {
                 Button {
                     slide -= 1
@@ -149,7 +149,7 @@ extension InstructionView {
                 }
                 .disabled(slide == 0)
                 .buttonStyle(.glass)
-
+                
                 Button {
                     slide += 1
                 } label: {
@@ -275,12 +275,12 @@ extension InstructionView {
 struct WelcomeView: View {
     @State private var slide = 0
     @State private var blinkEye: Bool = false
-
+    
     @Binding var showWelcomeView: Bool
     @AccessibilityFocusState private var focusedTitle: Bool
-
+    
     @AppStorage("eyeTracking") private var eyeTracking: Bool = false
-
+    
     let player0 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView0", withExtension: "mov")!)
     let player1 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView1", withExtension: "mov")!)
     let player2 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView2", withExtension: "mov")!)
@@ -288,22 +288,22 @@ struct WelcomeView: View {
     let player4 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView4", withExtension: "mov")!)
     let player8 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView8", withExtension: "mov")!)
     let player9 = AVPlayer(url: Bundle.main.url(forResource: "WelcomeView9", withExtension: "mov")!)
-
+    
     @State private var status = AVCaptureDevice.authorizationStatus(for: .video)
-
+    
     @State private var playTrigger = 0
     @State private var hasPlayedBlinkVideoOnce = false
-
+    
     let titles = [
         "welcome_view_0_title", "welcome_view_1_title", "welcome_view_2_title",
         "welcome_view_3_title", "welcome_view_3.5_title", "welcome_view_4_title",
         "read_aloud_feature", "welcome_view_5_title", "welcome_view_6_title",
     ]
-
+    
     private var isARKitSupported: Bool {
         ARFaceTrackingConfiguration.isSupported
     }
-
+    
     var body: some View {
         NavigationStack {
             if slide == 0 {
@@ -320,7 +320,7 @@ struct WelcomeView: View {
                     .fontWeight(.semibold)
                     .padding(.top, 2)
                     .padding(.horizontal)
-
+                
                 Image("WelcomeView0")
                     .resizable()
                     .scaledToFit()
@@ -340,7 +340,7 @@ struct WelcomeView: View {
                     .fontWeight(.semibold)
                     .padding(.top, 2)
                     .padding(.horizontal)
-
+                
                 TransparentPlayerView(player: player0)
                     .background(Color.clear)
                     .onAppear {
@@ -366,13 +366,13 @@ struct WelcomeView: View {
                     .padding(.top, 64)
                     .padding(.horizontal)
                     .accessibilityAddTraits(.isHeader)
-
+                
                 Text("welcome_view_2_explanation")
                     .accessibilityLabel(Text("welcome_view_2_explanation"))
                     .fontWeight(.semibold)
                     .padding(.top, 2)
                     .padding(.horizontal)
-
+                
                 TransparentPlayerView(player: player1)
                     .background(Color.clear)
                     .onAppear {
@@ -398,13 +398,13 @@ struct WelcomeView: View {
                     .padding(.top, 64)
                     .padding(.horizontal)
                     .accessibilityAddTraits(.isHeader)
-
+                
                 Text("welcome_view_3_explanation")
                     .accessibilityLabel(Text("welcome_view_3_explanation"))
                     .fontWeight(.semibold)
                     .padding(.top, 2)
                     .padding(.horizontal)
-
+                
                 TransparentPlayerView(player: player2)
                     .background(Color.clear)
                     .onAppear {
@@ -430,13 +430,13 @@ struct WelcomeView: View {
                     .padding(.top, 64)
                     .padding(.horizontal)
                     .accessibilityAddTraits(.isHeader)
-
+                
                 Text("welcome_view_3.5_explanation")
                     .accessibilityLabel(Text("welcome_view_3.5_explanation"))
                     .fontWeight(.semibold)
                     .padding(.top, 2)
                     .padding(.horizontal)
-
+                
                 TransparentPlayerView(player: player8)
                     .background(Color.clear)
                     .onAppear {
@@ -482,7 +482,7 @@ struct WelcomeView: View {
                         .ignoresSafeArea()
                         .opacity(0)
                     }
-
+                    
                     VStack {
                         Text("welcome_view_4_title")
                             .accessibilityFocused($focusedTitle)
@@ -492,13 +492,13 @@ struct WelcomeView: View {
                             .accessibilityLabel(Text("welcome_view_4_title"))
                             .padding(.horizontal)
                             .accessibilityAddTraits(.isHeader)
-
+                        
                         Text("welcome_view_4_explanation")
                             .fontWeight(.semibold)
                             .padding(.top, 2)
                             .accessibilityLabel(Text("welcome_view_4_explanation"))
                             .padding(.horizontal)
-
+                        
                         ZStack {
                             TransparentPlayerView(player: player3)
                                 .background(Color.clear)
@@ -513,14 +513,14 @@ struct WelcomeView: View {
                                     player3.seek(
                                         to: .zero, toleranceBefore: .zero, toleranceAfter: .zero)
                                 }
-
+                            
                             VStack {
                                 Spacer()
-
+                                
                                 Image(systemName: blinkEye ? "eye.half.closed.fill" : "eye.fill")
                                     .font(.system(size: 64))
                                     .opacity(eyeTracking ? 0 : 1)
-
+                                
                                 Spacer()
                             }
                         }
@@ -532,7 +532,7 @@ struct WelcomeView: View {
                                     to: .zero, toleranceBefore: .zero, toleranceAfter: .zero)
                             }
                         }
-
+                        
                         if isARKitSupported && !UIAccessibility.isVoiceOverRunning {
                             VStack {
                                 Toggle(
@@ -546,15 +546,15 @@ struct WelcomeView: View {
                                     UIAccessibility.post(
                                         notification: .announcement,
                                         argument: eyeTracking
-                                            ? NSLocalizedString(
-                                                "blink_to_move_row_enabled", comment: "")
-                                            : NSLocalizedString(
-                                                "blink_to_move_row_disabled", comment: "")
+                                        ? NSLocalizedString(
+                                            "blink_to_move_row_enabled", comment: "")
+                                        : NSLocalizedString(
+                                            "blink_to_move_row_disabled", comment: "")
                                     )
                                 }
                                 .fontWeight(.semibold)
                                 .padding()
-
+                                
                             }
                             .background(
                                 RoundedRectangle(cornerRadius: 32)
@@ -573,7 +573,7 @@ struct WelcomeView: View {
                                 .fontWeight(.semibold)
                                 .padding()
                                 .disabled(true)
-
+                                
                             }
                             .background(
                                 RoundedRectangle(cornerRadius: 32)
@@ -591,13 +591,13 @@ struct WelcomeView: View {
                     .fontWeight(.semibold)
                     .padding(.top, 64)
                     .padding(.horizontal)
-
+                
                 Text("welcome_view_4.5_explanation")
                     .accessibilityLabel(Text("welcome_view_4.5_explanation"))
                     .fontWeight(.semibold)
                     .padding(.top, 2)
                     .padding(.horizontal)
-
+                
                 TransparentPlayerView(player: player9)
                     .background(Color.clear)
                     .onAppear {
@@ -623,13 +623,13 @@ struct WelcomeView: View {
                     .padding(.top, 64)
                     .padding(.horizontal)
                     .accessibilityAddTraits(.isHeader)
-
+                
                 Text("welcome_view_5_explanation")
                     .accessibilityLabel(Text("welcome_view_5_explanation"))
                     .fontWeight(.semibold)
                     .padding(.top, 2)
                     .padding(.horizontal)
-
+                
                 TransparentPlayerView(player: player4)
                     .background(Color.clear)
                     .onAppear {
@@ -652,22 +652,22 @@ struct WelcomeView: View {
                     .fontWeight(.semibold)
                     .padding(.top, 64)
                     .padding(.horizontal)
-
+                
                 Text("welcome_view_6_explanation")
                     .accessibilityLabel(Text("welcome_view_6_explanation"))
                     .fontWeight(.semibold)
                     .padding(.top, 2)
                     .padding(.horizontal)
-
+                
                 Image("WelcomeView6")
                     .resizable()
                     .scaledToFit()
                     .frame(maxHeight: .infinity)
                     .accessibilityLabel(Text("welcome_view_6_media_explanation"))
             }
-
+            
             Spacer()
-
+            
             Button {
                 if slide == 8 {
                     UserDefaults.standard.set(true, forKey: "wasRuned")
@@ -677,7 +677,7 @@ struct WelcomeView: View {
                         if slide == 4 {
                             status = AVCaptureDevice.authorizationStatus(for: .video)
                         }
-
+                        
                         if slide == 4
                             && (status != .authorized || UIAccessibility.isVoiceOverRunning)
                         {
@@ -707,13 +707,13 @@ struct WelcomeView: View {
             .foregroundStyle(Color(.systemBackground))
             .padding(.horizontal, 32)
             .buttonStyle(.glassProminent)
-
+            
             Button {
                 withAnimation {
                     if slide == 6 {
                         status = AVCaptureDevice.authorizationStatus(for: .video)
                     }
-
+                    
                     if slide == 6 && (status != .authorized || UIAccessibility.isVoiceOverRunning) {
                         slide -= 2
                     } else {
@@ -736,7 +736,7 @@ struct WelcomeView: View {
                     notification: .layoutChanged,
                     argument: NSLocalizedString(titles[slide], comment: "")
                 )
-
+                
                 if slide == 2 {
                     AVCaptureDevice.requestAccess(for: .video) { granted in
                         DispatchQueue.main.async {
@@ -748,7 +748,7 @@ struct WelcomeView: View {
                         }
                     }
                 }
-
+                
                 if slide == 5 {
                     hasPlayedBlinkVideoOnce = false
                     player3.pause()
@@ -759,7 +759,7 @@ struct WelcomeView: View {
         .onAppear {
             func scheduleBlink() {
                 let interval = Double.random(in: 1.0...3.0)
-
+                
                 DispatchQueue.main.asyncAfter(deadline: .now() + interval) {
                     blinkEye = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -768,7 +768,7 @@ struct WelcomeView: View {
                     }
                 }
             }
-
+            
             scheduleBlink()
         }
     }
@@ -776,7 +776,7 @@ struct WelcomeView: View {
 
 struct TransparentPlayerView: UIViewRepresentable {
     let player: AVPlayer
-
+    
     func makeUIView(context: Context) -> PlayerContainerView {
         let view = PlayerContainerView()
         view.backgroundColor = .clear
@@ -786,11 +786,11 @@ struct TransparentPlayerView: UIViewRepresentable {
         view.playerLayer.videoGravity = .resizeAspect
         return view
     }
-
+    
     func updateUIView(_ uiView: PlayerContainerView, context: Context) {
         uiView.playerLayer.player = player
     }
-
+    
     final class PlayerContainerView: UIView {
         override class var layerClass: AnyClass { AVPlayerLayer.self }
         var playerLayer: AVPlayerLayer { layer as! AVPlayerLayer }

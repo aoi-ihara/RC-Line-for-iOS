@@ -3,9 +3,9 @@ import UIKit
 
 struct CodableColor: RawRepresentable, Codable, Equatable {
     var color: Color
-
+    
     init(_ color: Color) { self.color = color }
-
+    
     init?(rawValue: String) {
         guard let data = Data(base64Encoded: rawValue) else { return nil }
         do {
@@ -20,7 +20,7 @@ struct CodableColor: RawRepresentable, Codable, Equatable {
             return nil
         }
     }
-
+    
     var rawValue: String {
         do {
             let data = try NSKeyedArchiver.archivedData(
@@ -30,7 +30,7 @@ struct CodableColor: RawRepresentable, Codable, Equatable {
             return ""
         }
     }
-
+    
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         let raw = try container.decode(String.self)
@@ -40,7 +40,7 @@ struct CodableColor: RawRepresentable, Codable, Equatable {
         }
         self = value
     }
-
+    
     func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         try container.encode(rawValue)
@@ -57,49 +57,49 @@ struct ColorSettingsView: View {
         .black)
     @AppStorage("storedHighlightDark") private var storedHighlightDark: CodableColor = .init(.red)
     @AppStorage("theme") private var theme = 0
-
+    
     private var foregroundColorBinding: Binding<Color> {
         Binding(
             get: { storedForeground.color },
             set: { storedForeground = CodableColor($0) }
         )
     }
-
+    
     private var backgroundColorBinding: Binding<Color> {
         Binding(
             get: { storedBackground.color },
             set: { storedBackground = CodableColor($0) }
         )
     }
-
+    
     private var highlightBinding: Binding<Color> {
         Binding(
             get: { storedHighlight.color },
             set: { storedHighlight = CodableColor($0) }
         )
     }
-
+    
     private var foregroundColorBindingDark: Binding<Color> {
         Binding(
             get: { storedForegroundDark.color },
             set: { storedForegroundDark = CodableColor($0) }
         )
     }
-
+    
     private var backgroundColorBindingDark: Binding<Color> {
         Binding(
             get: { storedBackgroundDark.color },
             set: { storedBackgroundDark = CodableColor($0) }
         )
     }
-
+    
     private var highlightBindingDark: Binding<Color> {
         Binding(
             get: { storedHighlightDark.color },
             set: { storedHighlightDark = CodableColor($0) }
         )
     }
-
+    
     var body: some View {
         NavigationStack {
             List {
@@ -114,15 +114,15 @@ struct ColorSettingsView: View {
                 } header: {
                     Text("appearance")
                 }
-
+                
                 if theme != 2 {
                     Section {
                         ColorPicker("background_color", selection: backgroundColorBinding)
                             .accessibilityLabel(Text("background_color"))
-
+                        
                         ColorPicker("text_color", selection: foregroundColorBinding)
                             .accessibilityLabel(Text("text_color"))
-
+                        
                         ColorPicker("highlight_color", selection: highlightBinding)
                             .accessibilityLabel(Text("highlight_color"))
                     } header: {
@@ -131,15 +131,15 @@ struct ColorSettingsView: View {
                         }
                     }
                 }
-
+                
                 if theme != 1 {
                     Section {
                         ColorPicker("background_color", selection: backgroundColorBindingDark)
                             .accessibilityLabel(Text("background_color"))
-
+                        
                         ColorPicker("text_color", selection: foregroundColorBindingDark)
                             .accessibilityLabel(Text("text_color"))
-
+                        
                         ColorPicker("highlight_color", selection: highlightBindingDark)
                             .accessibilityLabel(Text("highlight_color"))
                     } header: {

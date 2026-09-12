@@ -14,19 +14,19 @@ struct AdvancedFeaturesSettingsView: View {
     @AppStorage("explanationInstructions") private var explanationInstructions: String = """
         Please explain this text in a way that even an elementary school kid can understand. Do not use any structure or line breaks.
         """
-
+    
     private var isARKitSupported: Bool {
         ARFaceTrackingConfiguration.isSupported
     }
-
+    
     let status = AVCaptureDevice.authorizationStatus(for: .video)
-
+    
     var body: some View {
         NavigationStack {
             List {
                 if #available(iOS 18.1, *) {
                     let available = SystemLanguageModel.default.isAvailable
-
+                    
                     if available {
                         Section {
                             Toggle(
@@ -43,10 +43,10 @@ struct AdvancedFeaturesSettingsView: View {
                                 UIAccessibility.post(
                                     notification: .announcement,
                                     argument: summrizeText
-                                        ? NSLocalizedString("summarize_enabled", comment: "")
-                                        : NSLocalizedString("summarize_disabled", comment: ""))
+                                    ? NSLocalizedString("summarize_enabled", comment: "")
+                                    : NSLocalizedString("summarize_disabled", comment: ""))
                             }
-
+                            
                             if summrizeText {
                                 NavigationLink {
                                     summarizeInstructionsEditor
@@ -66,7 +66,7 @@ struct AdvancedFeaturesSettingsView: View {
                         }
                     }
                 }
-
+                
                 Section {
                     Toggle(
                         isOn: $insertSpaceBitweenWords,
@@ -81,10 +81,10 @@ struct AdvancedFeaturesSettingsView: View {
                         UIAccessibility.post(
                             notification: .announcement,
                             argument: insertSpaceBitweenWords
-                                ? NSLocalizedString("word_separation_enabled", comment: "")
-                                : NSLocalizedString("word_separation_disabled", comment: ""))
+                            ? NSLocalizedString("word_separation_enabled", comment: "")
+                            : NSLocalizedString("word_separation_disabled", comment: ""))
                     }
-
+                    
                     if insertSpaceBitweenWords {
                         Picker("separator", selection: $spaceInserted) {
                             Text("half_width_space").tag(" ")
@@ -98,10 +98,10 @@ struct AdvancedFeaturesSettingsView: View {
                 } header: {
                     Text("word_separation")
                 }
-
+                
                 if #available(iOS 18.1, *) {
                     let available = SystemLanguageModel.default.isAvailable
-
+                    
                     if available {
                         Section {
                             NavigationLink {
@@ -126,7 +126,7 @@ struct AdvancedFeaturesSettingsView: View {
             .navigationBarTitleDisplayMode(.inline)
         }
     }
-
+    
     private var summarizeInstructionsEditor: some View {
         NavigationStack {
             List {
@@ -135,7 +135,7 @@ struct AdvancedFeaturesSettingsView: View {
             .navigationTitle("prompt")
         }
     }
-
+    
     private var explanationInstructionsEditor: some View {
         NavigationStack {
             List {
