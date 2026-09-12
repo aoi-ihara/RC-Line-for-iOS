@@ -170,9 +170,9 @@ struct ReaderView: View {
                     .imageScale(.large)
                     .frame(width: 40, height: 40)
             }
-            .padding()
             .buttonStyle(.glass)
             .opacity(speaking || eyeTracking ? 1 : 0)
+            .padding(.bottom, 80)
             .scaleEffect(speaking || eyeTracking ? 1 : 0)
             .accessibilityLabel(speaking ? "stop_speaking" : "stop_eye_tracking")
         }

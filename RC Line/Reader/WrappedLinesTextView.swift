@@ -442,7 +442,7 @@ extension WrappedLinesTextView {
         }
 
         let baseColor = colorScheme == .dark ? storedForegroundDark.color : storedForeground.color
-        let dimColor = baseColor.opacity(0.5)
+        let dimColor = baseColor.opacity(0.4)
 
         guard speechHighlightDelegate.lineIndex == index,
               let characterRange = speechHighlightDelegate.characterRange,
