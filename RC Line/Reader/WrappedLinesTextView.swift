@@ -249,7 +249,7 @@ extension WrappedLinesTextView {
                     .font(font)
                     .fontWeight(fontWightList[fontWeight])
                     .fixedSize(horizontal: false, vertical: true)
-                    .opacity(speaking ? 1 : lineTextOpacity)
+                    .opacity(lineTextOpacity)
                     .id(index)
                     .tracking(fontSize * (letterSpacing - 1))
                     .lineSpacing(fontSize * (lineHeight - 1))
