@@ -29,7 +29,7 @@ struct ToolbarView: View {
                 title: "From Camera", systemImage: "camera", action: onCamera,
                 showLabel: showLabel, index: 2)
             ToolbarButton(
-                title: "From Photos", systemImage: "photo.on.rectangle.angled", action: onLibrary,
+                title: "From Photos", systemImage: "photo.on.rectangle.angled", action: onPhotos,
                 showLabel: showLabel, index: 3)
             ToolbarButton(
                 title: "From Clipboard", systemImage: "clipboard", action: onClipboard,
