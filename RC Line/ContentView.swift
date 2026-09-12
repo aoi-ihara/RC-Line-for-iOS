@@ -57,42 +57,25 @@ struct ContentView: View {
                             Toggle(isOn: $showLabel) {
                                 Text("Show Label")
                             }
-                            ToolbarView(wasScrolled: showLabel)
+                            ToolbarView(
+                                wasScrolled: showLabel,
+                                onSettings: {
+                                    showSettingsView.toggle()
+                                },
+                                onCamera: {
+                                    openCamera()
+                                },
+                                onLibrary: {
+                                    showImagePicker = true
+                                },
+                                onClipboard: {
+                                    pasteFromClipboard()
+                                }
+                            )
                         }
                         .padding(.horizontal, 35)
                     }
                     .frame(maxHeight: .infinity)
-                    //                    .toolbar {
-                    //                        if featureDisplayMode == 0 {
-                    //                            ToolbarItemGroup(placement: .bottomBar) {
-                    //                                Button {
-                    //                                    showSettingsView.toggle()
-                    //                                } label: {
-                    //                                    Image(systemName: "gearshape")
-                    //                                }
-                    //
-                    //                                Spacer()
-                    //
-                    //                                Button {
-                    //                                    openCamera()
-                    //                                } label: {
-                    //                                    Image(systemName: "camera")
-                    //                                }
-                    //
-                    //                                Button {
-                    //                                    showImagePicker = true
-                    //                                } label: {
-                    //                                    Image(systemName: "photo.on.rectangle.angled")
-                    //                                }
-                    //
-                    //                                Button {
-                    //                                    pasteFromClipboard()
-                    //                                } label: {
-                    //                                    Image(systemName: "clipboard")
-                    //                                }
-                    //                            }
-                    //                        }
-                    //                    }
                 }
                 .frame(maxHeight: .infinity)
                 .disabled(progress > 0.1)

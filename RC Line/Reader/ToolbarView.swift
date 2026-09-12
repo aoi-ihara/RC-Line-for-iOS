@@ -9,16 +9,20 @@ import SwiftUI
 
 struct ToolbarView: View {
     var wasScrolled: Bool
+    let onSettings: () -> Void
+    let onCamera: () -> Void
+    let onLibrary: () -> Void
+    let onClipboard: () -> Void
     
     var body: some View {
         HStack {
-            ToolbarButton(title: "Settings", systemImage: "gearshape", action: {}, showLabel: wasScrolled)
+            ToolbarButton(title: "Settings", systemImage: "gearshape", action: onSettings, showLabel: wasScrolled)
             
             Spacer()
 
-            ToolbarButton(title: "From Camera", systemImage: "camera", action: {}, showLabel: wasScrolled)
-            ToolbarButton(title: "From Library", systemImage: "clipboard", action: {}, showLabel: wasScrolled)
-            ToolbarButton(title: "From Clipboard", systemImage: "clipboard", action: {}, showLabel: wasScrolled)
+            ToolbarButton(title: "From Camera", systemImage: "camera", action: onCamera, showLabel: wasScrolled)
+            ToolbarButton(title: "From Library", systemImage: "photo.on.rectangle.angled", action: onLibrary, showLabel: wasScrolled)
+            ToolbarButton(title: "From Clipboard", systemImage: "clipboard", action: onClipboard, showLabel: wasScrolled)
         }
     }
 }
