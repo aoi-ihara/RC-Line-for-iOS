@@ -36,6 +36,7 @@ final class SpeechHighlightDelegate: NSObject, ObservableObject, AVSpeechSynthes
 struct WrappedLinesTextView: View {
     @Binding var speaking: Bool
     @State private var speakingLine = 0
+    @State private var speechTask: Task<Void, Never>?
     
     let text: String
     let font: Font
@@ -505,9 +506,9 @@ extension WrappedLinesTextView {
     }
     
     private func startSpeaking(text: [String], index: Int, scrollProxy: ScrollViewProxy) {
-        if synthesizer.isSpeaking {
-            synthesizer.stopSpeaking(at: .immediate)
-        }
+        speechTask?.cancel()
+        speechTask = nil
+        synthesizer.stopSpeaking(at: .immediate)
         
         synthesizer.delegate = speechHighlightDelegate
         speechHighlightDelegate.reset()
@@ -525,9 +526,9 @@ extension WrappedLinesTextView {
             wasScrolled = false
         }
         
-        Task {
+        speechTask = Task {
             var i = focusingLine
-            while focusingLine < text.count && speaking {
+            while focusingLine < text.count && speaking && !Task.isCancelled {
                 i = focusingLine
                 
                 let sentence = text[i].trimmingCharacters(in: .whitespacesAndNewlines)
@@ -566,9 +567,11 @@ extension WrappedLinesTextView {
                 
                 try? await Task.sleep(for: .milliseconds(50))
                 
-                while (synthesizer.isSpeaking || synthesizer.isPaused) && speaking {
+                while (synthesizer.isSpeaking || synthesizer.isPaused) && speaking && !Task.isCancelled {
                     try? await Task.sleep(for: .milliseconds(100))
                 }
+                
+                guard !Task.isCancelled else { return }
                 
                 if speaking {
                     if animate {
@@ -585,6 +588,8 @@ extension WrappedLinesTextView {
                 }
             }
             
+            guard !Task.isCancelled else { return }
+            
             if animate {
                 withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                     wasScrolled = true
@@ -598,10 +603,13 @@ extension WrappedLinesTextView {
             withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                 speaking = false
             }
+            speechTask = nil
         }
     }
     
     private func stopSpeaking() {
+        speechTask?.cancel()
+        speechTask = nil
         withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
             speaking = false
         }
