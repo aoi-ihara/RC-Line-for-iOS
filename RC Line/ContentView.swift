@@ -253,7 +253,7 @@ struct ContentView: View {
     }
     
     private func setOCRText(_ text: String, saveToLibrary: Bool = true) {
-        ocrText = text
+        ocrResultText = text
         shouldSaveCurrentTextToLibrary = saveToLibrary
     }
     
