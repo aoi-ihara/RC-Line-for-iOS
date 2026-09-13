@@ -7,7 +7,6 @@ struct ReaderView: View {
     @State private var isAnimating = true
     @State private var scrollPosition: Int? = nil
     @State private var focusingLine: Int = 0
-    @State private var hasRestoredInitialPosition = false
     
     @Binding var ocrText: String
     @Binding var showingCameraSheetFromContentView: Bool
@@ -118,25 +117,18 @@ struct ReaderView: View {
                         .scrollIndicators(
                             (wasScrolled && fullScreenMode == false) ? .automatic : .hidden
                         )
-                        .onAppear {
-                            guard !hasRestoredInitialPosition else { return }
-                            hasRestoredInitialPosition = true
-                            if let initialFocusingLine {
-                                focusingLine = max(0, initialFocusingLine)
-                                wasScrolled = false
-                            }
-                        }
                         .onChange(of: initialFocusingLine) { _, newPosition in
-                            guard !hasRestoredInitialPosition, let newPosition else { return }
+                            guard let newPosition else { return }
                             focusingLine = max(0, newPosition)
                             wasScrolled = false
-                            hasRestoredInitialPosition = true
                         }
                         .onChange(of: ocrText) {
                             if !showInstructinoView {
-                                focusingLine = 0
-                                withAnimation(.timingCurve(.linear, duration: 0.2)) {
-                                    wasScrolled = true
+                                if initialFocusingLine == nil {
+                                    focusingLine = 0
+                                    withAnimation(.timingCurve(.linear, duration: 0.2)) {
+                                        wasScrolled = true
+                                    }
                                 }
                             }
                         }
@@ -178,7 +170,6 @@ struct ReaderView: View {
             }
         }
         .onChange(of: focusingLine) {
-            guard hasRestoredInitialPosition else { return }
             onFocusingLineChanged(focusingLine)
         }
         .sheet(isPresented: $showInstructinoView) {
