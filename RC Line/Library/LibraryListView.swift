@@ -96,14 +96,21 @@ final class LibraryStore: ObservableObject {
     }
 
     func generateMissingTitles() {
-        guard languageModel.isAvailable else { return }
+        guard languageModel.isAvailable else {
+            print("Library metadata generation skipped: Foundation Models unavailable")
+            return
+        }
+
         for document in documents where document.title.isEmpty || document.emoji.isEmpty {
             generateMetadataIfNeeded(for: document)
         }
     }
 
     private func generateMetadataIfNeeded(for document: LibraryDocument) {
-        guard languageModel.isAvailable else { return }
+        guard languageModel.isAvailable else {
+            print("Library metadata generation skipped: Foundation Models unavailable")
+            return
+        }
         guard document.title.isEmpty || document.emoji.isEmpty else { return }
         guard !generatingTitleIDs.contains(document.id) else { return }
 
@@ -135,25 +142,45 @@ final class LibraryStore: ObservableObject {
                 """
 
                 let response = try await session.respond(to: prompt)
-                let lines = response.content
+                let rawResponse = response.content
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
+
+                let lines = rawResponse
                     .components(separatedBy: .newlines)
                     .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
                     .filter { !$0.isEmpty }
 
-                guard lines.count >= 2 else { return }
+                guard let titleLine = lines.first else {
+                    print("Library metadata generation returned an empty response")
+                    return
+                }
 
-                let title = lines[0]
+                let title = titleLine
                     .trimmingCharacters(in: CharacterSet(charactersIn: "\"'“”「」"))
                     .trimmingCharacters(in: .whitespacesAndNewlines)
-                let emoji = lines[1]
-                    .trimmingCharacters(in: .whitespacesAndNewlines)
 
-                guard !title.isEmpty, emoji.count == 1 else { return }
+                let emoji = firstEmoji(in: lines.dropFirst().joined(separator: " "))
+                    ?? firstEmoji(in: rawResponse)
+
+                guard !title.isEmpty, let emoji else {
+                    print("Library metadata generation could not parse response: \(rawResponse)")
+                    return
+                }
+
                 updateMetadata(id: documentID, title: title, emoji: emoji)
             } catch {
-                // Keep missing metadata empty so a later library load can retry generation.
+                print("Library metadata generation failed: \(error)")
             }
         }
+    }
+
+    private func firstEmoji(in text: String) -> String? {
+        for character in text {
+            if character.unicodeScalars.contains(where: { $0.properties.isEmojiPresentation }) {
+                return String(character)
+            }
+        }
+        return nil
     }
 
     private func updateMetadata(id: UUID, title: String, emoji: String) {
