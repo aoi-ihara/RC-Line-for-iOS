@@ -7,6 +7,7 @@ struct ReaderView: View {
     @State private var isAnimating = true
     @State private var scrollPosition: Int? = nil
     @State private var focusingLine: Int = 0
+    @State private var hasRestoredInitialPosition = false
     
     @Binding var ocrText: String
     @Binding var showingCameraSheetFromContentView: Bool
@@ -14,7 +15,9 @@ struct ReaderView: View {
     @Binding var isSidebarOpen: Bool
     @Binding var shouldSaveCurrentTextToLibrary: Bool
     
-    let onSaveCurrentTextToLibrary: (String) -> Void
+    let initialFocusingLine: Int?
+    let onSaveCurrentTextToLibrary: (String) -> UUID?
+    let onFocusingLineChanged: (Int) -> Void
     
     @State private var showInstructinoView =
     !UserDefaults.standard.bool(forKey: "wasRuned") && false
@@ -115,6 +118,20 @@ struct ReaderView: View {
                         .scrollIndicators(
                             (wasScrolled && fullScreenMode == false) ? .automatic : .hidden
                         )
+                        .onAppear {
+                            guard !hasRestoredInitialPosition else { return }
+                            hasRestoredInitialPosition = true
+                            if let initialFocusingLine {
+                                focusingLine = max(0, initialFocusingLine)
+                                wasScrolled = false
+                            }
+                        }
+                        .onChange(of: initialFocusingLine) { _, newPosition in
+                            guard !hasRestoredInitialPosition, let newPosition else { return }
+                            focusingLine = max(0, newPosition)
+                            wasScrolled = false
+                            hasRestoredInitialPosition = true
+                        }
                         .onChange(of: ocrText) {
                             if !showInstructinoView {
                                 focusingLine = 0
@@ -150,7 +167,7 @@ struct ReaderView: View {
         }
         .onChange(of: ocrText) {
             if shouldSaveCurrentTextToLibrary {
-                onSaveCurrentTextToLibrary(ocrText)
+                activeLibraryDocumentCreated = onSaveCurrentTextToLibrary(ocrText)
                 shouldSaveCurrentTextToLibrary = false
             }
             
@@ -159,6 +176,10 @@ struct ReaderView: View {
                 generator.prepare()
                 generator.notificationOccurred(.success)
             }
+        }
+        .onChange(of: focusingLine) {
+            guard hasRestoredInitialPosition else { return }
+            onFocusingLineChanged(focusingLine)
         }
         .sheet(isPresented: $showInstructinoView) {
             InstructionView(showInstructionView: $showInstructinoView)
