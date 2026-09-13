@@ -167,7 +167,7 @@ struct ReaderView: View {
         }
         .onChange(of: ocrText) {
             if shouldSaveCurrentTextToLibrary {
-                activeLibraryDocumentCreated = onSaveCurrentTextToLibrary(ocrText)
+                _ = onSaveCurrentTextToLibrary(ocrText)
                 shouldSaveCurrentTextToLibrary = false
             }
             
