@@ -97,7 +97,7 @@ final class LibraryStore: ObservableObject {
 
     func generateMissingTitles() {
         guard languageModel.isAvailable else {
-            print("Library metadata generation skipped: Foundation Models unavailable")
+            print("Library metadata generation unavailable: Foundation Models is not available.")
             return
         }
 
@@ -108,7 +108,7 @@ final class LibraryStore: ObservableObject {
 
     private func generateMetadataIfNeeded(for document: LibraryDocument) {
         guard languageModel.isAvailable else {
-            print("Library metadata generation skipped: Foundation Models unavailable")
+            print("Library metadata generation unavailable for \(document.id): Foundation Models is not available.")
             return
         }
         guard document.title.isEmpty || document.emoji.isEmpty else { return }
@@ -127,43 +127,59 @@ final class LibraryStore: ObservableObject {
                 let prompt = """
                 Create a concise title and choose the single most suitable emoji for the following text.
 
-                Requirements:
-                - Return exactly two lines and nothing else.
-                - Line 1: the title only.
-                - Line 2: exactly one emoji that best represents the main topic or meaning.
-                - Keep the title short enough to fit on one line in a mobile list.
+                Output rules:
+                - Output only the title and the emoji. Nothing else.
+                - The title must be exactly one line.
+                - The title must contain only plain text.
+                - Do not use Markdown.
+                - Do not use asterisks, underscores, backticks, hashtags, bullets, or other Markdown syntax.
+                - Do not put an emoji anywhere in the title.
+                - Do not write labels such as "Title:", "Title", "Emoji:", or "Emoji".
+                - Do not add quotes around the title.
+                - Do not add explanations, descriptions, or commentary.
+                - The title should be short enough to fit on one line in a mobile list.
                 - Aim for 10–20 characters for the title when possible.
-                - Do not use quotation marks, emojis, or trailing punctuation in the title.
                 - Use the same language as the text for the title.
-                - Do not explain your choice.
+                - Put exactly one emoji on a separate second line.
 
                 Text:
                 \(String(text.prefix(6000)))
                 """
 
                 let response = try await session.respond(to: prompt)
-                let rawResponse = response.content
-                    .trimmingCharacters(in: .whitespacesAndNewlines)
-
-                let lines = rawResponse
+                let lines = response.content
                     .components(separatedBy: .newlines)
                     .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
                     .filter { !$0.isEmpty }
 
-                guard let titleLine = lines.first else {
-                    print("Library metadata generation returned an empty response")
+                guard lines.count >= 2 else {
+                    print("Library metadata generation failed: expected title and emoji, got: \(response.content)")
                     return
                 }
 
-                let title = titleLine
+                var title = lines[0]
                     .trimmingCharacters(in: CharacterSet(charactersIn: "\"'“”「」"))
                     .trimmingCharacters(in: .whitespacesAndNewlines)
 
-                let emoji = firstEmoji(in: lines.dropFirst().joined(separator: " "))
-                    ?? firstEmoji(in: rawResponse)
+                title = title
+                    .replacingOccurrences(of: "**", with: "")
+                    .replacingOccurrences(of: "__", with: "")
+                    .replacingOccurrences(of: "`", with: "")
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
 
-                guard !title.isEmpty, let emoji else {
-                    print("Library metadata generation could not parse response: \(rawResponse)")
+                let labelPrefixes = [
+                    "Title:", "Title：", "タイトル:", "タイトル："
+                ]
+                for prefix in labelPrefixes where title.lowercased().hasPrefix(prefix.lowercased()) {
+                    title = String(title.dropFirst(prefix.count))
+                        .trimmingCharacters(in: .whitespacesAndNewlines)
+                }
+
+                let emoji = lines[1]
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
+
+                guard !title.isEmpty, !title.containsEmoji, emoji.count == 1 else {
+                    print("Library metadata generation failed: invalid title or emoji. Title: \(title), Emoji: \(emoji)")
                     return
                 }
 
@@ -172,15 +188,6 @@ final class LibraryStore: ObservableObject {
                 print("Library metadata generation failed: \(error)")
             }
         }
-    }
-
-    private func firstEmoji(in text: String) -> String? {
-        for character in text {
-            if character.unicodeScalars.contains(where: { $0.properties.isEmojiPresentation }) {
-                return String(character)
-            }
-        }
-        return nil
     }
 
     private func updateMetadata(id: UUID, title: String, emoji: String) {
@@ -212,6 +219,12 @@ final class LibraryStore: ObservableObject {
         } catch {
             print("Failed to save library: \(error)")
         }
+    }
+}
+
+private extension String {
+    var containsEmoji: Bool {
+        unicodeScalars.contains { $0.properties.isEmojiPresentation || $0.properties.isEmoji }
     }
 }
 
