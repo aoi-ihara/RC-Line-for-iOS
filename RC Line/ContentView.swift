@@ -23,6 +23,7 @@ struct ContentView: View {
     @State private var showLibraryList = false
     @StateObject private var libraryStore = LibraryStore()
     @State private var shouldSaveCurrentTextToLibrary = false
+    @State private var activeLibraryDocumentID: UUID?
     
     @Environment(\.layoutDirection) var layoutDirection
     
@@ -53,8 +54,15 @@ struct ContentView: View {
                             wasScrolled: $wasScrolled,
                             isSidebarOpen: $isSidebarOpen,
                             shouldSaveCurrentTextToLibrary: $shouldSaveCurrentTextToLibrary,
+                            initialFocusingLine: activeLibraryDocumentID.map {
+                                libraryStore.readingPosition(for: $0)
+                            },
                             onSaveCurrentTextToLibrary: { text in
-                                libraryStore.save(text: text)
+                                activeLibraryDocumentID = libraryStore.save(text: text)
+                            },
+                            onFocusingLineChanged: { line in
+                                guard let documentID = activeLibraryDocumentID else { return }
+                                libraryStore.updateReadingPosition(id: documentID, line: line)
                             }
                         )
                         .frame(maxHeight: .infinity)
@@ -133,8 +141,9 @@ struct ContentView: View {
             content: {
                 LibraryListView(
                     store: libraryStore,
-                    onSelect: { text in
-                        setOCRText(text, saveToLibrary: false)
+                    onSelect: { document in
+                        activeLibraryDocumentID = document.id
+                        setOCRText(document.text, saveToLibrary: false)
                         showLibraryList = false
                     }
                 )
@@ -143,6 +152,7 @@ struct ContentView: View {
             }
         )
         .onChange(of: selectedItem) {
+            activeLibraryDocumentID = nil
             Task {
                 guard let data = try? await selectedItem?.loadTransferable(type: Data.self),
                       let image = UIImage(data: data)
@@ -170,6 +180,7 @@ struct ContentView: View {
             }
         }
         .onChange(of: capturedImage) {
+            activeLibraryDocumentID = nil
             self.capturedImageInContentView = capturedImage
             if let capturedImage = capturedImage {
                 let saveToLibrary = UserDefaults.standard.bool(forKey: "saveToLibrary")
@@ -242,7 +253,7 @@ struct ContentView: View {
     }
     
     private func setOCRText(_ text: String, saveToLibrary: Bool = true) {
-        ocrResultText = text
+        ocrText = text
         shouldSaveCurrentTextToLibrary = saveToLibrary
     }
     
@@ -376,6 +387,7 @@ struct ContentView: View {
     }
     
     private func pasteFromClipboard() {
+        activeLibraryDocumentID = nil
         if let clipboard = UIPasteboard.general.string {
             setOCRText(clipboard)
             
