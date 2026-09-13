@@ -6,21 +6,25 @@
 //
 
 import Combine
+import FoundationModels
 import SwiftUI
 
 struct LibraryDocument: Identifiable, Codable {
     let id: UUID
-    let title: String
+    var title: String
     let text: String
     let createdAt: Date
 }
 
+@MainActor
 final class LibraryStore: ObservableObject {
     @Published private(set) var documents: [LibraryDocument] = []
 
     private let fileManager = FileManager.default
     private let encoder: JSONEncoder
     private let decoder: JSONDecoder
+    private var generatingTitleIDs: Set<UUID> = []
+    private let languageModel = SystemLanguageModel.default
 
     private var libraryFileURL: URL {
         let applicationSupport = fileManager.urls(
@@ -35,27 +39,17 @@ final class LibraryStore: ObservableObject {
     init() {
         encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
-
         decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
-
         load()
     }
 
     func save(text: String) {
-        guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            return
-        }
-
-        let document = LibraryDocument(
-            id: UUID(),
-            title: "Title",
-            text: text,
-            createdAt: Date()
-        )
-
+        guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+        let document = LibraryDocument(id: UUID(), title: "", text: text, createdAt: Date())
         documents.insert(document, at: 0)
         persist()
+        generateTitleIfNeeded(for: document)
     }
 
     func delete(at offsets: IndexSet) {
@@ -69,33 +63,70 @@ final class LibraryStore: ObservableObject {
     }
 
     func moveToTop(id: UUID) {
-        guard let index = documents.firstIndex(where: { $0.id == id }), index != 0 else {
-            return
-        }
-
+        guard let index = documents.firstIndex(where: { $0.id == id }), index != 0 else { return }
         let document = documents.remove(at: index)
         documents.insert(document, at: 0)
+        persist()
+    }
+
+    func generateMissingTitles() {
+        guard languageModel.isAvailable else { return }
+        for document in documents where document.title.isEmpty {
+            generateTitleIfNeeded(for: document)
+        }
+    }
+
+    private func generateTitleIfNeeded(for document: LibraryDocument) {
+        guard languageModel.isAvailable else { return }
+        guard document.title.isEmpty else { return }
+        guard !generatingTitleIDs.contains(document.id) else { return }
+        generatingTitleIDs.insert(document.id)
+
+        let documentID = document.id
+        let text = document.text
+
+        Task { @MainActor in
+            defer { generatingTitleIDs.remove(documentID) }
+            do {
+                let session = LanguageModelSession()
+                let prompt = """
+                Create a short, descriptive title for the following text.
+                Match the language of the text.
+                Return only the title, with no quotation marks or explanation.
+
+                Text:
+                \(String(text.prefix(6000)))
+                """
+                let response = try await session.respond(to: prompt)
+                let title = response.content
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
+                    .trimmingCharacters(in: CharacterSet(charactersIn: "\"'“”「」"))
+                guard !title.isEmpty else { return }
+                updateTitle(id: documentID, title: title)
+            } catch {
+                // Keep the title empty so a later library load can retry generation.
+            }
+        }
+    }
+
+    private func updateTitle(id: UUID, title: String) {
+        guard let index = documents.firstIndex(where: { $0.id == id }) else { return }
+        guard documents[index].title.isEmpty else { return }
+        documents[index].title = title
         persist()
     }
 
     private func load() {
         guard let data = try? Data(contentsOf: libraryFileURL),
               let storedDocuments = try? decoder.decode([LibraryDocument].self, from: data)
-        else {
-            return
-        }
-
+        else { return }
         documents = storedDocuments
     }
 
     private func persist() {
         do {
             let directoryURL = libraryFileURL.deletingLastPathComponent()
-            try fileManager.createDirectory(
-                at: directoryURL,
-                withIntermediateDirectories: true
-            )
-
+            try fileManager.createDirectory(at: directoryURL, withIntermediateDirectories: true)
             let data = try encoder.encode(documents)
             try data.write(to: libraryFileURL, options: .atomic)
         } catch {
@@ -119,11 +150,9 @@ struct LibraryListView: View {
             "Jost-Regular", "Lexend-Regular", "Roboto-Regular", "OpenDyslexic-Regular",
             "JetBrainsMono-Regular",
         ]
-
         if fontFamily == 8 {
             return fontWeight >= 6 ? "OpenDyslexic-Bold" : "OpenDyslexic-Regular"
         }
-
         return fontNames[fontFamily - 2]
     }
 
@@ -131,7 +160,6 @@ struct LibraryListView: View {
         if fontFamily < 2 {
             return .system(size: 16, design: fontFamily == 0 ? .default : .serif)
         }
-
         return .custom(selectedFontName, size: 16)
     }
 
@@ -145,20 +173,19 @@ struct LibraryListView: View {
                     } label: {
                         VStack(alignment: .leading, spacing: 4) {
                             HStack {
-                                Text(document.title)
-                                    .font(.headline)
-                                    .fontWeight(.semibold)
-                                    .lineLimit(1)
-
+                                if !document.title.isEmpty {
+                                    Text(document.title)
+                                        .font(.headline)
+                                        .fontWeight(.semibold)
+                                        .lineLimit(1)
+                                }
                                 Spacer()
-
                                 Text(document.createdAt, style: .relative)
                                     .font(.headline)
                                     .fontWeight(.semibold)
                                     .foregroundStyle(.secondary)
                             }
-
-                            Text(document.text)
+                            Text(document.text.replacingOccurrences(of: "\n", with: " "))
                                 .font(selectedFont)
                                 .lineLimit(3)
                                 .multilineTextAlignment(.leading)
@@ -176,6 +203,9 @@ struct LibraryListView: View {
                     EditButton()
                 }
             }
+        }
+        .task {
+            store.generateMissingTitles()
         }
     }
 }
