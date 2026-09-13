@@ -8,13 +8,22 @@ struct LibraryDocument: Identifiable, Codable {
     var emoji: String
     let text: String
     let createdAt: Date
+    var lastReadLine: Int
 
-    init(id: UUID, title: String, emoji: String = "", text: String, createdAt: Date) {
+    init(
+        id: UUID,
+        title: String,
+        emoji: String = "",
+        text: String,
+        createdAt: Date,
+        lastReadLine: Int = 0
+    ) {
         self.id = id
         self.title = title
         self.emoji = emoji
         self.text = text
         self.createdAt = createdAt
+        self.lastReadLine = lastReadLine
     }
 
     enum CodingKeys: String, CodingKey {
@@ -23,6 +32,7 @@ struct LibraryDocument: Identifiable, Codable {
         case emoji
         case text
         case createdAt
+        case lastReadLine
     }
 
     init(from decoder: Decoder) throws {
@@ -32,6 +42,7 @@ struct LibraryDocument: Identifiable, Codable {
         emoji = try container.decodeIfPresent(String.self, forKey: .emoji) ?? ""
         text = try container.decode(String.self, forKey: .text)
         createdAt = try container.decode(Date.self, forKey: .createdAt)
+        lastReadLine = try container.decodeIfPresent(Int.self, forKey: .lastReadLine) ?? 0
     }
 }
 
@@ -63,8 +74,9 @@ final class LibraryStore: ObservableObject {
         load()
     }
 
-    func save(text: String) {
-        guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+    @discardableResult
+    func save(text: String) -> UUID? {
+        guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return nil }
 
         let document = LibraryDocument(
             id: UUID(),
@@ -76,6 +88,19 @@ final class LibraryStore: ObservableObject {
         documents.insert(document, at: 0)
         persist()
         generateMetadataIfNeeded(for: document)
+        return document.id
+    }
+
+    func updateReadingPosition(id: UUID, line: Int) {
+        guard let index = documents.firstIndex(where: { $0.id == id }) else { return }
+        let clampedLine = max(0, line)
+        guard documents[index].lastReadLine != clampedLine else { return }
+        documents[index].lastReadLine = clampedLine
+        persist()
+    }
+
+    func readingPosition(for id: UUID) -> Int {
+        documents.first(where: { $0.id == id })?.lastReadLine ?? 0
     }
 
     func delete(at offsets: IndexSet) {
@@ -230,7 +255,7 @@ private extension String {
 
 struct LibraryListView: View {
     @ObservedObject var store: LibraryStore
-    let onSelect: (String) -> Void
+    let onSelect: (LibraryDocument) -> Void
 
     @AppStorage("lineWidth") var lineWidth: Double = 75
     @AppStorage("fontFamily") var fontFamily: Int = 0
@@ -282,7 +307,7 @@ struct LibraryListView: View {
                 ForEach(store.documents) { document in
                     Button {
                         store.moveToTop(id: document.id)
-                        onSelect(document.text)
+                        onSelect(document)
                     } label: {
                         VStack(alignment: .leading, spacing: 4) {
                             HStack {
