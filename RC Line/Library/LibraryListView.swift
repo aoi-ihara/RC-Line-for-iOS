@@ -256,6 +256,26 @@ struct LibraryListView: View {
         return .custom(selectedFontName, size: 16)
     }
 
+    private func relativeDateText(for date: Date, now: Date) -> String {
+        let seconds = max(0, now.timeIntervalSince(date))
+
+        if seconds < 60 {
+            return "Just now"
+        }
+        if seconds < 3600 {
+            return "\(Int(seconds / 60)) min"
+        }
+        if seconds < 86400 {
+            return "\(Int(seconds / 3600)) hr"
+        }
+        if seconds < 604800 {
+            let days = Int(seconds / 86400)
+            return days == 1 ? "1 day" : "\(days) days"
+        }
+
+        return date.formatted(.dateTime.month(.abbreviated).day())
+    }
+
     var body: some View {
         NavigationStack {
             List {
@@ -280,10 +300,12 @@ struct LibraryListView: View {
 
                                 Spacer()
 
-                                Text(document.createdAt, style: .relative)
-                                    .font(.headline)
-                                    .fontWeight(.semibold)
-                                    .foregroundStyle(.secondary)
+                                TimelineView(.periodic(from: .now, by: 60)) { context in
+                                    Text(relativeDateText(for: document.createdAt, now: context.date))
+                                        .font(.headline)
+                                        .fontWeight(.semibold)
+                                        .foregroundStyle(.secondary)
+                                }
                             }
 
                             Text(document.text.replacingOccurrences(of: "\n", with: " "))
