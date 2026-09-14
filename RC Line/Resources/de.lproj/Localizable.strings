@@ -68,6 +68,14 @@
 "reader" = "Reader";
 "auto_scroll" = "Automatisches Scrollen";
 "scroll_to_highlight" = "Scrollt automatisch zur hervorgehobenen Zeile.";
+"text_case" = "Groß-/Kleinschreibung";
+"text_case_original" = "Original";
+"text_case_lowercase" = "Kleinbuchstaben";
+"text_case_uppercase" = "Großbuchstaben";
+"feature_display_mode" = "Funktionsanzeige";
+"feature_display_mode_buttons" = "Schaltflächen";
+"feature_display_mode_gestures" = "Gesten";
+"feature_display_mode_both" = "Beides";
 "line_break" = "Zeilenumbruch";
 "section" = "Abschnitt";
 "split_by_symbol" = "Teilt Text mithilfe des ausgewählten Symbols in Abschnitte auf.";
