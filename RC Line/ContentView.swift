@@ -9,7 +9,6 @@ struct ContentView: View {
     @State private var capturedImageInContentView: UIImage?
     @State private var ocrResultText: String = ""
     @State private var hideStatusBar: Bool = true
-    @State private var pasteAlert: Bool = false
     @State private var capturedImage: UIImage?
     @State private var showSettingsView: Bool = false
     @State private var wasScrolled: Bool = true
@@ -24,14 +23,14 @@ struct ContentView: View {
     @StateObject private var libraryStore = LibraryStore()
     @State private var shouldSaveCurrentTextToLibrary = false
     @State private var activeLibraryDocumentID: UUID?
-    
+
     @Environment(\.layoutDirection) var layoutDirection
-    
+
     @State private var isSidebarOpen = false
     @State private var dragOffset: CGFloat = 0
-    
+
     @State private var showLabel = false
-    
+
     @AppStorage("foregroundColor") private var storedForeground: CodableColor = .init(.black)
     @Environment(\.colorScheme) var colorScheme
     @AppStorage("storedForegroundDark") private var storedForegroundDark: CodableColor = .init(
@@ -39,12 +38,12 @@ struct ContentView: View {
     @AppStorage("hapticsEnabled") private var hapticsEnabled: Bool = true
     @AppStorage("doNotShowClipboardAlert") private var doNotShowClipboardAlert: Bool = false
     @AppStorage("featureDisplayMode") private var featureDisplayMode: Int = 0
-    
+
     var body: some View {
         GeometryReader { geometry in
             let sidebarWidth = geometry.size.width
             let (targetX, progress) = sidebarProgress(sidebarWidth: sidebarWidth)
-            
+
             ZStack(alignment: .leading) {
                 NavigationStack {
                     ZStack {
@@ -68,7 +67,7 @@ struct ContentView: View {
                             }
                         )
                         .frame(maxHeight: .infinity)
-                        
+
                         if featureDisplayMode != 1 {
                             VStack {
                                 Spacer()
@@ -94,16 +93,16 @@ struct ContentView: View {
                             }
                     }
                 }
-                
+
                 NavigationStack {
                     VStack {
                         DashboardView(
                             isSidebarOpen: $isSidebarOpen,
-                            pasteAlert: $pasteAlert,
-                            ocrText: $ocrResultText,
-                            showSettingsView: $showSettingsView,
-                            wasScrolled: $wasScrolled,
-                            disabled: progress < 0.9
+                            disabled: progress < 0.9,
+                            onClipboard: pasteFromClipboard,
+                            onCameraRoll: openPhotoPicker,
+                            onLibrary: openLibrary,
+                            onSettings: openSettings
                         )
                     }
                 }
@@ -161,7 +160,7 @@ struct ContentView: View {
                 guard let data = try? await selectedItem?.loadTransferable(type: Data.self),
                       let image = UIImage(data: data)
                 else { return }
-                
+
                 await MainActor.run {
                     self.selectedImage = image
                     UIAccessibility.post(
@@ -169,7 +168,7 @@ struct ContentView: View {
                         argument: NSLocalizedString("image_selected", comment: "")
                     )
                 }
-                
+
                 performOCR(on: image) { text in
                     Task { @MainActor in
                         self.setOCRText(text)
@@ -188,11 +187,11 @@ struct ContentView: View {
             self.capturedImageInContentView = capturedImage
             if let capturedImage = capturedImage {
                 let saveToLibrary = UserDefaults.standard.bool(forKey: "saveToLibrary")
-                
+
                 if saveToLibrary {
                     UIImageWriteToSavedPhotosAlbum(capturedImage, nil, nil, nil)
                 }
-                
+
                 performOCR(on: capturedImage) { recognizedText in
                     Task { @MainActor in
                         self.setOCRText(recognizedText)
@@ -234,7 +233,7 @@ struct ContentView: View {
                 Text("This feature is not available in the Xcode simulator.")
             })
     }
-    
+
     private var readerToolbar: some View {
         ToolbarView(
             showLabel: ocrResultText == "",
@@ -251,39 +250,75 @@ struct ContentView: View {
                 pasteFromClipboard()
             },
             onPhotos: {
-                showImagePicker = true
+                openPhotoPicker()
             }
         )
     }
-    
+
     private func setOCRText(_ text: String, saveToLibrary: Bool = true) {
         ocrResultText = text
         shouldSaveCurrentTextToLibrary = saveToLibrary
     }
-    
+
+    private func openSettings() {
+        showSettingsView.toggle()
+        UIAccessibility.post(
+            notification: .screenChanged,
+            argument: NSLocalizedString("settings_opened", comment: "")
+        )
+        closeSidebar()
+        withAnimation(.timingCurve(.easeInOut, duration: 0.3)) {
+            wasScrolled = false
+        }
+    }
+
+    private func openPhotoPicker() {
+        showImagePicker = true
+        UIAccessibility.post(
+            notification: .screenChanged,
+            argument: NSLocalizedString("photo_picker_opened", comment: "")
+        )
+        if hapticsEnabled {
+            let generator = UISelectionFeedbackGenerator()
+            generator.prepare()
+            generator.selectionChanged()
+        }
+    }
+
+    private func openLibrary() {
+        showLibraryList.toggle()
+        closeSidebar()
+    }
+
+    private func closeSidebar() {
+        withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+            isSidebarOpen = false
+        }
+    }
+
     private func sidebarDragGesture(sidebarWidth: CGFloat) -> some Gesture {
         DragGesture(
             minimumDistance: featureDisplayMode == 0 ? .greatestFiniteMagnitude : 10
         )
         .onChanged { value in
             guard featureDisplayMode != 0 else { return }
-            
+
             let dx: Double
             if layoutDirection == .rightToLeft {
                 dx = -value.translation.width
             } else {
                 dx = value.translation.width
             }
-            
+
             let dy = value.translation.height
-            
+
             if abs(dy) > abs(dx) {
                 withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                     self.dragOffset = 0
                 }
                 return
             }
-            
+
             if isSidebarOpen && dx > 0 {
                 self.dragOffset = dx / 3
             } else if !isSidebarOpen && dx < 0 {
@@ -291,7 +326,7 @@ struct ContentView: View {
             } else {
                 self.dragOffset = dx
             }
-            
+
             if hapticsEnabled && !isSidebarOpen {
                 if dx < -125 {
                     if !hasTriggeredHaptic {
@@ -308,16 +343,16 @@ struct ContentView: View {
                 dragOffset = 0
                 return
             }
-            
+
             hasTriggeredHaptic = false
-            
+
             let horizontal: Double
             if layoutDirection == .rightToLeft {
                 horizontal = -value.translation.width
             } else {
                 horizontal = value.translation.width
             }
-            
+
             let vertical = abs(value.translation.height)
             guard abs(horizontal) > vertical * 1.5 else {
                 withAnimation {
@@ -325,13 +360,13 @@ struct ContentView: View {
                 }
                 return
             }
-            
+
             if !isSidebarOpen {
                 let cameraMinDistance: CGFloat = 125
                 let cameraMinVelocity: CGFloat = -1000
                 let isStrongLeftSwipe =
                 horizontal < -cameraMinDistance || horizontal < cameraMinVelocity
-                
+
                 if isStrongLeftSwipe {
                     openCamera()
                     withAnimation {
@@ -339,10 +374,10 @@ struct ContentView: View {
                     }
                 }
             }
-            
+
             let sidebarMinDistance: CGFloat = sidebarWidth * 0.1
             let sidebarMinVelocity: CGFloat = 900
-            
+
             let shouldOpen: Bool
             if isSidebarOpen {
                 shouldOpen =
@@ -352,14 +387,14 @@ struct ContentView: View {
                 shouldOpen =
                 horizontal > sidebarMinDistance || horizontal > sidebarMinVelocity
             }
-            
+
             withAnimation(.interpolatingSpring(stiffness: 350, damping: 45)) {
                 isSidebarOpen = shouldOpen
                 dragOffset = 0
             }
         }
     }
-    
+
     private func sidebarProgress(
         sidebarWidth: CGFloat
     ) -> (targetX: CGFloat, progress: CGFloat) {
@@ -370,13 +405,13 @@ struct ContentView: View {
         let halfAnchored = combined / 2
         let targetX = halfClamped + halfAnchored
         let progress = (targetX + sidebarWidth) / max(sidebarWidth, 1)
-        
+
         return (targetX, progress)
     }
-    
+
     private func openCamera() {
         let status = AVCaptureDevice.authorizationStatus(for: .video)
-        
+
         if status == .denied || status == .restricted {
             DispatchQueue.main.async {
                 showCameraPermissionAlert = true
@@ -389,30 +424,28 @@ struct ContentView: View {
 #endif
         }
     }
-    
+
     private func pasteFromClipboard() {
         activeLibraryDocumentID = nil
         if let clipboard = UIPasteboard.general.string {
             setOCRText(clipboard)
-            
+
             UIAccessibility.post(
                 notification: .announcement,
                 argument: NSLocalizedString("pasted_from_clipboard", comment: "")
             )
-            
-            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
-                isSidebarOpen = false
-            }
+
+            closeSidebar()
         } else {
             if !doNotShowClipboardAlert {
                 showPasteError = true
             }
-            
+
             UIAccessibility.post(
                 notification: .announcement,
                 argument: NSLocalizedString("clipboard_is_empty", comment: "")
             )
-            
+
             if hapticsEnabled {
                 let generator = UINotificationFeedbackGenerator()
                 generator.prepare()
