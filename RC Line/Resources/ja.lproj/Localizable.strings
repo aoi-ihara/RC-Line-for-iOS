@@ -75,6 +75,7 @@
 "feature_display_mode" = "機能の表示方法";
 "feature_display_mode_buttons" = "ボタン";
 "feature_display_mode_gestures" = "ジェスチャ";
+"feature_display_mode_both" = "両方";
 "line_break" = "改行";
 "section" = "セクション";
 "split_by_symbol" = "選択した記号を使用してテキストをセクションに分割します。";
@@ -127,7 +128,7 @@
 
 "opens_tutorial" = "チュートリアルを開く";
 "tutorial_opened" = "チュートリアルを開きました";
-"tutorial_closed" = "チュートリアルを閉じました";
+"tutorial_closed" = "チュートリアルを閉じる";
 
 "open_sidebar" = "サイドバーを開く";
 "open_camera" = "カメラを開く";
