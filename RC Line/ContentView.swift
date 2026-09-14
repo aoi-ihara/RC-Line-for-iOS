@@ -24,14 +24,14 @@ struct ContentView: View {
     @StateObject private var libraryStore = LibraryStore()
     @State private var shouldSaveCurrentTextToLibrary = false
     @State private var activeLibraryDocumentID: UUID?
-    
+
     @Environment(\.layoutDirection) var layoutDirection
-    
+
     @State private var isSidebarOpen = false
     @State private var dragOffset: CGFloat = 0
-    
+
     @State private var showLabel = false
-    
+
     @AppStorage("foregroundColor") private var storedForeground: CodableColor = .init(.black)
     @Environment(\.colorScheme) var colorScheme
     @AppStorage("storedForegroundDark") private var storedForegroundDark: CodableColor = .init(
@@ -39,12 +39,33 @@ struct ContentView: View {
     @AppStorage("hapticsEnabled") private var hapticsEnabled: Bool = true
     @AppStorage("doNotShowClipboardAlert") private var doNotShowClipboardAlert: Bool = false
     @AppStorage("featureDisplayMode") private var featureDisplayMode: Int = 0
-    
+    @AppStorage("fontSize") private var fontSize: Double = 13
+    @AppStorage("fontFamily") private var fontFamily: Int = 0
+    @AppStorage("fontWeight") private var fontWeight: Int = 4
+    @AppStorage("lineHeight") private var lineHeight: Double = 2
+    @AppStorage("sectionSpacing") private var sectionSpacing: Double = 8
+    @AppStorage("letterSpacing") private var letterSpacing: Double = 1.05
+    @AppStorage("lineWidth") private var lineWidth: Double = 75
+
+    private var readerLayoutToken: String {
+        [
+            String(fontSize),
+            String(fontFamily),
+            String(fontWeight),
+            String(lineHeight),
+            String(sectionSpacing),
+            String(letterSpacing),
+            String(lineWidth),
+        ].joined(separator: "|")
+    }
+
     var body: some View {
         GeometryReader { geometry in
             let sidebarWidth = geometry.size.width
+            let settingsPanelHeight = geometry.size.height * 0.55
+            let isPhone = UIDevice.current.userInterfaceIdiom == .phone
             let (targetX, progress) = sidebarProgress(sidebarWidth: sidebarWidth)
-            
+
             ZStack(alignment: .leading) {
                 NavigationStack {
                     ZStack {
@@ -67,9 +88,17 @@ struct ContentView: View {
                                 libraryStore.updateReadingPosition(id: documentID, line: line)
                             }
                         )
+                        .id(readerLayoutToken)
                         .frame(maxHeight: .infinity)
-                        
-                        if featureDisplayMode != 1 {
+                        .safeAreaInset(edge: .bottom, spacing: 0) {
+                            if isPhone && showSettingsView {
+                                Color.clear
+                                    .frame(height: settingsPanelHeight)
+                                    .accessibilityHidden(true)
+                            }
+                        }
+
+                        if featureDisplayMode != 1 && !showSettingsView {
                             VStack {
                                 Spacer()
                                 readerToolbar
@@ -94,7 +123,7 @@ struct ContentView: View {
                             }
                     }
                 }
-                
+
                 NavigationStack {
                     VStack {
                         DashboardView(
@@ -113,18 +142,38 @@ struct ContentView: View {
                 .frame(width: sidebarWidth)
                 .offset(x: targetX)
                 .zIndex(100)
+
+                if isPhone && showSettingsView {
+                    SettingsView(showSettingsView: $showSettingsView)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: settingsPanelHeight)
+                        .background(.regularMaterial)
+                        .clipShape(
+                            UnevenRoundedRectangle(
+                                topLeadingRadius: 24,
+                                bottomLeadingRadius: 0,
+                                bottomTrailingRadius: 0,
+                                topTrailingRadius: 24
+                            )
+                        )
+                        .shadow(radius: 12)
+                        .transition(.move(edge: .bottom))
+                        .zIndex(200)
+                }
             }
             .simultaneousGesture(sidebarDragGesture(sidebarWidth: sidebarWidth))
         }
         .sheet(
-            isPresented: $showSettingsView,
+            isPresented: Binding(
+                get: { showSettingsView && UIDevice.current.userInterfaceIdiom != .phone },
+                set: { showSettingsView = $0 }
+            ),
             content: {
                 SettingsView(
                     showSettingsView: $showSettingsView,
                 )
                 .accentColor(Color(.label))
-                .presentationDetents(
-                    UIDevice.current.userInterfaceIdiom == .phone ? [.medium] : [.large])
+                .presentationDetents([.large])
             }
         )
         .fullScreenCover(isPresented: $showingCameraSheetFromContentView) {
@@ -155,13 +204,36 @@ struct ContentView: View {
                 .presentationDetents([.medium, .large])
             }
         )
+        .onChange(of: showSettingsView) { _, isOpen in
+            guard UIDevice.current.userInterfaceIdiom == .phone else { return }
+
+            if isOpen {
+                withAnimation(.easeOut(duration: 0.2)) {
+                    wasScrolled = false
+                }
+            } else {
+                withAnimation(.easeOut(duration: 0.2)) {
+                    wasScrolled = true
+                }
+            }
+        }
+        .onChange(of: readerLayoutToken) { _, _ in
+            guard showSettingsView,
+                  UIDevice.current.userInterfaceIdiom == .phone
+            else { return }
+
+            wasScrolled = true
+            DispatchQueue.main.async {
+                wasScrolled = false
+            }
+        }
         .onChange(of: selectedItem) {
             activeLibraryDocumentID = nil
             Task {
                 guard let data = try? await selectedItem?.loadTransferable(type: Data.self),
                       let image = UIImage(data: data)
                 else { return }
-                
+
                 await MainActor.run {
                     self.selectedImage = image
                     UIAccessibility.post(
@@ -169,7 +241,7 @@ struct ContentView: View {
                         argument: NSLocalizedString("image_selected", comment: "")
                     )
                 }
-                
+
                 performOCR(on: image) { text in
                     Task { @MainActor in
                         self.setOCRText(text)
@@ -188,11 +260,11 @@ struct ContentView: View {
             self.capturedImageInContentView = capturedImage
             if let capturedImage = capturedImage {
                 let saveToLibrary = UserDefaults.standard.bool(forKey: "saveToLibrary")
-                
+
                 if saveToLibrary {
                     UIImageWriteToSavedPhotosAlbum(capturedImage, nil, nil, nil)
                 }
-                
+
                 performOCR(on: capturedImage) { recognizedText in
                     Task { @MainActor in
                         self.setOCRText(recognizedText)
@@ -234,7 +306,7 @@ struct ContentView: View {
                 Text("This feature is not available in the Xcode simulator.")
             })
     }
-    
+
     private var readerToolbar: some View {
         ToolbarView(
             showLabel: ocrResultText == "",
@@ -255,35 +327,35 @@ struct ContentView: View {
             }
         )
     }
-    
+
     private func setOCRText(_ text: String, saveToLibrary: Bool = true) {
         ocrResultText = text
         shouldSaveCurrentTextToLibrary = saveToLibrary
     }
-    
+
     private func sidebarDragGesture(sidebarWidth: CGFloat) -> some Gesture {
         DragGesture(
             minimumDistance: featureDisplayMode == 0 ? .greatestFiniteMagnitude : 10
         )
         .onChanged { value in
             guard featureDisplayMode != 0 else { return }
-            
+
             let dx: Double
             if layoutDirection == .rightToLeft {
                 dx = -value.translation.width
             } else {
                 dx = value.translation.width
             }
-            
+
             let dy = value.translation.height
-            
+
             if abs(dy) > abs(dx) {
                 withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                     self.dragOffset = 0
                 }
                 return
             }
-            
+
             if isSidebarOpen && dx > 0 {
                 self.dragOffset = dx / 3
             } else if !isSidebarOpen && dx < 0 {
@@ -291,7 +363,7 @@ struct ContentView: View {
             } else {
                 self.dragOffset = dx
             }
-            
+
             if hapticsEnabled && !isSidebarOpen {
                 if dx < -125 {
                     if !hasTriggeredHaptic {
@@ -308,16 +380,16 @@ struct ContentView: View {
                 dragOffset = 0
                 return
             }
-            
+
             hasTriggeredHaptic = false
-            
+
             let horizontal: Double
             if layoutDirection == .rightToLeft {
                 horizontal = -value.translation.width
             } else {
                 horizontal = value.translation.width
             }
-            
+
             let vertical = abs(value.translation.height)
             guard abs(horizontal) > vertical * 1.5 else {
                 withAnimation {
@@ -325,13 +397,13 @@ struct ContentView: View {
                 }
                 return
             }
-            
+
             if !isSidebarOpen {
                 let cameraMinDistance: CGFloat = 125
                 let cameraMinVelocity: CGFloat = -1000
                 let isStrongLeftSwipe =
-                horizontal < -cameraMinDistance || horizontal < cameraMinVelocity
-                
+                    horizontal < -cameraMinDistance || horizontal < cameraMinVelocity
+
                 if isStrongLeftSwipe {
                     openCamera()
                     withAnimation {
@@ -339,27 +411,27 @@ struct ContentView: View {
                     }
                 }
             }
-            
+
             let sidebarMinDistance: CGFloat = sidebarWidth * 0.1
             let sidebarMinVelocity: CGFloat = 900
-            
+
             let shouldOpen: Bool
             if isSidebarOpen {
                 shouldOpen =
-                !(horizontal < -sidebarMinDistance
-                  || horizontal < -sidebarMinVelocity)
+                    !(horizontal < -sidebarMinDistance
+                      || horizontal < -sidebarMinVelocity)
             } else {
                 shouldOpen =
-                horizontal > sidebarMinDistance || horizontal > sidebarMinVelocity
+                    horizontal > sidebarMinDistance || horizontal > sidebarMinVelocity
             }
-            
+
             withAnimation(.interpolatingSpring(stiffness: 350, damping: 45)) {
                 isSidebarOpen = shouldOpen
                 dragOffset = 0
             }
         }
     }
-    
+
     private func sidebarProgress(
         sidebarWidth: CGFloat
     ) -> (targetX: CGFloat, progress: CGFloat) {
@@ -370,13 +442,13 @@ struct ContentView: View {
         let halfAnchored = combined / 2
         let targetX = halfClamped + halfAnchored
         let progress = (targetX + sidebarWidth) / max(sidebarWidth, 1)
-        
+
         return (targetX, progress)
     }
-    
+
     private func openCamera() {
         let status = AVCaptureDevice.authorizationStatus(for: .video)
-        
+
         if status == .denied || status == .restricted {
             DispatchQueue.main.async {
                 showCameraPermissionAlert = true
@@ -389,17 +461,17 @@ struct ContentView: View {
 #endif
         }
     }
-    
+
     private func pasteFromClipboard() {
         activeLibraryDocumentID = nil
         if let clipboard = UIPasteboard.general.string {
             setOCRText(clipboard)
-            
+
             UIAccessibility.post(
                 notification: .announcement,
                 argument: NSLocalizedString("pasted_from_clipboard", comment: "")
             )
-            
+
             withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                 isSidebarOpen = false
             }
@@ -407,12 +479,12 @@ struct ContentView: View {
             if !doNotShowClipboardAlert {
                 showPasteError = true
             }
-            
+
             UIAccessibility.post(
                 notification: .announcement,
                 argument: NSLocalizedString("clipboard_is_empty", comment: "")
             )
-            
+
             if hapticsEnabled {
                 let generator = UINotificationFeedbackGenerator()
                 generator.prepare()
