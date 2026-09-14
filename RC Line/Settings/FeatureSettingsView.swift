@@ -92,6 +92,7 @@ struct FeatureSettingsView: View {
                     Picker("feature_display_mode", selection: $featureDisplayMode) {
                         Text("feature_display_mode_buttons").tag(0)
                         Text("feature_display_mode_gestures").tag(1)
+                        Text("feature_display_mode_both").tag(2)
                     }
                     .accessibilityLabel(Text("feature_display_mode"))
                 }

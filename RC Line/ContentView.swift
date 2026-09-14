@@ -69,12 +69,14 @@ struct ContentView: View {
                         )
                         .frame(maxHeight: .infinity)
                         
-                        VStack {
-                            Spacer()
-                            readerToolbar
+                        if featureDisplayMode != 1 {
+                            VStack {
+                                Spacer()
+                                readerToolbar
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(.horizontal, 35)
                         }
-                        .frame(maxWidth: .infinity)
-                        .padding(.horizontal, 35)
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
@@ -261,10 +263,10 @@ struct ContentView: View {
     
     private func sidebarDragGesture(sidebarWidth: CGFloat) -> some Gesture {
         DragGesture(
-            minimumDistance: featureDisplayMode == 1 ? 10 : .greatestFiniteMagnitude
+            minimumDistance: featureDisplayMode == 0 ? .greatestFiniteMagnitude : 10
         )
         .onChanged { value in
-            guard featureDisplayMode == 1 else { return }
+            guard featureDisplayMode != 0 else { return }
             
             let dx: Double
             if layoutDirection == .rightToLeft {
@@ -302,7 +304,7 @@ struct ContentView: View {
             }
         }
         .onEnded { value in
-            guard featureDisplayMode == 1 else {
+            guard featureDisplayMode != 0 else {
                 dragOffset = 0
                 return
             }
