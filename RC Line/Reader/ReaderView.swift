@@ -13,6 +13,7 @@ struct ReaderView: View {
     @Binding var wasScrolled: Bool
     @Binding var isSidebarOpen: Bool
     @Binding var shouldSaveCurrentTextToLibrary: Bool
+    @Binding var isSettingsPreviewActive: Bool
 
     let initialFocusingLine: Int?
     let onSaveCurrentTextToLibrary: (String) -> UUID?
@@ -107,74 +108,86 @@ struct ReaderView: View {
                 .opacity(0)
             }
 
-            AnyView(
-                GeometryReader { geometry in
-                    ScrollViewReader { proxy in
-                        ScrollView {
-                            VStack(spacing: 0) {
-                                VStack {
-                                    let screenHeight = geometry.size.height
-                                    let screenWidth = geometry.size.width
+            GeometryReader { geometry in
+                ScrollViewReader { proxy in
+                    ScrollView {
+                        VStack(spacing: 0) {
+                            VStack {
+                                let screenHeight = geometry.size.height
+                                let screenWidth = geometry.size.width
 
-                                    TextView(
-                                        text: readerText,
-                                        fontSize: fontSize,
-                                        screenHeight: screenHeight,
-                                        screenWidth: screenWidth,
-                                        speaking: $speaking,
-                                        wasScrolled: $wasScrolled,
-                                        focusingLine: $focusingLine,
-                                        eyeTracking: $eyeTracking,
-                                        maxFocusingLine: $maxFocusingLine
-                                    )
-                                    .id(speaking ? "speaking" : readerLayoutToken)
+                                TextView(
+                                    text: readerText,
+                                    fontSize: fontSize,
+                                    screenHeight: screenHeight,
+                                    screenWidth: screenWidth,
+                                    speaking: $speaking,
+                                    wasScrolled: $wasScrolled,
+                                    focusingLine: $focusingLine,
+                                    eyeTracking: $eyeTracking,
+                                    maxFocusingLine: $maxFocusingLine
+                                )
+                            }
+                        }
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .coordinateSpace(name: "scroll")
+                    .scrollIndicators(
+                        (wasScrolled && fullScreenMode == false) ? .automatic : .hidden
+                    )
+                    .onAppear {
+                        guard isSettingsPreviewActive else { return }
+                        DispatchQueue.main.async {
+                            proxy.scrollTo(focusingLine, anchor: .center)
+                        }
+                    }
+                    .onChange(of: isSettingsPreviewActive) { _, isActive in
+                        guard isActive else { return }
+                        DispatchQueue.main.async {
+                            proxy.scrollTo(focusingLine, anchor: .center)
+                        }
+                    }
+                    .onChange(of: readerLayoutToken) { _, _ in
+                        guard isSettingsPreviewActive else { return }
+                        DispatchQueue.main.async {
+                            proxy.scrollTo(focusingLine, anchor: .center)
+                        }
+                    }
+                    .onChange(of: initialFocusingLine) { _, newPosition in
+                        guard let newPosition else { return }
+                        focusingLine = max(0, newPosition)
+                        wasScrolled = false
+                    }
+                    .onChange(of: ocrText) {
+                        if !showInstructinoView {
+                            if initialFocusingLine == nil {
+                                focusingLine = 0
+                                withAnimation(.timingCurve(.linear, duration: 0.2)) {
+                                    wasScrolled = true
                                 }
                             }
                         }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .coordinateSpace(name: "scroll")
-                        .scrollIndicators(
-                            (wasScrolled && fullScreenMode == false) ? .automatic : .hidden
-                        )
-                        .onChange(of: initialFocusingLine) { _, newPosition in
-                            guard let newPosition else { return }
-                            focusingLine = max(0, newPosition)
-                            wasScrolled = false
-                        }
-                        .onChange(of: ocrText) {
-                            if !showInstructinoView {
-                                if initialFocusingLine == nil {
-                                    focusingLine = 0
+                    }
+                    .simultaneousGesture(
+                        DragGesture(minimumDistance: 10)
+                            .onChanged { value in
+                                if abs(value.translation.height) > abs(value.translation.width) {
                                     withAnimation(.timingCurve(.linear, duration: 0.2)) {
                                         wasScrolled = true
                                     }
                                 }
                             }
+                    )
+                    .onChange(of: wasScrolled) {
+                        if wasScrolled && hapticsEnabled {
+                            playSelectionHaptics()
                         }
-                        .simultaneousGesture(
-                            DragGesture(minimumDistance: 10)
-                                .onChanged { value in
-                                    if abs(value.translation.height) > abs(value.translation.width)
-                                    {
-                                        withAnimation(.timingCurve(.linear, duration: 0.2)) {
-                                            wasScrolled = true
-                                        }
-                                    }
-                                }
-                        )
-                        .onChange(of: wasScrolled) {
-                            if wasScrolled {
-                                if hapticsEnabled {
-                                    playSelectionHaptics()
-                                }
-                            }
-                        }
-                        .padding(.vertical, fullScreenMode ? 0 : 1)
                     }
+                    .padding(.vertical, fullScreenMode ? 0 : 1)
                 }
-                    .background(
-                        colorScheme == .dark ? storedBackgroundDark.color : storedBackground.color)
-            )
+            }
+            .background(
+                colorScheme == .dark ? storedBackgroundDark.color : storedBackground.color)
         }
         .onChange(of: ocrText) {
             if shouldSaveCurrentTextToLibrary {
