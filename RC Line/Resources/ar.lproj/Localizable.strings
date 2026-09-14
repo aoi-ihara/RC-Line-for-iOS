@@ -68,6 +68,14 @@
 "reader" = "القارئ";
 "auto_scroll" = "التمرير التلقائي";
 "scroll_to_highlight" = "يتمرر تلقائياً إلى السطر المميز.";
+"text_case" = "حالة الأحرف";
+"text_case_original" = "الأصلية";
+"text_case_lowercase" = "أحرف صغيرة";
+"text_case_uppercase" = "أحرف كبيرة";
+"feature_display_mode" = "طريقة عرض الميزات";
+"feature_display_mode_buttons" = "الأزرار";
+"feature_display_mode_gestures" = "الإيماءات";
+"feature_display_mode_both" = "كلاهما";
 "line_break" = "فاصل الأسطر";
 "section" = "قسم";
 "split_by_symbol" = "يقسم النص إلى أقسام باستخدام الرمز المحدد.";
