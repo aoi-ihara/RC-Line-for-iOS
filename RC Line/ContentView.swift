@@ -97,7 +97,6 @@ struct ContentView: View {
                 NavigationStack {
                     VStack {
                         DashboardView(
-                            isSidebarOpen: $isSidebarOpen,
                             disabled: progress < 0.9,
                             onClipboard: pasteFromClipboard,
                             onCameraRoll: openPhotoPicker,
