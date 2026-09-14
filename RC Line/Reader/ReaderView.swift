@@ -14,7 +14,9 @@ struct ReaderView: View {
     @Binding var isSidebarOpen: Bool
     @Binding var shouldSaveCurrentTextToLibrary: Bool
     
-    let onSaveCurrentTextToLibrary: (String) -> Void
+    let initialFocusingLine: Int?
+    let onSaveCurrentTextToLibrary: (String) -> UUID?
+    let onFocusingLineChanged: (Int) -> Void
     
     @State private var showInstructinoView =
     !UserDefaults.standard.bool(forKey: "wasRuned") && false
@@ -115,11 +117,18 @@ struct ReaderView: View {
                         .scrollIndicators(
                             (wasScrolled && fullScreenMode == false) ? .automatic : .hidden
                         )
+                        .onChange(of: initialFocusingLine) { _, newPosition in
+                            guard let newPosition else { return }
+                            focusingLine = max(0, newPosition)
+                            wasScrolled = false
+                        }
                         .onChange(of: ocrText) {
                             if !showInstructinoView {
-                                focusingLine = 0
-                                withAnimation(.timingCurve(.linear, duration: 0.2)) {
-                                    wasScrolled = true
+                                if initialFocusingLine == nil {
+                                    focusingLine = 0
+                                    withAnimation(.timingCurve(.linear, duration: 0.2)) {
+                                        wasScrolled = true
+                                    }
                                 }
                             }
                         }
@@ -150,7 +159,7 @@ struct ReaderView: View {
         }
         .onChange(of: ocrText) {
             if shouldSaveCurrentTextToLibrary {
-                onSaveCurrentTextToLibrary(ocrText)
+                _ = onSaveCurrentTextToLibrary(ocrText)
                 shouldSaveCurrentTextToLibrary = false
             }
             
@@ -159,6 +168,9 @@ struct ReaderView: View {
                 generator.prepare()
                 generator.notificationOccurred(.success)
             }
+        }
+        .onChange(of: focusingLine) {
+            onFocusingLineChanged(focusingLine)
         }
         .sheet(isPresented: $showInstructinoView) {
             InstructionView(showInstructionView: $showInstructinoView)
