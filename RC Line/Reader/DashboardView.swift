@@ -1,8 +1,6 @@
 import SwiftUI
 
 struct DashboardView: View {
-    @Binding var isSidebarOpen: Bool
-
     let disabled: Bool
     let onClipboard: () -> Void
     let onCameraRoll: () -> Void
@@ -83,7 +81,7 @@ struct DashboardView: View {
                     .padding(4)
                     .disabled(disabled)
                     .accessibilityLabel(Text("from_library"))
-                    .accessibilityHint(Text("select_text_from_library"))
+                    .accessibilityHint(Text("from_library"))
                     .accessibilityAddTraits(.isButton)
                 }
                 .padding(.vertical, 100)
