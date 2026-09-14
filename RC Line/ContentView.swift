@@ -88,7 +88,6 @@ struct ContentView: View {
                                 libraryStore.updateReadingPosition(id: documentID, line: line)
                             }
                         )
-                        .id(readerLayoutToken)
                         .frame(maxHeight: .infinity)
                         .safeAreaInset(edge: .bottom, spacing: 0) {
                             if isPhone && showSettingsView {
