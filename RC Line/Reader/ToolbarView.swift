@@ -55,18 +55,18 @@ struct ToolbarButton: View {
                         .font(.system(size: 24))
                         .offset(x: showLabel ? -70 : 0)
                     Text(title)
-                        .offset(x: showLabel ? 25 : 0)
+                        .offset(x: showLabel ? 20 : 0)
                         .opacity(showLabel ? 1 : 0)
                         .fontWeight(.semibold)
                         .font(showLabel ? .body : .caption2)
                         .frame(width: 120)
                 }
-                .frame(width: showLabel ? 200 : 35, height: showLabel ? 60 : 40)
+                .frame(width: showLabel ? 180 : 35, height: showLabel ? 50 : 40)
             }
         )
         .offset(
             x: showLabel ? 0 : (index - 2) * 66,
-            y: showLabel ? index * -90 : 0
+            y: showLabel ? index * -70 : 0
         )
         .buttonStyle(.glass)
         .animation(.bouncy(duration: 0.4), value: showLabel)
