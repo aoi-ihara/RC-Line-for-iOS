@@ -35,7 +35,6 @@ final class SpeechHighlightDelegate: NSObject, ObservableObject, AVSpeechSynthes
 
 struct WrappedLinesTextView: View {
     @Binding var speaking: Bool
-    @State private var speakingLine = 0
     @State private var speechTask: Task<Void, Never>?
     
     let text: String
@@ -50,7 +49,7 @@ struct WrappedLinesTextView: View {
     @Binding var eyeTracking: Bool
     @Binding var maxFocusingLine: Int
     
-    let synthesizer = AVSpeechSynthesizer()
+    @State private var synthesizer = AVSpeechSynthesizer()
     @StateObject private var speechHighlightDelegate = SpeechHighlightDelegate()
     @State private var showSimulatorAlert: Bool = false
     
@@ -223,7 +222,7 @@ extension WrappedLinesTextView {
     
     fileprivate func linesListView(scrollProxy: ScrollViewProxy) -> some View {
         ForEach(Array(measuredLines.enumerated()), id: \.offset) { index, line in
-            lineRow(index: index, line: line, rawText: text, scrollProxy: scrollProxy)
+            lineRow(index: index, line: line, scrollProxy: scrollProxy)
         }
     }
     
@@ -234,7 +233,7 @@ extension WrappedLinesTextView {
     }
     
     func lineRow(
-        index: Int, line: String, rawText: String, scrollProxy: ScrollViewProxy
+        index: Int, line: String, scrollProxy: ScrollViewProxy
     ) -> some View {
         VStack(alignment: .leading) {
             let lineTextOpacity =
@@ -296,7 +295,6 @@ extension WrappedLinesTextView {
                     } else {
                         Button {
                             withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
-                                speakingLine = index
                                 focusingLine = index
                                 startSpeaking(
                                     text: measuredLinesRaw, index: index, scrollProxy: scrollProxy)
@@ -517,14 +515,7 @@ extension WrappedLinesTextView {
             speaking = true
         }
         
-        if animate {
-            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
-                focusingLine = index
-                wasScrolled = false
-            }
-        } else {
-            wasScrolled = false
-        }
+        wasScrolled = false
         
         speechTask = Task {
             var i = focusingLine
@@ -534,16 +525,8 @@ extension WrappedLinesTextView {
                 let sentence = text[i].trimmingCharacters(in: .whitespacesAndNewlines)
                 
                 if sentence.isEmpty {
-                    i += 1
+                    focusingLine += 1
                     continue
-                }
-                
-                if animate {
-                    withAnimation(.timingCurve(.easeInOut, duration: 0.3)) {
-                        wasScrolled = false
-                    }
-                } else {
-                    wasScrolled = false
                 }
                 
                 if autoScrool {
