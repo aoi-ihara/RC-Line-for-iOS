@@ -127,6 +127,7 @@ struct ReaderView: View {
                                     eyeTracking: $eyeTracking,
                                     maxFocusingLine: $maxFocusingLine
                                 )
+                                .id(isSettingsPreviewActive ? readerLayoutToken : "reader")
                             }
                         }
                     }
