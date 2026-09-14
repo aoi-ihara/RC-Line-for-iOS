@@ -39,25 +39,6 @@ struct ContentView: View {
     @AppStorage("hapticsEnabled") private var hapticsEnabled: Bool = true
     @AppStorage("doNotShowClipboardAlert") private var doNotShowClipboardAlert: Bool = false
     @AppStorage("featureDisplayMode") private var featureDisplayMode: Int = 0
-    @AppStorage("fontSize") private var fontSize: Double = 13
-    @AppStorage("fontFamily") private var fontFamily: Int = 0
-    @AppStorage("fontWeight") private var fontWeight: Int = 4
-    @AppStorage("lineHeight") private var lineHeight: Double = 2
-    @AppStorage("sectionSpacing") private var sectionSpacing: Double = 8
-    @AppStorage("letterSpacing") private var letterSpacing: Double = 1.05
-    @AppStorage("lineWidth") private var lineWidth: Double = 75
-
-    private var readerLayoutToken: String {
-        [
-            String(fontSize),
-            String(fontFamily),
-            String(fontWeight),
-            String(lineHeight),
-            String(sectionSpacing),
-            String(letterSpacing),
-            String(lineWidth),
-        ].joined(separator: "|")
-    }
 
     var body: some View {
         GeometryReader { geometry in
@@ -75,6 +56,10 @@ struct ContentView: View {
                             wasScrolled: $wasScrolled,
                             isSidebarOpen: $isSidebarOpen,
                             shouldSaveCurrentTextToLibrary: $shouldSaveCurrentTextToLibrary,
+                            isSettingsPreviewActive: Binding(
+                                get: { isPhone && showSettingsView },
+                                set: { showSettingsView = $0 }
+                            ),
                             initialFocusingLine: activeLibraryDocumentID.map {
                                 libraryStore.readingPosition(for: $0)
                             },
@@ -143,21 +128,25 @@ struct ContentView: View {
                 .zIndex(100)
 
                 if isPhone && showSettingsView {
-                    SettingsView(showSettingsView: $showSettingsView)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: settingsPanelHeight)
-                        .background(.regularMaterial)
-                        .clipShape(
-                            UnevenRoundedRectangle(
-                                topLeadingRadius: 24,
-                                bottomLeadingRadius: 0,
-                                bottomTrailingRadius: 0,
-                                topTrailingRadius: 24
+                    VStack(spacing: 0) {
+                        Spacer(minLength: 0)
+                        SettingsView(showSettingsView: $showSettingsView)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: settingsPanelHeight)
+                            .background(.regularMaterial)
+                            .clipShape(
+                                UnevenRoundedRectangle(
+                                    topLeadingRadius: 24,
+                                    bottomLeadingRadius: 0,
+                                    bottomTrailingRadius: 0,
+                                    topTrailingRadius: 24
+                                )
                             )
-                        )
-                        .shadow(radius: 12)
-                        .transition(.move(edge: .bottom))
-                        .zIndex(200)
+                            .shadow(radius: 12)
+                            .transition(.move(edge: .bottom))
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                    .zIndex(200)
                 }
             }
             .simultaneousGesture(sidebarDragGesture(sidebarWidth: sidebarWidth))
@@ -203,29 +192,6 @@ struct ContentView: View {
                 .presentationDetents([.medium, .large])
             }
         )
-        .onChange(of: showSettingsView) { _, isOpen in
-            guard UIDevice.current.userInterfaceIdiom == .phone else { return }
-
-            if isOpen {
-                withAnimation(.easeOut(duration: 0.2)) {
-                    wasScrolled = false
-                }
-            } else {
-                withAnimation(.easeOut(duration: 0.2)) {
-                    wasScrolled = true
-                }
-            }
-        }
-        .onChange(of: readerLayoutToken) { _, _ in
-            guard showSettingsView,
-                  UIDevice.current.userInterfaceIdiom == .phone
-            else { return }
-
-            wasScrolled = true
-            DispatchQueue.main.async {
-                wasScrolled = false
-            }
-        }
         .onChange(of: selectedItem) {
             activeLibraryDocumentID = nil
             Task {
