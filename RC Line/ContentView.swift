@@ -58,7 +58,9 @@ struct ContentView: View {
                                 libraryStore.readingPosition(for: $0)
                             },
                             onSaveCurrentTextToLibrary: { text in
-                                activeLibraryDocumentID = libraryStore.save(text: text)
+                                let documentID = libraryStore.save(text: text)
+                                activeLibraryDocumentID = documentID
+                                return documentID
                             },
                             onFocusingLineChanged: { line in
                                 guard let documentID = activeLibraryDocumentID else { return }
