@@ -74,7 +74,8 @@ struct ContentView: View {
                                 readerToolbar
                             }
                             .frame(maxWidth: .infinity)
-                            .padding(.horizontal, 35)
+                            .padding(.horizontal, 20)
+                            .safeAreaPadding(.bottom, 8)
                         }
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -99,6 +100,7 @@ struct ContentView: View {
                         DashboardView(
                             disabled: progress < 0.9,
                             onClipboard: pasteFromClipboard,
+                            onCamera: openCamera,
                             onCameraRoll: openPhotoPicker,
                             onLibrary: openLibrary,
                             onSettings: openSettings
@@ -120,9 +122,14 @@ struct ContentView: View {
                 SettingsView(
                     showSettingsView: $showSettingsView,
                 )
-                .accentColor(Color(.label))
+                .tint(Color(.label))
                 .presentationDetents(
-                    UIDevice.current.userInterfaceIdiom == .phone ? [.medium] : [.large])
+                    UIDevice.current.userInterfaceIdiom == .phone
+                        ? [.medium, .large] : [.medium, .large]
+                )
+                .presentationDragIndicator(.visible)
+                .presentationContentInteraction(.scrolls)
+                .presentationBackgroundInteraction(.enabled(upThrough: .medium))
             }
         )
         .fullScreenCover(isPresented: $showingCameraSheetFromContentView) {
@@ -149,8 +156,9 @@ struct ContentView: View {
                         showLibraryList = false
                     }
                 )
-                .accentColor(Color(.label))
+                .tint(Color(.label))
                 .presentationDetents([.medium, .large])
+                .presentationDragIndicator(.visible)
             }
         )
         .onChange(of: selectedItem) {
@@ -204,7 +212,7 @@ struct ContentView: View {
             "clipboard_is_empty", isPresented: $showPasteError,
             actions: {
                 Button("close", role: .cancel) {}
-                Button("do_not_show_again", role: .destructive) {
+                Button("do_not_show_again") {
                     doNotShowClipboardAlert = true
                 }
             }
@@ -224,12 +232,12 @@ struct ContentView: View {
             }
         )
         .alert(
-            "Feature is not available", isPresented: $showCameraSimulatorAlert,
+            "feature_unavailable", isPresented: $showCameraSimulatorAlert,
             actions: {
                 Button("close", role: .cancel) {}
             },
             message: {
-                Text("This feature is not available in the Xcode simulator.")
+                Text("feature_unavailable_simulator")
             })
     }
 

@@ -2,7 +2,7 @@ import SwiftUI
 
 struct FontSettingsView: View {
     @AppStorage("lineWidth") private var lineWidth: Double = 75
-    @AppStorage("fontSize") private var fontSize: Double = 13
+    @AppStorage("fontSize") private var fontSize: Double = 17
     @AppStorage("fontFamily") private var fontFamily: Int = 0
     @AppStorage("fontWeight") private var fontWeight: Int = 4
     @AppStorage("lineHeight") private var lineHeight: Double = 2
@@ -51,9 +51,9 @@ struct FontSettingsView: View {
                         HStack {
                             Image(systemName: "textformat.size.smaller")
                             
-                            Slider(value: $fontSize, in: 6...32, step: 1)
+                            Slider(value: $fontSize, in: 11...40, step: 1)
                                 .accessibilityLabel(Text("font_size"))
-                                .accessibilityValue(Text("\(Int(fontSize))px"))
+                                .accessibilityValue(Text("\(Int(fontSize))pt"))
                                 .onChange(
                                     of: fontSize,
                                     {
@@ -67,7 +67,7 @@ struct FontSettingsView: View {
                         Text("font_size")
                     },
                     footer: {
-                        Text("\(Int(fontSize))px")
+                        Text("\(Int(fontSize))pt")
                     })
                 
                 Section(
