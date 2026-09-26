@@ -14,23 +14,25 @@ struct ToolbarView: View {
     let onLibrary: () -> Void
     let onClipboard: () -> Void
     let onPhotos: () -> Void
-
+    
+    @State private var showActions = false
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             ToolbarButton(
-                title: "settings", systemImage: "gearshape", action: onSettings,
+                title: "Settings", systemImage: "gearshape", action: onSettings,
                 showLabel: showLabel, index: 0)
             ToolbarButton(
-                title: "from_library", systemImage: "books.vertical", action: onLibrary,
+                title: "From Library", systemImage: "books.vertical", action: onLibrary,
                 showLabel: showLabel, index: 1)
             ToolbarButton(
-                title: "from_camera", systemImage: "camera", action: onCamera,
+                title: "From Camera", systemImage: "camera", action: onCamera,
                 showLabel: showLabel, index: 2)
             ToolbarButton(
-                title: "from_camera_roll", systemImage: "photo.on.rectangle.angled", action: onPhotos,
+                title: "From Photos", systemImage: "photo.on.rectangle.angled", action: onPhotos,
                 showLabel: showLabel, index: 3)
             ToolbarButton(
-                title: "from_clipboard", systemImage: "clipboard", action: onClipboard,
+                title: "From Clipboard", systemImage: "clipboard", action: onClipboard,
                 showLabel: showLabel, index: 4)
         }
         .frame(maxWidth: .infinity)
@@ -38,44 +40,37 @@ struct ToolbarView: View {
 }
 
 struct ToolbarButton: View {
-    let title: LocalizedStringKey
+    let title: String
     let systemImage: String
     let action: () -> Void
     let showLabel: Bool
     let index: CGFloat
-
+    
     var body: some View {
-        Button(action: action) {
-            ZStack {
-                Image(systemName: systemImage)
-                    .font(.system(size: 22, weight: .semibold))
-                    .offset(x: showLabel ? -70 : 0)
-                Text(title)
-                    .offset(x: showLabel ? 20 : 0)
-                    .opacity(showLabel ? 1 : 0)
-                    .fontWeight(.semibold)
-                    .font(showLabel ? .body : .caption2)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.8)
-                    .frame(width: 140)
+        Button(
+            action: action,
+            label: {
+                ZStack {
+                    Image(systemName: systemImage)
+                        .font(.system(size: 24))
+                        .offset(x: showLabel ? -70 : 0)
+                    Text(title)
+                        .offset(x: showLabel ? 20 : 0)
+                        .opacity(showLabel ? 1 : 0)
+                        .fontWeight(.semibold)
+                        .font(showLabel ? .body : .caption2)
+                        .frame(width: 120)
+                }
+                .frame(width: showLabel ? 180 : 35, height: showLabel ? 50 : 40)
             }
-            .frame(
-                minWidth: showLabel ? 180 : 44,
-                minHeight: 44
-            )
-            .frame(
-                width: showLabel ? 200 : 44,
-                height: showLabel ? 50 : 44
-            )
-        }
+        )
         .offset(
-            x: showLabel ? 0 : (index - 2) * 72,
-            y: showLabel ? index * -64 : 0
+            x: showLabel ? 0 : (index - 2) * 66,
+            y: showLabel ? index * -70 : 0
         )
         .buttonStyle(.glass)
         .animation(.bouncy(duration: 0.4), value: showLabel)
-        .buttonBorderShape(.roundedRectangle(radius: 22))
-        .accessibilityLabel(Text(title))
+        .buttonBorderShape(.roundedRectangle(radius: 24))
     }
 }
 
