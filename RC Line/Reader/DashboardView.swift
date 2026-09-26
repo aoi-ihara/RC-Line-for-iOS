@@ -3,7 +3,6 @@ import SwiftUI
 struct DashboardView: View {
     let disabled: Bool
     let onClipboard: () -> Void
-    let onCamera: () -> Void
     let onCameraRoll: () -> Void
     let onLibrary: () -> Void
     let onSettings: () -> Void
@@ -14,88 +13,119 @@ struct DashboardView: View {
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
-        VStack {
-            Spacer()
+        NavigationStack {
+            VStack {
+                Spacer()
 
-            VStack(alignment: .leading, spacing: 8) {
-                dashboardButton(
-                    title: "from_clipboard",
-                    systemImage: "clipboard",
-                    prominent: true,
-                    action: onClipboard,
-                    hint: "paste_text_from_clipboard"
-                )
-                dashboardButton(
-                    title: "from_camera",
-                    systemImage: "camera",
-                    prominent: true,
-                    action: onCamera,
-                    hint: "open_camera"
-                )
-                dashboardButton(
-                    title: "from_camera_roll",
-                    systemImage: "photo.on.rectangle.angled",
-                    prominent: true,
-                    action: onCameraRoll,
-                    hint: "select_image_from_library"
-                )
-                dashboardButton(
-                    title: "from_library",
-                    systemImage: "books.vertical",
-                    prominent: true,
-                    action: onLibrary,
-                    hint: "from_library"
-                )
-            }
-            .padding(.vertical, 48)
+                VStack(alignment: .leading) {
+                    Button(action: onClipboard) {
+                        HStack {
+                            Image(systemName: "document.on.clipboard.fill")
+                                .font(.system(size: 20))
+                                .fontWeight(.semibold)
+                            Text("from_clipboard")
+                                .font(.system(size: 16))
+                                .fontWeight(.semibold)
+                        }
+                        .padding(8)
+                        .frame(width: 200, alignment: .leading)
+                    }
+                    .buttonStyle(.glassProminent)
+                    .foregroundStyle(
+                        colorScheme == .dark ? storedBackgroundDark.color : storedBackground.color
+                    )
+                    .padding(4)
+                    .disabled(disabled)
+                    .accessibilityLabel(Text("from_clipboard"))
+                    .accessibilityHint(Text("paste_text_from_clipboard"))
+                    .accessibilityAddTraits(.isButton)
 
-            dashboardButton(
-                title: "settings",
-                systemImage: "gearshape",
-                prominent: false,
-                action: onSettings,
-                hint: "open_settings"
-            )
+                    Button(action: onCameraRoll) {
+                        HStack {
+                            Image(systemName: "photo.stack.fill")
+                                .font(.system(size: 20))
+                                .fontWeight(.semibold)
+                            Text("from_camera_roll")
+                                .font(.system(size: 16))
+                                .fontWeight(.semibold)
+                        }
+                        .padding(8)
+                        .frame(width: 200, alignment: .leading)
+                    }
+                    .buttonStyle(.glassProminent)
+                    .foregroundStyle(
+                        colorScheme == .dark ? storedBackgroundDark.color : storedBackground.color
+                    )
+                    .padding(4)
+                    .disabled(disabled)
+                    .accessibilityLabel(Text("from_camera_roll"))
+                    .accessibilityHint(Text("select_image_from_library"))
+                    .accessibilityAddTraits(.isButton)
 
-            Spacer()
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(
-            colorScheme == .dark ? storedBackgroundDark.color : storedBackground.color
-        )
-    }
+                    Button(action: onLibrary) {
+                        HStack {
+                            Image(systemName: "books.vertical.fill")
+                                .font(.system(size: 20))
+                                .fontWeight(.semibold)
+                            Text("from_library")
+                                .font(.system(size: 16))
+                                .fontWeight(.semibold)
+                        }
+                        .padding(8)
+                        .frame(width: 200, alignment: .leading)
+                    }
+                    .buttonStyle(.glassProminent)
+                    .foregroundStyle(
+                        colorScheme == .dark ? storedBackgroundDark.color : storedBackground.color
+                    )
+                    .padding(4)
+                    .disabled(disabled)
+                    .accessibilityLabel(Text("from_library"))
+                    .accessibilityHint(Text("from_library"))
+                    .accessibilityAddTraits(.isButton)
+                }
+                .padding(.vertical, 100)
 
-    @ViewBuilder
-    private func dashboardButton(
-        title: LocalizedStringKey,
-        systemImage: String,
-        prominent: Bool,
-        action: @escaping () -> Void,
-        hint: LocalizedStringKey
-    ) -> some View {
-        let label = HStack(spacing: 12) {
-            Image(systemName: systemImage)
-                .font(.system(size: 20, weight: .semibold))
-                .frame(width: 28, height: 28)
-            Text(title)
-                .font(.body.weight(.semibold))
-            Spacer(minLength: 0)
-        }
-        .padding(.horizontal, 16)
-        .frame(minWidth: 220, maxWidth: 280, minHeight: 44, alignment: .leading)
-
-        if prominent {
-            Button(action: action, label: { label })
-                .buttonStyle(.glassProminent)
-                .disabled(disabled)
-                .accessibilityLabel(Text(title))
-                .accessibilityHint(Text(hint))
-        } else {
-            Button(action: action, label: { label })
+                Button(action: onSettings) {
+                    HStack {
+                        Image(systemName: "gear")
+                            .font(.system(size: 20))
+                            .fontWeight(.semibold)
+                        Text("settings")
+                            .font(.system(size: 16))
+                            .fontWeight(.semibold)
+                    }
+                    .padding(8)
+                    .frame(width: 200, alignment: .leading)
+                }
                 .buttonStyle(.glass)
                 .disabled(disabled)
-                .accessibilityLabel(Text(title))
-                .accessibilityHint(Text(hint))
+                .accessibilityLabel(Text("settings"))
+                .accessibilityHint(Text("open_settings"))
+                .accessibilityAddTraits(.isButton)
+
+                Spacer()
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(
+                colorScheme == .dark ? storedBackgroundDark.color : storedBackground.color
+            )
+        }
+    }
+
+    var effects: some View {
+        NavigationStack {
+            List {
+            }
+            .navigationTitle("highlight")
+        }
+    }
+
+    var font: some View {
+        NavigationStack {
+            List {
+            }
+            .navigationTitle("fonts")
         }
     }
 }
